@@ -4,12 +4,12 @@
   <div class="category" >
 
     <button class="btn">Matematik</button>
-    <a href="quiz-geografi.html"> <button class="btn">Geografi</button></a>
+    <router-link to="/geographyquiz"><button class="btn">Geografi</button></router-link>
     <button class="btn">Svenska</button>
     <button class="btn">Engelska</button>
 
   </div>
-    </section >
+    </section>
   </div>
 </template>
 

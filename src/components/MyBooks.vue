@@ -2,7 +2,7 @@
     <div class="book">
         <h2>Mina böcker</h2>
         <ul>
-            <li v-for="qiuz in qiuzz" v-bind:key="qiuz.qiuzId">{{ qiuz.qiuzQuestion }} }</li>
+            <li v-for="quiz in quiz" v-bind:key="quiz.quizId">{{ qiuz.qiuzQuestion }} }</li>
         </ul>
     </div>
 </template>
