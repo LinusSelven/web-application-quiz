@@ -6,7 +6,7 @@
             </div>
             <div class="q-img">
                 <h2>
-                    {{quiz[questionNumber].quizImg}}
+                    <img :src="getPic(questionNumber)" :alt="quiz[questionNumber].quizImg">
                 </h2>
             </div>
             <div class="q-answer">
@@ -47,6 +47,9 @@
             isCorrectAnswer: function (e) {
                 if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer)
                     return this.correctAnswer = true;
+            },
+            getPic(index) {
+                return '../assets/img'+index+'.png';
             }
         },
 
