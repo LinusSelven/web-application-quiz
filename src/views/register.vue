@@ -3,6 +3,7 @@
     <div>
         <section class="item3">
     <div class="register" >
+        <h4>{{registrationDone}}</h4>
         <form name="form" @submit="newUserPost" method="post">
                 <label>
                     <input type="radio" id="one" value="teacher" v-model="userRole">
@@ -81,7 +82,7 @@
             getData(){
                 if (this.userRole !=='' && this.fullName!=='' && this.email!=='' && this.passWord!=='' && this.key!=='0' && this.firstPassWord === this.passWord && this.agree===true){
                     this.registerFormValue.push(this.userRole, this.fullName, this.email, this.passWord, this.phoneNumber, this.key);
-                    this.registrationDone= 'Welcome '+this.registerFormValue[0]+'!';
+                    this.registrationDone= 'Welcome '+this.registerFormValue[1]+'!';
                 }
             },
             newUserPost(e) {
@@ -141,6 +142,11 @@
         margin-bottom: 2px;
         text-align: center;
         width: 100%;
+    }
+    h4{
+        font-family: "Times New Roman", monospace;
+        font-weight: bold;
+        color: #3d8cb5;
     }
     .vl {
         border-left: 2px solid dimgray;
