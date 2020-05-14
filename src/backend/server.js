@@ -31,7 +31,21 @@ app.get("/api/quiz", (req, res, next) => {
         })
       });
 });
-
+/* Get Users */
+app.get("/api/users", (req, res, next) => {
+    const sql = "select * from users";
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "users":rows
+        })
+    });
+});
 
 app.get("/api/quiz/:id", (req, res, next) => {
     var sql = "select * from quiz where quizId = ?"
@@ -72,6 +86,30 @@ app.post("/api/quiz/", (req, res, next) => {
         res.json({
             "message": "success",
             "quiz": data,
+            "id" : this.lastID
+        })
+    });
+})
+/* Post users */
+app.post("/api/users/", (req, res, next) => {
+    const userData = {
+        userRole: req.body.userRole,
+        fullName: req.body.fullName,
+        email: req.body.email,
+        password: req.body.passWord,
+        phoneNumber: req.body.phoneNumber,
+        level: req.body.level,
+    }
+    const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, level) VALUES (?,?,?,?,?,?)';
+    const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.level];
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "users": userData,
             "id" : this.lastID
         })
     });

@@ -29,12 +29,38 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 "Asien",
                 "Afrika",
                 "3",
-                "<img src=\"../assets/280px-Africa_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                "img0.png"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Afrika",
                 "Asien",
                 "Nordamerika",
                 "2",
+<<<<<<< HEAD
+                "img1.png"])
+        }
+        })
+
+        db.run(`CREATE TABLE users (
+            userId INTEGER PRIMARY KEY,
+            userRole TEXT,
+            fullName TEXT,
+            email TEXT,
+            passWord TEXT,
+            phoneNumber TEXT,
+            level INTEGER
+            )`,(err) => {
+            if (err) {
+            }else {
+                const insert = 'INSERT INTO users (userRole, fullName, email, passWord, phoneNumber, level) VALUES (?,?,?,?,?,?)';
+                db.run(insert, ["student",
+                        "Halim Halim",
+                        "halim.halim@iths.se",
+                        "123456",
+                        "0722000000",
+                        "4"])
+                }
+            })
+=======
                 "<img src=\"../assets/280px-Asia_(orthographic_projection).svg.png\" alt=\"Bild\">"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Antarktis",
@@ -66,9 +92,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 "Europa",
                 "1",
                 "<img src=\"../assets/280px-South_America_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+>>>>>>> master
         }
-    })  
-    }
 })
 
 
