@@ -31,7 +31,21 @@ app.get("/api/quiz", (req, res, next) => {
         })
       });
 });
-
+/* Get Users */
+app.get("/api/users", (req, res, next) => {
+    const sql = "select * from users";
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "users":rows
+        })
+    });
+});
 
 app.get("/api/quiz/:id", (req, res, next) => {
     var sql = "select * from quiz where quizId = ?"
@@ -95,7 +109,7 @@ app.post("/api/users/", (req, res, next) => {
         res.json({
             "message": "success",
             "users": data,
-            "id" : this.lastId
+            "id" : this.lastID
         })
     });
 })

@@ -12,9 +12,9 @@
             <input type="text" id="fullName" name="fullName" placeholder="Full Name" v-model="fullName">
             <input type="text" id="email" name="email" placeholder="E-mail" v-model="email">
             <input type="password" id="passWord" name="passWord" placeholder="Password" v-model="firstPassWord">
-            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password" v-model="passWord"/>
+            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password" v-model="passWord">
             <input type="text" id="phone" name="phone" placeholder="Phone Number" v-model="phoneNumber">
-            <select id="destination" name="country" @change="onChange($event)" v-model="level">
+            <select id="destination" name="country" @change="onChange($event)" v-model="key">
                 <option value="0">Select your school level</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -27,7 +27,7 @@
                 <option value="9">9</option>
             </select>
             <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree / agreed with the terms and conditions.</span>
-            <input type="submit" name="submit" value="Save" v-on:submit="toJsonFormat()">
+            <input type="submit" name="submit" value="Save" v-on:click="toJsonFormat()">
         </form>
     </div>
         </section>
@@ -70,9 +70,9 @@
                 this.saveUserInput();
                 for (let i = 0; i < this.registerFormKey.length; i++) {
                     if (this.count < this.registerFormKey.length) {
-                        this.jsonUser += '\"' + this.registerFormKey[i] + '\": \"' + this.registerFormValue[i] + '\", ';
+                        this.jsonUser += '"' + this.registerFormKey[i]+'": "' + this.registerFormValue[i] + '",';
                     } else {
-                        this.jsonUser += '\"' + this.registerFormKey[i] + '\": \"' + this.registerFormValue[i]  + '\"';
+                        this.jsonUser += '"' + this.registerFormKey[i] + '": "' + this.registerFormValue[i]  + '"';
                     }
                     this.count++;
                 }
@@ -81,6 +81,16 @@
                 //this.users.push(JSON.stringify(obj));
                 this.users.push(JSON.parse(this.jsonUser));
             }
+        },
+        mounted() {
+            fetch('http://127.0.0.1:3000/api/users/')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data.users);
+                    this.users = data.users;
+                });
         }
     }
 </script>
