@@ -8,7 +8,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       // Cannot open database
       console.error(err.message)
       throw err
-    }else{
+    }else {
         console.log('Connected to the SQlite database.')
         db.run(`CREATE TABLE quiz (
             quizId INTEGER PRIMARY KEY,
@@ -18,28 +18,56 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             quizAnswer3 TEXT,
             quizCorrectAnswer INTEGER,
             quizImg TEXT
-            )`,(err) => {
-        if (err) {
-            // Table already created
-        }else{
-            // Table just created, creating some rows
-            var insert = 'INSERT INTO quiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
-            db.run(insert, ["Vilken världsdel visas?",
-                "Sydamerika",
-                "Asien",
-                "Afrika",
-                "3",
-                "img0.png"])
-            db.run(insert, ["Vilken världsdel visas?",
-                "Afrika",
-                "Asien",
-                "Nordamerika",
-                "2",
-<<<<<<< HEAD
-                "img1.png"])
-        }
+            )`, (err) => {
+            if (err) {
+                // Table already created
+            } else {
+                // Table just created, creating some rows
+                var insert = 'INSERT INTO quiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+                db.run(insert, ["Vilken världsdel visas?",
+                    "Sydamerika",
+                    "Asien",
+                    "Afrika",
+                    "3",
+                    "img0.png"])
+                db.run(insert, ["Vilken världsdel visas?",
+                    "Afrika",
+                    "Asien",
+                    "Nordamerika",
+                    "2",
+                    "<img src=\"../assets/280px-Asia_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                db.run(insert, ["Vilken världsdel visas?",
+                    "Antarktis",
+                    "Oceanien",
+                    "Europa",
+                    "3",
+                    "<img src=\"../assets/280px-Europe_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                db.run(insert, ["Vilken världsdel visas?",
+                    "Nordamerika",
+                    "Antarktis",
+                    "Oceanien",
+                    "2",
+                    "<img src=\"../assets/280px-Antarctica_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                db.run(insert, ["Vilken världsdel visas?",
+                    "Sydamerika",
+                    "Afrika",
+                    "Nordamerika",
+                    "3",
+                    "<img src=\"../assets/280px-Location_North_America.svg.png\" alt=\"Bild\">"])
+                db.run(insert, ["Vilken världsdel visas?",
+                    "Oceanien",
+                    "Afrika",
+                    "Antarktis",
+                    "1",
+                    "<img src=\"../assets/280px-Oceania_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                db.run(insert, ["Vilken världsdel visas?",
+                    "Sydamerika",
+                    "Nordamerika",
+                    "Europa",
+                    "1",
+                    "<img src=\"../assets/280px-South_America_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+            }
         })
-
         db.run(`CREATE TABLE users (
             userId INTEGER PRIMARY KEY,
             userRole TEXT,
@@ -48,54 +76,19 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             passWord TEXT,
             phoneNumber TEXT,
             level INTEGER
-            )`,(err) => {
+            )`, (err) => {
             if (err) {
-            }else {
+            } else {
                 const insert = 'INSERT INTO users (userRole, fullName, email, passWord, phoneNumber, level) VALUES (?,?,?,?,?,?)';
                 db.run(insert, ["student",
-                        "Halim Halim",
-                        "halim.halim@iths.se",
-                        "123456",
-                        "0722000000",
-                        "4"])
-                }
-            })
-=======
-                "<img src=\"../assets/280px-Asia_(orthographic_projection).svg.png\" alt=\"Bild\">"])
-            db.run(insert, ["Vilken världsdel visas?",
-                "Antarktis",
-                "Oceanien",
-                "Europa",
-                "3",
-                "<img src=\"../assets/280px-Europe_(orthographic_projection).svg.png\" alt=\"Bild\">"])
-            db.run(insert, ["Vilken världsdel visas?",
-                "Nordamerika",
-                "Antarktis",
-                "Oceanien",
-                "2",
-                "<img src=\"../assets/280px-Antarctica_(orthographic_projection).svg.png\" alt=\"Bild\">"])
-            db.run(insert, ["Vilken världsdel visas?",
-                "Sydamerika",
-                "Afrika",
-                "Nordamerika",
-                "3",
-                "<img src=\"../assets/280px-Location_North_America.svg.png\" alt=\"Bild\">"])
-            db.run(insert, ["Vilken världsdel visas?",
-                "Oceanien",
-                "Afrika",
-                "Antarktis",
-                "1",
-                "<img src=\"../assets/280px-Oceania_(orthographic_projection).svg.png\" alt=\"Bild\">"])
-            db.run(insert, ["Vilken världsdel visas?",
-                "Sydamerika",
-                "Nordamerika",
-                "Europa",
-                "1",
-                "<img src=\"../assets/280px-South_America_(orthographic_projection).svg.png\" alt=\"Bild\">"])
->>>>>>> master
-        }
+                    "Halim Halim",
+                    "halim.halim@iths.se",
+                    "123456",
+                    "0722000000",
+                    "4"])
+            }
+        })
+    }
 })
-
-
 module.exports = db
 
