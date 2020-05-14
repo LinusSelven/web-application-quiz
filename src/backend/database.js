@@ -30,6 +30,12 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 "Afrika",
                 "3",
                 "<img src=\"../assets/280px-Africa_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+            db.run(insert, ["Vilken världsdel visas?",
+                "Afrika",
+                "Asien",
+                "Nordamerika",
+                "2",
+                "<img src=\"../assets/280px-Asia_(orthographic_projection).svg.png\" alt=\"Bild\">"])
         }
     })  
     }
