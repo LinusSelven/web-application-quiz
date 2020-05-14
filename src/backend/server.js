@@ -76,6 +76,29 @@ app.post("/api/quiz/", (req, res, next) => {
         })
     });
 })
+/* Post users */
+app.post("/api/users/", (req, res, next) => {
+    const data = {
+        fullName: req.body.fullName,
+        email: req.body.email,
+        password: req.body.passWord,
+        phoneNumber: req.body.phoneNumber,
+        level: req.body.level,
+    }
+    const sql = 'INSERT INTO quiz (fullName, email, password, phoneNumber, level) VALUES (?,?,?,?,?)';
+    const params = [data.fullName, data.email, data.password, data.phoneNumber, data.level];
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "users": data,
+            "id" : this.lastId
+        })
+    });
+})
 
 app.put("/api/quiz/:id", (req, res, next) => {
     var data = {
