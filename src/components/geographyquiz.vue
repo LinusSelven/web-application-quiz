@@ -20,6 +20,7 @@
             <div class="q-question">
                 <h3 v-if="correctAnswer">Rätt svar!</h3>
                 <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
+                <h3>{{correctAnswers}} / {{quiz.length}}</h3>
             </div>
         </section>
 
@@ -34,6 +35,7 @@
                 quiz: [],
                 questionNumber: 0,
                 correctAnswer: false,
+                correctAnswers: 0
             }
         },
 
@@ -41,15 +43,20 @@
 
             nextQuestion: function () {
                 this.correctAnswer = false;
-                return this.questionNumber =+ 1;
+                return this.questionNumber += 1;
             },
 
             isCorrectAnswer: function (e) {
-                if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer)
+                if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer){
+                    this.correctAnswers += 1;
                     return this.correctAnswer = true;
+<<<<<<< HEAD
             },
             getPic(index) {
                 return '../assets/img'+index+'.png';
+=======
+                }
+>>>>>>> master
             }
         },
 
