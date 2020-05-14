@@ -58,9 +58,11 @@
                 this.key = event.target.value;
             },
             saveUserInput(){
-                if (this.fullName !== '' && this.email !== '' && this.passWord !== '' && this.key !=='0') {
-                    if (this.firstPassWord === this.passWord){
-                        this.registerFormValue.push(this.fullName, this.email, this.passWord, this.phoneNumber, this.key);
+                if (this.agree === true) {
+                    if (this.fullName !== '' && this.email !== '' && this.passWord !== '' && this.key !== '0') {
+                        if (this.firstPassWord === this.passWord) {
+                            this.registerFormValue.push(this.fullName, this.email, this.passWord, this.phoneNumber, this.key);
+                        }
                     }
                 }
             },
@@ -75,8 +77,9 @@
                     this.count++;
                 }
                 this.jsonUser += '}';
-                let obj = JSON.parse(this.jsonUser);
-                this.users = JSON.stringify(obj);
+                //let obj = JSON.parse(this.jsonUser);
+                //this.users.push(JSON.stringify(obj));
+                this.users.push(JSON.parse(this.jsonUser));
             }
         }
     }
