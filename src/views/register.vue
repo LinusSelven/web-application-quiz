@@ -61,14 +61,6 @@
             onChange(event) {
                 this.key = event.target.value;
             },
-            onChangeRadio() {
-                if (this.isTeacher === true){
-                    this.isStudent = false;
-                }
-                if (this.isStudent === true){
-                    this.isTeacher = false;
-                }
-            },
             emptyForm(){
                 this.userRole='';
                 this.fullName='';

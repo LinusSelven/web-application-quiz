@@ -47,20 +47,16 @@
             },
 
             isCorrectAnswer: function (e) {
-                if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer){
+                if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer) {
                     this.correctAnswers += 1;
                     return this.correctAnswer = true;
-<<<<<<< HEAD
+                }
             },
             getPic(index) {
                 return '../assets/img'+index+'.png';
-=======
-                }
->>>>>>> master
             }
+
         },
-
-
 
         mounted() {
             fetch('http://127.0.0.1:3000/api/quiz/')
