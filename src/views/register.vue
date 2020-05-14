@@ -3,7 +3,7 @@
     <div>
         <section class="item3">
     <div class="register" >
-        <form name="form"  method="post">
+        <form name="form" method="post" v-on:submit="newUserPost">
             <label>
                 <input type="radio" id="teacher" name="teacher"><span>I'm teacher</span>
                 <a class="vl"></a>
@@ -27,7 +27,7 @@
                 <option value="9">9</option>
             </select>
             <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree / agreed with the terms and conditions.</span>
-            <input type="submit" name="submit" value="Save" v-on:click="toJsonFormat()">
+            <input type="submit" name="submit" value="Save" >
         </form>
     </div>
         </section>
@@ -51,13 +51,15 @@
                 jsonUser: '{',
                 count:1,
                 users:[],
+                output: '',
+
             }
         },
         methods: {
             onChange(event) {
                 this.key = event.target.value;
             },
-            saveUserInput(){
+            getUserInputs(){
                 if (this.agree === true) {
                     if (this.fullName !== '' && this.email !== '' && this.passWord !== '' && this.key !== '0') {
                         if (this.firstPassWord === this.passWord) {
@@ -66,20 +68,33 @@
                     }
                 }
             },
-            toJsonFormat(){
-                this.saveUserInput();
-                for (let i = 0; i < this.registerFormKey.length; i++) {
-                    if (this.count < this.registerFormKey.length) {
-                        this.jsonUser += '"' + this.registerFormKey[i]+'": "' + this.registerFormValue[i] + '",';
-                    } else {
-                        this.jsonUser += '"' + this.registerFormKey[i] + '": "' + this.registerFormValue[i]  + '"';
-                    }
-                    this.count++;
-                }
-                this.jsonUser += '}';
-                //let obj = JSON.parse(this.jsonUser);
-                //this.users.push(JSON.stringify(obj));
-                this.users.push(JSON.parse(this.jsonUser));
+            emptyForm(){
+                this.fullName='';
+                    this.email= '';
+                    this.phoneNumber='';
+                    this.firstPassWord='';
+                    this.passWord='';
+                    this.key= '0';
+                    this.agree= false;
+            },
+            newUserPost(e) {
+                this.getUserInputs();
+                e.preventDefault();
+                let currentObj = this;
+                this.axios.post('http://127.0.0.1:3000/api/users/', {
+                    fullName: this.registerFormValue[0],
+                    email:this.registerFormValue[1],
+                    passWord:this.registerFormValue[2],
+                    phoneNumber:this.registerFormValue[3],
+                    level:this.registerFormValue[4]
+                })
+                    .then(function (response) {
+                        currentObj.output = response.data;
+                    })
+                    .catch(function (error) {
+                        currentObj.output = error;
+                    });
+                this.emptyForm();
             }
         },
         mounted() {
@@ -88,10 +103,10 @@
                     return response.json();
                 })
                 .then((data) => {
-                    console.log(data.users);
-                    this.users = data.users;
+                    console.log(data.quiz);
+                    this.quiz = data.quiz;
                 });
-        }
+        },
     }
 </script>
 

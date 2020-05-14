@@ -92,15 +92,15 @@ app.post("/api/quiz/", (req, res, next) => {
 })
 /* Post users */
 app.post("/api/users/", (req, res, next) => {
-    const data = {
+    const userData = {
         fullName: req.body.fullName,
         email: req.body.email,
         password: req.body.passWord,
         phoneNumber: req.body.phoneNumber,
         level: req.body.level,
     }
-    const sql = 'INSERT INTO quiz (fullName, email, password, phoneNumber, level) VALUES (?,?,?,?,?)';
-    const params = [data.fullName, data.email, data.password, data.phoneNumber, data.level];
+    const sql = 'INSERT INTO users (fullName, email, password, phoneNumber, level) VALUES (?,?,?,?,?)';
+    const params = [userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.level];
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})
@@ -108,7 +108,7 @@ app.post("/api/users/", (req, res, next) => {
         }
         res.json({
             "message": "success",
-            "users": data,
+            "users": userData,
             "id" : this.lastID
         })
     });
