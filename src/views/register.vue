@@ -3,11 +3,13 @@
     <div>
         <section class="item3">
     <div class="register" >
-        <form name="form" method="post" v-on:submit="newUserPost">
-            <label>
-                <input type="radio" id="teacher" name="teacher"><span>I'm teacher</span>
-                <a class="vl"></a>
-                <input type="radio" id="student" name="student"><span>I'm student</span>
+        <form name="form" @submit="newUserPost" method="post">
+                <label>
+                    <input type="radio" id="one" value="teacher" v-model="userRole">
+                    <label for="one">I'm teacher</label>
+                    <a class="vl"></a>
+                    <input type="radio" id="two" value="student" v-model="userRole">
+                    <label for="two">I'm student</label>
             </label>
             <input type="text" id="fullName" name="fullName" placeholder="Full Name" v-model="fullName">
             <input type="text" id="email" name="email" placeholder="E-mail" v-model="email">
@@ -39,6 +41,7 @@
         name: "register",
         data: function () {
             return{
+                userRole:'',
                 fullName:'',
                 email: '',
                 phoneNumber:'',
@@ -46,12 +49,10 @@
                 passWord:'',
                 key: '0',
                 agree: false,
-                registerFormKey:["fullName", "email", "passWord", "phoneNumber", "level"],
                 registerFormValue: [],
-                jsonUser: '{',
-                count:1,
-                users:[],
-                output: '',
+                output:'',
+                errors: [],
+                registrationDone:'',
 
             }
         },
@@ -59,34 +60,41 @@
             onChange(event) {
                 this.key = event.target.value;
             },
-            getUserInputs(){
-                if (this.agree === true) {
-                    if (this.fullName !== '' && this.email !== '' && this.passWord !== '' && this.key !== '0') {
-                        if (this.firstPassWord === this.passWord) {
-                            this.registerFormValue.push(this.fullName, this.email, this.passWord, this.phoneNumber, this.key);
-                        }
-                    }
+            onChangeRadio() {
+                if (this.isTeacher === true){
+                    this.isStudent = false;
+                }
+                if (this.isStudent === true){
+                    this.isTeacher = false;
                 }
             },
             emptyForm(){
+                this.userRole='';
                 this.fullName='';
-                    this.email= '';
-                    this.phoneNumber='';
-                    this.firstPassWord='';
-                    this.passWord='';
-                    this.key= '0';
-                    this.agree= false;
+                this.email= '';
+                this.phoneNumber='';
+                this.firstPassWord='';
+                this.passWord='';
+                this.key= '0';
+                this.agree= false;
+            },
+            getData(){
+                if (this.userRole !=='' && this.fullName!=='' && this.email!=='' && this.passWord!=='' && this.key!=='0' && this.firstPassWord === this.passWord && this.agree===true){
+                    this.registerFormValue.push(this.userRole, this.fullName, this.email, this.passWord, this.phoneNumber, this.key);
+                    this.registrationDone= 'Welcome '+this.registerFormValue[0]+'!';
+                }
             },
             newUserPost(e) {
-                this.getUserInputs();
+                this.getData();
                 e.preventDefault();
                 let currentObj = this;
                 this.axios.post('http://127.0.0.1:3000/api/users/', {
-                    fullName: this.registerFormValue[0],
-                    email:this.registerFormValue[1],
-                    passWord:this.registerFormValue[2],
-                    phoneNumber:this.registerFormValue[3],
-                    level:this.registerFormValue[4]
+                                userRole:this.registerFormValue[0],
+                                fullName: this.registerFormValue[1],
+                                email: this.registerFormValue[2],
+                                passWord: this.registerFormValue[3],
+                                phoneNumber: this.registerFormValue[4],
+                                level: this.registerFormValue[5]
                 })
                     .then(function (response) {
                         currentObj.output = response.data;
@@ -103,10 +111,11 @@
                     return response.json();
                 })
                 .then((data) => {
-                    console.log(data.quiz);
-                    this.quiz = data.quiz;
+                    console.log(data.users);
+                    this.users = data.users;
                 });
-        },
+            console.log('Component mounted.');
+        }
     }
 </script>
 

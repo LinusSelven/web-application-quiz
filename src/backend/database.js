@@ -41,6 +41,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
         db.run(`CREATE TABLE users (
             userId INTEGER PRIMARY KEY,
+            userRole TEXT,
             fullName TEXT,
             email TEXT,
             passWord TEXT,
@@ -49,8 +50,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             )`,(err) => {
             if (err) {
             }else {
-                const insert = 'INSERT INTO users (fullName, email, passWord, phoneNumber, level) VALUES (?,?,?,?,?)';
-                db.run(insert, ["Halim Halim",
+                const insert = 'INSERT INTO users (userRole, fullName, email, passWord, phoneNumber, level) VALUES (?,?,?,?,?,?)';
+                db.run(insert, ["student",
+                        "Halim Halim",
                         "halim.halim@iths.se",
                         "123456",
                         "0722000000",
