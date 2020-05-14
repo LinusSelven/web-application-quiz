@@ -2,21 +2,24 @@
     <div>
         <section class="item3">
             <div class="q-question">
-                <h2>{{quiz[0].quizQuestion}}</h2>
+                <h2>{{quiz[questionNumber].quizQuestion}}</h2>
             </div>
             <div class="q-img">
                 <h2>
-                        {{quiz[0].quizImg}}
+                    {{quiz[questionNumber].quizImg}}
                 </h2>
             </div>
             <div class="q-answer">
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="1">{{quiz[0].quizAnswer1}}</button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="2">{{quiz[0].quizAnswer2}}</button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="3">{{quiz[0].quizAnswer3}}</button>
+                <button class="q-btn" @click="isCorrectAnswer($event)" value="1">{{quiz[questionNumber].quizAnswer1}}
+                </button>
+                <button class="q-btn" @click="isCorrectAnswer($event)" value="2">{{quiz[questionNumber].quizAnswer2}}
+                </button>
+                <button class="q-btn" @click="isCorrectAnswer($event)" value="3">{{quiz[questionNumber].quizAnswer3}}
+                </button>
             </div>
             <div class="q-question">
                 <h3 v-if="correctAnswer">Rätt svar!</h3>
-                <button class="q-btn">Nästa fråga</button>
+                <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
             </div>
         </section>
 
@@ -29,23 +32,31 @@
         data: function () {
             return {
                 quiz: [],
+                questionNumber: 0,
                 correctAnswer: false,
             }
         },
 
         methods: {
 
-            isCorrectAnswer: function(e){
-                    if(e.target.value == this.quiz[0].quizCorrectAnswer)
-                        return this.correctAnswer = true;
+            nextQuestion: function () {
+                this.correctAnswer = false;
+                return this.questionNumber =+ 1;
+            },
+
+            isCorrectAnswer: function (e) {
+                if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer)
+                    return this.correctAnswer = true;
             }
         },
 
+
+
         mounted() {
             fetch('http://127.0.0.1:3000/api/quiz/')
-                    .then((response) => {
-                        return response.json();
-                    })
+                .then((response) => {
+                    return response.json();
+                })
                 .then((data) => {
                     console.log(data.quiz);
                     this.quiz = data.quiz;
