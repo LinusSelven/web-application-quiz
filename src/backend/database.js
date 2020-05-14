@@ -37,8 +37,27 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 "2",
                 "img1.png"])
         }
-    })  
-    }
+        })
+
+        db.run(`CREATE TABLE users (
+            userId INTEGER PRIMARY KEY,
+            fullName TEXT,
+            email TEXT,
+            passWord TEXT,
+            phoneNumber TEXT,
+            level INTEGER
+            )`,(err) => {
+            if (err) {
+            }else {
+                const insert = 'INSERT INTO users (fullName, email, passWord, phoneNumber, level) VALUES (?,?,?,?,?)';
+                db.run(insert, ["Halim Halim",
+                        "halim.halim@iths.se",
+                        "123456",
+                        "0722000000",
+                        "4"])
+                }
+            })
+        }
 })
 
 

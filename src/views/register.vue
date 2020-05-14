@@ -69,7 +69,7 @@
             toJsonFormat(){
                 this.saveUserInput();
                 for (let i = 0; i < this.registerFormKey.length; i++) {
-                    if (this.count < 5) {
+                    if (this.count < this.registerFormKey.length) {
                         this.jsonUser += '\"' + this.registerFormKey[i] + '\": \"' + this.registerFormValue[i] + '\", ';
                     } else {
                         this.jsonUser += '\"' + this.registerFormKey[i] + '\": \"' + this.registerFormValue[i]  + '\"';
