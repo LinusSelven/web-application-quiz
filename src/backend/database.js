@@ -29,43 +29,43 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 "Asien",
                 "Afrika",
                 "3",
-                "<img src=\"../assets/280px-Africa_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                "280px-Africa_(orthographic_projection).svg.png"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Afrika",
                 "Asien",
                 "Nordamerika",
                 "2",
-                "<img src=\"../assets/280px-Asia_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                "280px-Asia_(orthographic_projection).svg.png"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Antarktis",
                 "Oceanien",
                 "Europa",
                 "3",
-                "<img src=\"../assets/280px-Europe_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                "280px-Europe_(orthographic_projection).svg.png"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Nordamerika",
                 "Antarktis",
                 "Oceanien",
                 "2",
-                "<img src=\"../assets/280px-Antarctica_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                "280px-Antarctica_(orthographic_projection).svg.png"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Sydamerika",
                 "Afrika",
                 "Nordamerika",
                 "3",
-                "<img src=\"../assets/280px-Location_North_America.svg.png\" alt=\"Bild\">"])
+                "280px-Location_North_America.svg.png"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Oceanien",
                 "Afrika",
                 "Antarktis",
                 "1",
-                "<img src=\"../assets/280px-Oceania_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                "280px-Oceania_(orthographic_projection).svg.png"])
             db.run(insert, ["Vilken världsdel visas?",
                 "Sydamerika",
                 "Nordamerika",
                 "Europa",
                 "1",
-                "<img src=\"../assets/280px-South_America_(orthographic_projection).svg.png\" alt=\"Bild\">"])
+                "280px-South_America_(orthographic_projection).svg.png"])
         }
     })  
     }
