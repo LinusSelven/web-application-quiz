@@ -41,11 +41,17 @@
             return{
                 email:'',
                 passWord:'',
+                exist: false,
+                users:[],
             }
         },
         methods:{
-            login(){
-
+            checkUserName(){
+                for (let i=0; i<this.users.length;i++){
+                    if (this.users[i] === this.email){
+                        this.exist = true;
+                    }
+                }
             }
         }
     }
