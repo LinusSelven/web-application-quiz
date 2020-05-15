@@ -6,7 +6,7 @@
             </div>
             <div class="q-img">
                 <h2>
-                    <img :src="getPic(questionNumber)" :alt="quiz[questionNumber].quizImg">
+                    <img :src="getImgUrl(quiz[questionNumber].quizImg)" v-bind:alt="pic">
                 </h2>
             </div>
             <div class="q-answer">
@@ -46,16 +46,18 @@
                 return this.questionNumber += 1;
             },
 
+
             isCorrectAnswer: function (e) {
                 if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer) {
                     this.correctAnswers += 1;
                     return this.correctAnswer = true;
                 }
             },
-            getPic(index) {
-                return '../assets/img'+index+'.png';
-            }
 
+
+            getImgUrl: function (pic) {
+                return require('../assets/' + pic)
+            }
         },
 
         mounted() {
