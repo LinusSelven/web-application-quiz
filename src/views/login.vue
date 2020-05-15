@@ -11,10 +11,10 @@
                 <td><p>Error Message</p></td>
             </tr>
             <tr>
-                <td><input value="Användarnamn" type="text" name="user-log"></td>
+                <td><input value="Användarnamn" type="text" name="user-log" v-model="email"></td>
             </tr>
             <tr>
-                <td><input value="Lösenord" type="password" name="user-log"></td>
+                <td><input value="Lösenord" type="password" name="user-log" v-model="passWord"></td>
             </tr>
             <tr>
                 <td><input name="rememberMe" type="checkbox" value="Remember Me"> Jag vill förbli inloggad</td>
@@ -36,7 +36,18 @@
 
 <script>
     export default {
-        name: "login"
+        name: "login",
+        data: function () {
+            return{
+                email:'',
+                passWord:'',
+            }
+        },
+        methods:{
+            login(){
+
+            }
+        }
     }
 </script>
 
