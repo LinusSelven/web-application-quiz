@@ -69,6 +69,73 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     "280px-South_America_(orthographic_projection).svg.png"])
             }
         })
+
+        //---------------
+
+        db.run(`CREATE TABLE mattequiz (
+            quizId INTEGER PRIMARY KEY,
+            quizQuestion TEXT,
+            quizAnswer1 TEXT,
+            quizAnswer2 TEXT,
+            quizAnswer3 TEXT,
+            quizCorrectAnswer INTEGER,
+            quizImg TEXT
+
+            )`, (err) => {
+            if (err) {
+                // Table already created
+            } else {
+                // Table just created, creating some rows
+                var insert1 = 'INSERT INTO mattequiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+                db.run(insert1, ["4 + 5 = ?",
+                    "11",
+                    "7",
+                    "9",
+                    "3",
+                    "mathematics.jpg"])
+                db.run(insert1, ["7 - 3 = ?",
+                    "5",
+                    "4",
+                    "2",
+                    "2",
+                    "mathematics.jpg"])
+                db.run(insert1, ["3 * 4 = ?",
+                    "14",
+                    "10",
+                    "12",
+                    "3",
+                    "mathematics.jpg"])
+                db.run(insert1, ["8 / 2 = ?",
+                    "3",
+                    "4",
+                    "6",
+                    "2",
+                    "mathematics.jpg"])
+                db.run(insert1, ["Ruben, Harry och Kattja ska dela lika på 18 jordgubbar, hur många får de var?",
+                    "7 stycken.",
+                    "4 stycken.",
+                    "6 stycken.",
+                    "3",
+                    "strawberry.png"])
+                db.run(insert1, ["16 + 9 = ?",
+                    "25",
+                    "27",
+                    "22",
+                    "1",
+                    "mathematics.jpg"])
+                db.run(insert1, ["34 - 14 = ?",
+                    "20",
+                    "24",
+                    "30",
+                    "1",
+                    "mathematics.jpg"])
+
+            }
+        })
+
+
+
+        //---------------
         db.run(`CREATE TABLE users (
             userId INTEGER PRIMARY KEY,
             userRole TEXT,
