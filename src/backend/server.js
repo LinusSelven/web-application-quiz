@@ -49,6 +49,36 @@ app.get("/api/quiz", (req, res, next) => {
         })
       });
 });
+app.get("/api/mattequiz", (req, res, next) => {
+    var sql = "select * from mattequiz"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "mattequiz":rows
+        })
+    });
+});
+/* Get Users */
+app.get("/api/users", (req, res, next) => {
+    const sql = "select * from users";
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "users":rows
+        })
+    });
+});
+
 app.get("/api/quiz/:id", (req, res, next) => {
     var sql = "select * from quiz where quizId = ?"
     var params = [req.params.id]
@@ -62,6 +92,21 @@ app.get("/api/quiz/:id", (req, res, next) => {
             "quiz":row
         })
       });
+});
+
+app.get("/api/mattequiz/:id", (req, res, next) => {
+    var sql = "select * from mattequiz where quizId = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "mattequiz":row
+        })
+    });
 });
 
 app.post("/api/quiz/", (req, res, next) => {
