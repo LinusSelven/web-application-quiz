@@ -18,13 +18,13 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-/*const sessionActive = (req, res, next) =>{
+const session_Status = (req, res, next) =>{
     if (!req.session.userId){
-        res.send('Log in!')
+        res.send('Login to see this page!')
     }else{
         next()
     }
-}*/
+}
 //var HTTP_PORT = 3000
 const {
     HTTP_PORT = 3000
@@ -49,22 +49,6 @@ app.get("/api/quiz", (req, res, next) => {
         })
       });
 });
-/* Get Users */
-app.get("/api/users", (req, res, next) => {
-    const sql = "select * from users";
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "users":rows
-        })
-    });
-});
-
 app.get("/api/quiz/:id", (req, res, next) => {
     var sql = "select * from quiz where quizId = ?"
     var params = [req.params.id]
@@ -79,7 +63,6 @@ app.get("/api/quiz/:id", (req, res, next) => {
         })
       });
 });
-
 
 app.post("/api/quiz/", (req, res, next) => {
     var errors=[]
@@ -104,30 +87,6 @@ app.post("/api/quiz/", (req, res, next) => {
         res.json({
             "message": "success",
             "quiz": data,
-            "id" : this.lastID
-        })
-    });
-})
-/* Post users */
-app.post("/api/users/", (req, res, next) => {
-    const userData = {
-        userRole: req.body.userRole,
-        fullName: req.body.fullName,
-        email: req.body.email,
-        password: req.body.password,
-        phoneNumber: req.body.phoneNumber,
-        schoolLevel: req.body.schoolLevel,
-    }
-    const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
-    const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.schoolLevel];
-    db.run(sql, params, function (err, result) {
-        if (err){
-            res.status(400).json({"error": err.message})
-            return;
-        }
-        res.json({
-            "message": "success",
-            "users": userData,
             "id" : this.lastID
         })
     });
@@ -169,14 +128,126 @@ app.delete("/api/quiz/:id", (req, res, next) => {
             res.json({"message":"deleted", rows: this.changes})
     });
 })
-/* Auth */
+
+/* Users Handling */
+
+app.get('/api/users', session_Status, (req, res, next) => {
+    const sql = "select * from users";
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "users":rows
+        })
+    });
+})
+app.get('/api/users/:id', session_Status, (request, response, next) => {
+    const sql = 'select * from users where userId = ?'
+    const params = [request.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+             response.status(400).json({"error":err.message});
+            return;
+        }
+            response.json({
+                "message":"success",
+                "user":row
+            })
+
+    });
+})
+app.post('/api/email', (request, response, next) => {
+    const userData = {
+        email: request.body.email,
+    }
+        db.get('SELECT * FROM users WHERE email = ?', [userData.email], function(error, row) {
+            if (row) {
+                response.send({
+                    isValid: false,
+                    message:`This email is already exist!`
+                });
+            }else {
+                response.send({
+                    isValid: true,
+                    message: `This email is valid!`
+                });
+            }
+            response.end();
+        });
+})
+app.post('/api/users/', (req, res, next) => {
+    const userData = {
+        userRole: req.body.userRole,
+        fullName: req.body.fullName,
+        email: req.body.email,
+        password: req.body.password,
+        phoneNumber: req.body.phoneNumber,
+        schoolLevel: req.body.schoolLevel,
+    }
+            const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
+            const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.schoolLevel];
+            db.run(sql, params, function (err, result) {
+                if (err) {
+                    res.status(400).json({ "error": err.message })
+                    return;
+                }
+                res.json({
+                    "message": "success",
+                    "users": userData,
+                    "id": this.lastID
+                })
+            });
+})
+app.put('/api/users/:id', session_Status, (request, response, next) => {
+    const userData = {
+        userRole: request.body.userRole,
+        fullName: request.body.fullName,
+        email: request.body.email,
+        password: request.body.password,
+        phoneNumber: request.body.phoneNumber,
+        schoolLevel: request.body.schoolLevel,
+    }
+    var sql ='UPDATE users SET userRole = ?, fullName = ?, email = ?, password = ?, phoneNumber = ?, schoolLevel = ? WHERE userId = ?'
+    const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.schoolLevel , request.params.id];
+    db.run(sql, params, function (err, result) {
+        if (err){
+            response.status(400).json({"error": err.message})
+            return;
+        }
+        response.json({
+            "message": "success",
+            "user": userData,
+            "id" : this.lastID
+        })
+    });
+})
+app.delete('/api/users/:id', session_Status, (request, response, next) => {
+    db.run(
+      'DELETE FROM users WHERE userId = ?',
+      request.params.id,
+      function (err, result) {
+          if (err){
+              response.status(400).json({
+                  "error": response.message
+              })
+              return;
+          }
+          response.json({
+              "message":"deleted",
+              rows: this.changes
+          })
+      });
+})
 function hashPassword(password, salt) {
-    var hash = crypto.createHash('sha256');
+    const hash = crypto.createHash('sha256')
     hash.update(password);
     hash.update(salt);
     return hash.digest('hex');
 }
-
 app.post('/api/auth', function(request, response) {
     const userData = {
         email: request.body.email,
@@ -188,16 +259,20 @@ app.post('/api/auth', function(request, response) {
                 request.session.loggedin = true;
                 request.session.userId = row.userId;
                 request.session.username = row.fullName;
-                request.session.email = row.email;
-                request.session.role = row.userRole;
-                response.redirect('/home');
+                response.send({
+                    message:`Welcome: ${request.session.username}`
+                });
             } else {
-                response.send('Incorrect Username and/or Password!');
+                response.send({
+                    message: `Incorrect Username and/or Password!`
+                });
             }
             response.end();
         });
     } else {
-        response.send('Please enter Username and Password!');
+        response.send({
+            message: `Please enter Username and Password!`
+        });
         response.end();
     }
 });
@@ -211,7 +286,7 @@ app.get('/home', function(request, response) {
     }
     response.end();
 });
-app.post('/logout', /*sessionActive,*/  (req, res) => {
+app.post('/logout', session_Status,  (req, res) => {
             req.session.destroy(err => {
                 if (err) {
                     return res.redirect('/home')
@@ -219,6 +294,7 @@ app.post('/logout', /*sessionActive,*/  (req, res) => {
                 res.send('<h3>Goodbye!</h3>');
             })
 })
+
 // Root path
 app.get("/", (req, res, next) => {
     res.json({"message":"Ok"})

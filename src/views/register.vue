@@ -5,7 +5,7 @@
     <div class="register" >
         <p>{{welcomeMessage}}</p>
         <p id="validation">{{validation}}</p>
-        <form name="form" @submit="newUserPost" method="post">
+        <article v-show="isNotRegistered">
                 <label>
                     <input type="radio" id="one" value="teacher" v-model="userRole">
                     <label for="one"><span>I'm teacher</span></label>
@@ -15,8 +15,8 @@
             </label>
             <input type="text" id="fullName" name="fullName" placeholder="Full Name" v-model="fullName" required>
             <input type="email" id="email" name="email" placeholder="E-mail" v-model="email" required>
-            <input type="password" id="passWord" name="passWord" placeholder="Password" v-model="firstPassword" minlength="6" required>
-            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password" v-model="password" minlength="6" required>
+            <input type="password" id="passWord" name="passWord" placeholder="Password" v-model="password" minlength="6" required>
+            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password" v-model="ConfirmPassword" minlength="6" required>
             <input type="text" id="phone" name="phone" placeholder="Phone Number" v-model="phoneNumber">
             <select id="destination" name="country" @change="onChange($event)" v-model="key" >
                 <option value="0">Select your school level</option>
@@ -31,29 +31,31 @@
                 <option value="9">9</option>
             </select>
             <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree / agreed with the terms and conditions.</span>
-            <input type="submit" value="Save" >
-        </form>
+            <input type="submit" value="Save" @click.prevent="register()">
+        </article>
     </div>
         </section>
     </div>
 </template>
 
 <script>
+    import AuthServices from '../services/ApiServices';
     export default {
         name: "register",
         data: function () {
             return{
+              isNotRegistered: true,
                 userRole:'',
                 fullName:'',
                 email: '',
                 phoneNumber:'',
-                firstPassword:'',
+                ConfirmPassword:'',
                 password:'',
                 key: '0',
                 agree: false,
                 errors: [],
-              welcomeMessage:'',
-              validation:''
+                welcomeMessage:'',
+                validation:''
             }
         },
         methods: {
@@ -65,34 +67,36 @@
                 this.fullName='';
                 this.email= '';
                 this.phoneNumber='';
-                this.firstPassword='';
+                this.ConfirmPassword='';
                 this.password='';
                 this.key= '0';
                 this.agree= false;
             },
-            newUserPost(e) {
-                e.preventDefault();
-                if (this.password === this.firstPassword) {
-                  this.axios.post('http://127.0.0.1:3000/api/users/', {
-                    userRole: this.userRole,
-                    fullName: this.fullName,
-                    email: this.email,
-                    password: this.password,
-                    phoneNumber: this.phoneNumber,
-                    schoolLevel: this.key
-                  })
-                    .then((response) => {
-                      console.log(response);
-                      this.welcomeMessage = 'Welcome ' +this.fullName+ '!';
-                    })
-                    .catch((error) => {
-                      console.log(error)
-                    })
-                  this.emptyForm();
-                }
-                else {
-                  this.validation = 'Your passwords are not identical ';
-                }
+            async register() {
+                  if (this.password === this.ConfirmPassword) {
+                        const response = await AuthServices.checkEmail({
+                          email: this.email,
+                        });
+                        if (!response.data.isValid){
+                          this.validation = response.data.message ;
+                        }else {
+                              await AuthServices.register({
+                                userRole: this.userRole,
+                                fullName: this.fullName,
+                                email: this.email,
+                                password: this.ConfirmPassword,
+                                phoneNumber: this.phoneNumber,
+                                schoolLevel: this.key
+                              });
+                              this.validation ='';
+                              this.welcomeMessage = 'Welcome ' + this.fullName + '!';
+                              this.isNotRegistered = false;
+                              this.emptyForm();
+                        }
+
+                  }else {
+                          this.validation = 'Your passwords are not identical ';
+                  }
 
             }
         },
@@ -124,12 +128,12 @@
     }
     p{
         font-family: "Times New Roman", monospace;
-        font-weight: bold;
-        color: #3d8cb5;
+        font-weight: normal;
+        color: #04d279;
     }
     #validation{
         font-family: "Times New Roman", monospace;
-        font-weight: bold;
+        font-weight: normal;
         color: #cf042d;
     }
     .vl {

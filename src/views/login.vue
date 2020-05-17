@@ -3,19 +3,21 @@
     <div>
         <section class="item3">
     <div class="signIn" >
-    <form @submit="submitForm()" method="post" >
         <table class="center">
             <tr>
-                <td><input value="email" type="email" name="user-log" v-model="email" required></td>
+                <td><p id="errorMsg">{{errorMessage}}</p></td>
             </tr>
             <tr>
-                <td><input value="password" type="password" name="user-log" v-model="password" minlength="6" required></td>
+                <td><input value="email" type="email" name="user-log" v-model="email"></td>
+            </tr>
+            <tr>
+                <td><input value="password" type="password" name="user-log" v-model="password"></td>
             </tr>
             <tr>
                 <td><input name="rememberMe" type="checkbox" value="Remember Me"> Jag vill förbli inloggad</td>
             </tr>
             <tr>
-                <td><input type="submit" value="submit"></td>
+                <td><input type="button" @click="submitForm" value="login"></td>
             </tr>
             <tr><td></td></tr>
             <tr>
@@ -23,39 +25,32 @@
             </tr>
 
         </table>
-    </form>
     </div>
         </section>
     </div>
 </template>
 
 <script>
-    export default {
+  import AuthServices from '../services/ApiServices'
+  export default {
         name: "login",
         data: function () {
             return{
                 email:'',
                 password:'',
-                exist: false,
-                users:[],
+              errorMessage:'',
             }
         },
         methods:{
-          submitForm(e) {
-            e.preventDefault();
-            if (this.email && this.password) {
-              this.axios.post('http://127.0.0.1:3000/auth', {
-                email: this.email,
-                password: this.password,
-              })
-                .then((response) => {
-                  console.log(response);
-                })
-                .catch((error) => {
-                  console.log(error)
-                })
-            }
-          }
+              async submitForm() {
+                    const response = await AuthServices.login({
+                      email: this.email,
+                      password: this.password
+                    });
+                    this.errorMessage = response.data.message;
+                    this.email = '';
+                    this.password = '';
+              }
 
         }
     }
@@ -95,6 +90,11 @@
         color:#999999;
 
     }
+    #errorMsg{
+        font-family: "Times New Roman", monospace;
+        font-weight: normal;
+        color: #0b5b5b;
+    }
 
     .submit-log{
         background:#02b3b3;
@@ -106,7 +106,7 @@
         font-size:15px;
         color:#FFFFFF; }
 
-    input[type=text], input[type=email], input[type=password], input[type=checkbox], select, textarea {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox] {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -136,7 +136,7 @@
         height: auto;
         width: auto;
     }
-    input[type=submit] {
+    input[type=button] {
         background-color: #333333;
         font-family: "Times New Roman", monospace;
         font-weight: bold;
@@ -147,7 +147,7 @@
         cursor: pointer;
     }
 
-    input[type=submit]:hover {
+    input[type=button]:hover {
         background-color: #0b5b5b;
         color: wheat;
     }

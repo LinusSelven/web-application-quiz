@@ -1,6 +1,5 @@
 var sqlite3 = require('sqlite3').verbose()
-
-const DBSOURCE = "quiz.db"
+const DBSOURCE = "QuizDB.db"
 
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
@@ -81,7 +80,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             } else {
                 const insert = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
                 db.run(insert, ["admin",
-                    "Halim Halim",
+                    "Halim Dakir",
                     "halim.halim@iths.se",
                     "123456",
                     "0722000000",

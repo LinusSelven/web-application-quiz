@@ -4,11 +4,10 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from './router'
 import store from './store'
-import Login from './components/login'
+import Login from './views/login'
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
-axios.defaults.baseUrl = 'http://localhost:8080/';
 Vue.component('app-login', Login);
 
 new Vue({
