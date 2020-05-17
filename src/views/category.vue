@@ -3,7 +3,7 @@
   <section class="item3">
   <div class="category" >
 
-    <button class="btn">Matematik</button>
+    <router-link to="/mattequiz"><button class="btn">Matematik</button></router-link>
     <router-link to="/geographyquiz"><button class="btn">Geografi</button></router-link>
     <button class="btn">Svenska</button>
     <button class="btn">Engelska</button>
