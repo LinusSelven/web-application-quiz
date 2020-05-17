@@ -3,24 +3,19 @@
     <div>
         <section class="item3">
     <div class="signIn" >
-
-
-    <form >
+    <form @submit="submitForm()" method="post" >
         <table class="center">
             <tr>
-                <td><p>Error Message</p></td>
+                <td><input value="email" type="email" name="user-log" v-model="email" required></td>
             </tr>
             <tr>
-                <td><input value="Användarnamn" type="text" name="user-log" v-model="email"></td>
-            </tr>
-            <tr>
-                <td><input value="Lösenord" type="password" name="user-log" v-model="passWord"></td>
+                <td><input value="password" type="password" name="user-log" v-model="password" minlength="6" required></td>
             </tr>
             <tr>
                 <td><input name="rememberMe" type="checkbox" value="Remember Me"> Jag vill förbli inloggad</td>
             </tr>
             <tr>
-                <td><input type="submit" name="login" value="Logga in"></td>
+                <td><input type="submit" value="submit"></td>
             </tr>
             <tr><td></td></tr>
             <tr>
@@ -40,19 +35,28 @@
         data: function () {
             return{
                 email:'',
-                passWord:'',
+                password:'',
                 exist: false,
                 users:[],
             }
         },
         methods:{
-            checkUserName(){
-                for (let i=0; i<this.users.length;i++){
-                    if (this.users[i] === this.email){
-                        this.exist = true;
-                    }
-                }
+          submitForm(e) {
+            e.preventDefault();
+            if (this.email && this.password) {
+              this.axios.post('http://127.0.0.1:3000/auth', {
+                email: this.email,
+                password: this.password,
+              })
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
             }
+          }
+
         }
     }
 </script>
@@ -102,7 +106,7 @@
         font-size:15px;
         color:#FFFFFF; }
 
-    input[type=text], input[type=password], input[type=checkbox], select, textarea {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox], select, textarea {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;

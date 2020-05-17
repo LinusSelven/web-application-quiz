@@ -73,19 +73,19 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             userRole TEXT,
             fullName TEXT,
             email TEXT,
-            passWord TEXT,
+            password TEXT,
             phoneNumber TEXT,
-            level INTEGER
+            schoolLevel INTEGER
             )`, (err) => {
             if (err) {
             } else {
-                const insert = 'INSERT INTO users (userRole, fullName, email, passWord, phoneNumber, level) VALUES (?,?,?,?,?,?)';
-                db.run(insert, ["student",
+                const insert = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
+                db.run(insert, ["admin",
                     "Halim Halim",
                     "halim.halim@iths.se",
                     "123456",
                     "0722000000",
-                    "4"])
+                    "null"])
             }
         })
     }

@@ -2,15 +2,33 @@ var express = require("express")
 var app = express()
 var cors = require('cors')
 var db = require("./database.js")
+var session = require('express-session');
+var bodyParser = require('body-parser');
+var crypto = require('crypto');
+var path = require('path');
+
 
 app.use(cors())
 app.use(express.static('public'))
-
-var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var HTTP_PORT = 3000
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+/*const sessionActive = (req, res, next) =>{
+    if (!req.session.userId){
+        res.send('Log in!')
+    }else{
+        next()
+    }
+}*/
+//var HTTP_PORT = 3000
+const {
+    HTTP_PORT = 3000
+} = process.env
 
 // Start server
 app.listen(HTTP_PORT, () => {
@@ -96,12 +114,12 @@ app.post("/api/users/", (req, res, next) => {
         userRole: req.body.userRole,
         fullName: req.body.fullName,
         email: req.body.email,
-        password: req.body.passWord,
+        password: req.body.password,
         phoneNumber: req.body.phoneNumber,
-        level: req.body.level,
+        schoolLevel: req.body.schoolLevel,
     }
-    const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, level) VALUES (?,?,?,?,?,?)';
-    const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.level];
+    const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
+    const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.schoolLevel];
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})
@@ -151,7 +169,56 @@ app.delete("/api/quiz/:id", (req, res, next) => {
             res.json({"message":"deleted", rows: this.changes})
     });
 })
+/* Auth */
+function hashPassword(password, salt) {
+    var hash = crypto.createHash('sha256');
+    hash.update(password);
+    hash.update(salt);
+    return hash.digest('hex');
+}
 
+app.post('/api/auth', function(request, response) {
+    const userData = {
+        email: request.body.email,
+        password: request.body.password,
+    }
+    if (userData.email && userData.password) {
+            db.get('SELECT * FROM users WHERE email = ? AND password = ?', [userData.email, userData.password], function(error, row) {
+                 if (row) {
+                request.session.loggedin = true;
+                request.session.userId = row.userId;
+                request.session.username = row.fullName;
+                request.session.email = row.email;
+                request.session.role = row.userRole;
+                response.redirect('/home');
+            } else {
+                response.send('Incorrect Username and/or Password!');
+            }
+            response.end();
+        });
+    } else {
+        response.send('Please enter Username and Password!');
+        response.end();
+    }
+});
+app.get('/home', function(request, response) {
+    if (request.session.loggedin) {
+        response.send(`<h3>Welcome back: ` + request.session.username +`</h3><form method="post" action="/logout"><button>Logout</button></form>
+            <p>Your in home Page</p>
+            <p>Your are connected as : `+request.session.role+`</p>`);
+    } else {
+        response.send('<h3>Your are in home page, Please login to view this page!</h3>');
+    }
+    response.end();
+});
+app.post('/logout', /*sessionActive,*/  (req, res) => {
+            req.session.destroy(err => {
+                if (err) {
+                    return res.redirect('/home')
+                }
+                res.send('<h3>Goodbye!</h3>');
+            })
+})
 // Root path
 app.get("/", (req, res, next) => {
     res.json({"message":"Ok"})
