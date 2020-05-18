@@ -1,10 +1,9 @@
 <template>
-
   <div id="app"  class="grid">
 
     <section class="item1">
       <div class="logo-box">
-      <img src="./assets/logo.png" alt="Logo">
+      <img src="./assets/logo.png" alt="Logo" class="logo">
       <span class="slag">DET SKA VARA KUL ATT PLUGGA!</span>
       </div>
     </section>
@@ -19,17 +18,49 @@
           <li><router-link to="/aboutus">About us</router-link></li>
         </ul>
       </div>
-      <div id="mobil-menu"></div>
-      <router-view />
+      <div id="mobil-menu">
+        <div class="topNav">
+          <a class="active">Quiz</a>
+          <div id="links">
+            <a href="/register">Register</a>
+            <a href="#">About us</a>
+            <a href="#">Rate us</a>
+            <a href="#">Sign in</a>
+          </div>
+          <a href="javascript:void(0);" class="icon" @click="myFunction">
+            <img src="./assets/icons.png" alt="menu" class="menuIcon">
+          </a>
+        </div>
+      </div>
     </section>
-
+    <section class="item3">
+    <router-view />
+    </section>
     <section class="item4">
       <p>Copyright (c) 2020 by Aisha, Anton, Halim, Linus.</p>
     </section>
 
    </div>
 </template>
+<script>
+  export default {
+    name: "App",
+    data: function () {
+      return {}
+    },
+      methods: {
+        myFunction() {
+          const x = document.getElementById("links");
+          if (x.style.display === "block") {
+            x.style.display = "none";
+          } else {
+            x.style.display = "block";
+          }
+      }
+    }
 
+  }
+</script>
 
 <style>
   /* mobil*/
@@ -136,6 +167,8 @@
   .item3 {
     padding: 10px 5px 10px 5px;
     grid-area: sidebar;
+    background: url('./assets/50.jpg') no-repeat;
+    background-size: 100% 100%;
   }
 
   .item4 {
@@ -156,10 +189,15 @@
     color: #02b3b3;
     font-family: Impact, monospace;
   }
-  img{
+  .logo{
     max-width: 100%;
     max-height: 100%;
     display: block;
+  }
+  .menuIcon{
+    max-width: 30%;
+    max-height: 30%;
+    display: inline-block;
   }
   .slag{
     display: none;
@@ -186,6 +224,12 @@
   }
   /* Tablet */
   @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .item3 {
+      padding: 10px 5px 10px 5px;
+      grid-area: sidebar;
+      background: url('./assets/50.jpg') no-repeat;
+      background-size: 100% 100%;
+    }
     .logo-box{
       width: 200px;
       color: #02b3b3;

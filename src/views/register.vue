@@ -1,9 +1,7 @@
 <template>
 
-    <div>
-        <section class="item3">
     <div class="register" >
-        <p>{{welcomeMessage}}</p>
+        <p>{{registrationStatus}}</p>
         <p id="validation">{{validation}}</p>
         <article v-show="isNotRegistered">
                 <article class="label">
@@ -14,10 +12,10 @@
                         <input type="radio" id="two" value="Student" v-model="userRole">
                         <label for="two"><span>&nbsp;Student</span></label>
                 </article>
-            <input type="text" id="fullName" name="fullName" placeholder="Full Name*" v-model="fullName" required>
-            <input type="email" id="email" name="email" placeholder="E-mail*" v-model="email" required>
-            <input type="password" id="passWord" name="passWord" placeholder="Password*" v-model="password" minlength="6" required>
-            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password*" v-model="confirmPassword" minlength="6" required>
+            <input type="text" id="fullName" name="fullName" placeholder="Full Name*" v-model="fullName" >
+            <input type="email" id="email" name="email" placeholder="E-mail*" v-model="email" >
+            <input type="password" id="passWord" name="passWord" placeholder="Password*" v-model="password1" minlength="6" >
+            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password*" v-model="password2">
             <input type="text" id="phone" name="phone" placeholder="Phone Number" v-model="phoneNumber">
             <select id="destination" name="country" @change="onChange($event)" v-model="key">
                 <option value="0">Select your school level</option>
@@ -32,12 +30,10 @@
                 <option value="9">9</option>
             </select>
             <article class="label">
-            <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree / agreed with the terms and conditions.</span>
+            <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree with the terms and conditions.</span>
             </article>
             <input type="submit" value="Save" @click.prevent="register()">
         </article>
-    </div>
-        </section>
     </div>
 </template>
 
@@ -46,17 +42,17 @@
         name: "register",
         data: function () {
             return{
-              isNotRegistered: true,
+                isNotRegistered: true,
                 userRole:'',
                 fullName:'',
                 email: '',
                 phoneNumber:'',
-                password:'',
-                confirmPassword:'',
+                password1:'',
+                password2:'',
                 key: '0',
                 agree: false,
                 errors: [],
-                welcomeMessage:'',
+                registrationStatus:'',
                 validation:''
             }
         },
@@ -69,8 +65,8 @@
                 this.fullName='';
                 this.email= '';
                 this.phoneNumber='';
-                this.password='';
-                this.confirmPassword='';
+                this.password1='';
+                this.password2='';
                 this.key= '0';
                 this.agree= false;
             },
@@ -79,8 +75,8 @@
                 userRole: this.userRole,
                 fullName: this.fullName,
                 email: this.email,
-                password: this.password,
-                confirmPassword: this.confirmPassword
+                password1: this.password1,
+                password2: this.password2
 
               });
               if (!checkFields.data.isFilled) {
@@ -94,24 +90,24 @@
                   this.email='';
                 } else {
                   const verifyPass = await AuthServices.verifyPasswords({
-                    password: this.password,
-                    confirmPassword: this.confirmPassword
+                    password1: this.password1,
+                    password2: this.password2
                   });
                   if (!verifyPass.data.isIdentical) {
                     this.validation = verifyPass.data.message;
-                    this.password='';
-                    this.confirmPassword = '';
+                    this.password1='';
+                    this.password2 = '';
                   } else {
-                    await AuthServices.register({
+                    const registerResponse = await AuthServices.register({
                       userRole: this.userRole,
                       fullName: this.fullName,
                       email: this.email,
-                      password: this.confirmPassword,
+                      password2: this.password2,
                       phoneNumber: this.phoneNumber,
                       schoolLevel: this.key
                     });
                     this.validation ='';
-                    this.welcomeMessage = 'Welcome ' + this.fullName + '!';
+                    this.registrationStatus = registerResponse.data.message+'! welcome :'+registerResponse.data.users.fullName+'.';
                     this.emptyForm();
                     this.isNotRegistered = false;
                   }
@@ -128,21 +124,22 @@
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
-        border: 1px solid rgb(0, 31, 31);
+        border: 1px solid rgb(249, 250, 250);
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: blanchedalmond;
-        color: dimgray;
+        background: rgba(5, 5, 5, 0.9);
+        color: wheat;
         font-family: Calibri, monospace;
         font-weight: bold;
         width: 100%;
         height: 40px;
+        cursor: pointer;
     }
     p{
         font-family: Calibri, monospace;
-        font-weight: normal;
-        color: #04d279;
+        font-weight: bolder;
+        color: #1b9b52;
     }
     #validation{
         font-family: Calibri, monospace;
@@ -158,6 +155,8 @@
         width: auto;
     }
     input[type=submit] {
+        margin-top: 2px;
+        margin-bottom: 2px;
         background-color: #333333;
         font-family: Calibri, monospace;
         font-weight: bold;
@@ -179,8 +178,8 @@
     }
     span{
         font-family: Calibri, monospace;
-        font-weight: bolder;
-        color: #818181;
+        font-weight: normal;
+        color: wheat;
     }
     ::-webkit-input-placeholder { /* Edge */
         color: #fced62;
@@ -191,7 +190,7 @@
     }
 
     ::placeholder {
-        color: dimgray;
+        color: wheat;
     }
     /* Mobile */
     @media screen and (max-width: 400px) {
@@ -204,7 +203,30 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .register {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, .6);
+            padding: 10px;
             width: 60%;
+        }
+        input[type=text], input[type=email], input[type=password], select, textarea, .label {
+            padding: 10px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            border: 1px solid rgb(249, 250, 250);
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+            background: rgba(5, 5, 5, 0.5);
+            color: wheat;
+            font-family: Calibri, monospace;
+            font-weight: bold;
+            width: 100%;
+            height: 40px;
+        }
+        .label{
+            border: none;
+            background: none;
         }
     }
 </style>

@@ -1,32 +1,27 @@
 <template>
-
-    <div>
-        <section class="item3">
     <div class="signIn" >
         <table class="center">
             <tr>
                 <td><p id="errorMsg">{{errorMessage}}</p></td>
             </tr>
             <tr>
-                <td><input value="email" type="email" name="user-log" v-model="email"></td>
+                <td><input value="email" type="email" name="user-log" v-model="email" placeholder="Email"></td>
             </tr>
             <tr>
-                <td><input value="password" type="password" name="user-log" v-model="password"></td>
+                <td><input value="password" type="password" name="user-log" v-model="password" placeholder="Password"></td>
             </tr>
             <tr>
-                <td><input name="rememberMe" type="checkbox" value="Remember Me"> Jag vill förbli inloggad</td>
+                <td><input name="rememberMe" type="checkbox" value="Remember Me"><span>Jag vill förbli inloggad</span> </td>
             </tr>
             <tr>
                 <td><input type="button" @click="submitForm" value="login"></td>
             </tr>
             <tr><td></td></tr>
             <tr>
-                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; Inget konto! <a v-on:click="registerButton()" rel="register">Registrera!</a></td>
+                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; <span>Inget konto! </span><a><router-link to="/register">Registrera!</router-link></a></td>
             </tr>
 
         </table>
-    </div>
-        </section>
     </div>
 </template>
 
@@ -91,9 +86,9 @@
 
     }
     #errorMsg{
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: normal;
-        color: #0b5b5b;
+        color: #fa7c8b;
     }
 
     .submit-log{
@@ -110,16 +105,17 @@
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
-        border: 1px solid rgb(0, 31, 31);
+        border: 1px solid rgb(249, 250, 250);
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: blanchedalmond;
-        color: dimgray;
-        font-family: "Times New Roman", monospace;
+        background: rgba(5, 5, 5, 0.9);
+        color: wheat;
+        font-family: Calibri, monospace;
         font-weight: bold;
         width: 100%;
         height: 40px;
+        cursor: pointer;
     }
     label{
         padding: 5px;
@@ -157,9 +153,9 @@
         width: 100%;
     }
     span{
-        font-family: "Times New Roman", monospace;
-        font-weight: bold;
-        color: dimgray;
+        font-family: Calibri, monospace;
+        font-weight: normal;
+        color: wheat;
     }
     ::-webkit-input-placeholder { /* Edge */
         color: #fced62;
@@ -170,7 +166,7 @@
     }
 
     ::placeholder {
-        color: dimgray;
+        color: wheat;
     }
 
 
@@ -298,7 +294,26 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .signIn{
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, .6);
+            padding: 10px;
             width: 60%;
+        }
+        input[type=text], input[type=email], input[type=password], select, textarea, .label {
+            padding: 10px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            border: 1px solid rgb(249, 250, 250);
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+            background: rgba(5, 5, 5, 0.5);
+            color: wheat;
+            font-family: Calibri, monospace;
+            font-weight: bold;
+            width: 100%;
+            height: 40px;
         }
         table {
             width: 50%;
