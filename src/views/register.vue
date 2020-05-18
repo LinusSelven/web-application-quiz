@@ -3,19 +3,21 @@
     <div>
         <section class="item3">
     <div class="register" >
-        <h4>{{registrationDone}}</h4>
-        <form name="form" @submit="newUserPost" method="post">
-                <label>
-                    <input type="radio" id="one" value="teacher" v-model="userRole">
-                    <label for="one">I'm teacher</label>
-                    <a class="vl"></a>
-                    <input type="radio" id="two" value="student" v-model="userRole">
-                    <label for="two">I'm student</label>
-            </label>
-            <input type="text" id="fullName" name="fullName" placeholder="Full Name" v-model="fullName">
-            <input type="text" id="email" name="email" placeholder="E-mail" v-model="email">
-            <input type="password" id="passWord" name="passWord" placeholder="Password" v-model="firstPassWord">
-            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password" v-model="passWord">
+        <p>{{welcomeMessage}}</p>
+        <p id="validation">{{validation}}</p>
+        <article v-show="isNotRegistered">
+                <article class="label">
+                    <span>I'm*&nbsp;</span>
+                        <input type="radio" id="one" value="Teacher" v-model="userRole">
+                        <label for="one"><span>Teacher </span></label>&nbsp;
+                         <a class="vl"></a>
+                        <input type="radio" id="two" value="Student" v-model="userRole">
+                        <label for="two"><span>&nbsp;Student</span></label>
+                </article>
+            <input type="text" id="fullName" name="fullName" placeholder="Full Name*" v-model="fullName" required>
+            <input type="email" id="email" name="email" placeholder="E-mail*" v-model="email" required>
+            <input type="password" id="passWord" name="passWord" placeholder="Password*" v-model="password" minlength="6" required>
+            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password*" v-model="confirmPassword" minlength="6" required>
             <input type="text" id="phone" name="phone" placeholder="Phone Number" v-model="phoneNumber">
             <select id="destination" name="country" @change="onChange($event)" v-model="key">
                 <option value="0">Select your school level</option>
@@ -29,9 +31,11 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
             </select>
+            <article class="label">
             <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree / agreed with the terms and conditions.</span>
-            <input type="submit" name="submit" value="Save" >
-        </form>
+            </article>
+            <input type="submit" value="Save" @click.prevent="register()">
+        </article>
     </div>
         </section>
     </div>
@@ -42,19 +46,18 @@
         name: "register",
         data: function () {
             return{
+              isNotRegistered: true,
                 userRole:'',
                 fullName:'',
                 email: '',
                 phoneNumber:'',
-                firstPassWord:'',
-                passWord:'',
+                password:'',
+                confirmPassword:'',
                 key: '0',
                 agree: false,
-                registerFormValue: [],
-                output:'',
                 errors: [],
-                registrationDone:'',
-
+                welcomeMessage:'',
+                validation:''
             }
         },
         methods: {
@@ -66,54 +69,62 @@
                 this.fullName='';
                 this.email= '';
                 this.phoneNumber='';
-                this.firstPassWord='';
-                this.passWord='';
+                this.password='';
+                this.confirmPassword='';
                 this.key= '0';
                 this.agree= false;
             },
-            getData(){
-                if (this.userRole !=='' && this.fullName!=='' && this.email!=='' && this.passWord!=='' && this.key!=='0' && this.firstPassWord === this.passWord && this.agree===true){
-                    this.registerFormValue.push(this.userRole, this.fullName, this.email, this.passWord, this.phoneNumber, this.key);
-                    this.registrationDone= 'Welcome '+this.registerFormValue[1]+'!';
-                }
-            },
-            newUserPost(e) {
-                this.getData();
-                e.preventDefault();
-                let currentObj = this;
-                this.axios.post('http://127.0.0.1:3000/api/users/', {
-                                userRole:this.registerFormValue[0],
-                                fullName: this.registerFormValue[1],
-                                email: this.registerFormValue[2],
-                                passWord: this.registerFormValue[3],
-                                phoneNumber: this.registerFormValue[4],
-                                level: this.registerFormValue[5]
-                })
-                    .then(function (response) {
-                        currentObj.output = response.data;
-                    })
-                    .catch(function (error) {
-                        currentObj.output = error;
+            async register() {
+              const checkFields = await AuthServices.requiredFields({
+                userRole: this.userRole,
+                fullName: this.fullName,
+                email: this.email,
+                password: this.password,
+                confirmPassword: this.confirmPassword
+
+              });
+              if (!checkFields.data.isFilled) {
+                this.validation = checkFields.data.message;
+              } else {
+                const verifyEmail = await AuthServices.checkEmail({
+                  email: this.email,
+                });
+                if (!verifyEmail.data.isValid) {
+                  this.validation = verifyEmail.data.message;
+                  this.email='';
+                } else {
+                  const verifyPass = await AuthServices.verifyPasswords({
+                    password: this.password,
+                    confirmPassword: this.confirmPassword
+                  });
+                  if (!verifyPass.data.isIdentical) {
+                    this.validation = verifyPass.data.message;
+                    this.password='';
+                    this.confirmPassword = '';
+                  } else {
+                    await AuthServices.register({
+                      userRole: this.userRole,
+                      fullName: this.fullName,
+                      email: this.email,
+                      password: this.confirmPassword,
+                      phoneNumber: this.phoneNumber,
+                      schoolLevel: this.key
                     });
-                this.emptyForm();
+                    this.validation ='';
+                    this.welcomeMessage = 'Welcome ' + this.fullName + '!';
+                    this.emptyForm();
+                    this.isNotRegistered = false;
+                  }
+                }
+
+              }
             }
         },
-        mounted() {
-            fetch('http://127.0.0.1:3000/api/users/')
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log(data.users);
-                    this.users = data.users;
-                });
-            console.log('Component mounted.');
-        }
     }
+    import AuthServices from '../services/ApiServices';
 </script>
-
 <style scoped>
-    input[type=text], input[type=password], input[type=checkbox], select, textarea {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox], select, textarea, .label {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -121,24 +132,22 @@
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: wheat;
+        background: blanchedalmond;
         color: dimgray;
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: bold;
         width: 100%;
         height: 40px;
     }
-    label{
-        padding: 5px;
-        margin-top: 2px;
-        margin-bottom: 2px;
-        text-align: center;
-        width: 100%;
+    p{
+        font-family: Calibri, monospace;
+        font-weight: normal;
+        color: #04d279;
     }
-    h4{
-        font-family: "Times New Roman", monospace;
-        font-weight: bold;
-        color: #3d8cb5;
+    #validation{
+        font-family: Calibri, monospace;
+        font-weight: normal;
+        color: #cf042d;
     }
     .vl {
         border-left: 2px solid dimgray;
@@ -150,7 +159,7 @@
     }
     input[type=submit] {
         background-color: #333333;
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: bold;
         color: #02b3b3;
         border-radius: 6px;
@@ -169,9 +178,9 @@
         width: 100%;
     }
     span{
-        font-family: "Times New Roman", monospace;
-        font-weight: bold;
-        color: dimgray;
+        font-family: Calibri, monospace;
+        font-weight: bolder;
+        color: #818181;
     }
     ::-webkit-input-placeholder { /* Edge */
         color: #fced62;
