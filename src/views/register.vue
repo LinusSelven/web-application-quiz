@@ -194,6 +194,9 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
+        .item3{
+            padding: 10px 10px 10px 10px;
+        }
         .register {
             width: 60%;
         }
