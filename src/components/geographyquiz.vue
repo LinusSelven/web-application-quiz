@@ -9,19 +9,23 @@
                 </h2>
             </div>
             <div class="q-answer">
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="1">{{quiz[questionNumber].quizAnswer1}}
+                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{quiz[questionNumber].quizAnswer1}}
                 </button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="2">{{quiz[questionNumber].quizAnswer2}}
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{quiz[questionNumber].quizAnswer2}}
                 </button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="3">{{quiz[questionNumber].quizAnswer3}}
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{quiz[questionNumber].quizAnswer3}}
                 </button>
             </div>
             <div class="q-question">
                 <h3 class="right-answer" v-if="correctAnswer">Rätt svar!</h3>
                 <p></p>
                 <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
-                <h3>{{correctAnswers}} / {{quiz.length}}</h3>
+                <h3>{{countOfCorrectAnswers}} / {{quiz.length}}</h3>
             </div>
+<<<<<<< HEAD
+=======
+        </section>
+>>>>>>> master
     </div>
 </template>
 
@@ -33,21 +37,24 @@
                 quiz: [],
                 questionNumber: 0,
                 correctAnswer: false,
-                correctAnswers: 0
+                countOfCorrectAnswers: 0,
+                userHasGuessed: false
             }
         },
 
         methods: {
 
             nextQuestion: function () {
+                this.userHasGuessed = false;
                 this.correctAnswer = false;
                 return this.questionNumber += 1;
             },
 
 
-            isCorrectAnswer: function (e) {
+            userChoseAnswer: function (e) {
+                this.userHasGuessed = true;
                 if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer) {
-                    this.correctAnswers += 1;
+                    this.countOfCorrectAnswers += 1;
                     return this.correctAnswer = true;
                 }
             },
@@ -68,6 +75,7 @@
                     this.quiz = data.quiz;
                 });
         }
+
     }
 </script>
 
@@ -142,5 +150,10 @@
             height: 50px;
         }
     }
+
+    .selectedanswer {
+        background-color: #212121;
+    }
+
 
 </style>

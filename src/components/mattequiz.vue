@@ -10,11 +10,19 @@
                 </h2>
             </div>
             <div class="q-answer">
+<<<<<<< HEAD
                 <button class="q-btn" @click="isCorrectAnswer($event)" value="1">{{matteQuiz[questionNumber].quizAnswer1}}
                 </button>
                 <button class="q-btn" @click="isCorrectAnswer($event)" value="2">{{matteQuiz[questionNumber].quizAnswer2}}
                 </button>
                 <button class="q-btn" @click="isCorrectAnswer($event)" value="3">{{matteQuiz[questionNumber].quizAnswer3}}
+=======
+                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{mattequiz[questionNumber].quizAnswer1}}
+                </button>
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{mattequiz[questionNumber].quizAnswer2}}
+                </button>
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{mattequiz [questionNumber].quizAnswer3}}
+>>>>>>> master
                 </button>
             </div>
             <div class="q-question">
@@ -34,20 +42,28 @@
                 matteQuiz: [],
                 questionNumber: 0,
                 correctAnswer: false,
-                correctAnswers: 0
+                correctAnswers: 0,
+                userHasGuessed: false
             }
         },
 
         methods: {
 
             nextQuestion: function () {
+                this.userHasGuessed = false;
                 this.correctAnswer = false;
                 return this.questionNumber += 1;
             },
 
 
+<<<<<<< HEAD
             isCorrectAnswer: function (e) {
                 if (e.target.value == this.matteQuiz[this.questionNumber].quizCorrectAnswer) {
+=======
+            userChoseAnswer: function (e) {
+                this.userHasGuessed = true
+                if (e.target.value == this.mattequiz[this.questionNumber].quizCorrectAnswer) {
+>>>>>>> master
                     this.correctAnswers += 1;
                     return this.correctAnswer = true;
                 }

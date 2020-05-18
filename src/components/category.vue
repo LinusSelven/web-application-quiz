@@ -46,12 +46,17 @@
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
+<<<<<<< HEAD:src/components/category.vue
     .category{
       width: 60%;
       margin-left:auto;
       margin-right:auto;
       text-align: center;
 
+=======
+    .item3{
+      padding: 10px 10px 10px 10px;
+>>>>>>> master:src/views/category.vue
     }
     .btn{
       width: 48.5%;
@@ -60,4 +65,7 @@
       background-color: #333333;
     }
   }
+
+
+
 </style>

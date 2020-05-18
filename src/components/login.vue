@@ -261,6 +261,9 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
+        .item3{
+            padding: 10px 10px 10px 10px;
+        }
         .signIn{
             border: 1px solid #02b3b3;
             border-radius: 10px;
@@ -286,5 +289,11 @@
         table {
             width: 50%;
         }
+
     }
+
+
+
+
+
 </style>
