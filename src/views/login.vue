@@ -3,58 +3,57 @@
     <div>
         <section class="item3">
     <div class="signIn" >
-
-
-    <form >
         <table class="center">
             <tr>
-                <td><p>Error Message</p></td>
+                <td><p id="errorMsg">{{errorMessage}}</p></td>
             </tr>
             <tr>
-                <td><input value="Användarnamn" type="text" name="user-log" v-model="email"></td>
+                <td><input value="email" type="email" name="user-log" v-model="email"></td>
             </tr>
             <tr>
-                <td><input value="Lösenord" type="password" name="user-log" v-model="passWord"></td>
+                <td><input value="password" type="password" name="user-log" v-model="password"></td>
             </tr>
             <tr>
                 <td><input name="rememberMe" type="checkbox" value="Remember Me"> Jag vill förbli inloggad</td>
             </tr>
             <tr>
-                <td><input type="submit" name="login" value="Logga in"></td>
+                <td><input type="button" @click="submitForm" value="login"></td>
             </tr>
             <tr><td></td></tr>
             <tr>
-                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp; <a class="vl"></a>&nbsp; Inget konto!  <a v-on:click="registerButton()" rel="register">Registrera!</a></td>
+                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; Inget konto! <a v-on:click="registerButton()" rel="register">Registrera!</a></td>
             </tr>
 
         </table>
-    </form>
     </div>
         </section>
     </div>
 </template>
 
 <script>
-    export default {
+  export default {
         name: "login",
         data: function () {
             return{
                 email:'',
-                passWord:'',
-                exist: false,
-                users:[],
+                password:'',
+              errorMessage:'',
             }
         },
         methods:{
-            checkUserName(){
-                for (let i=0; i<this.users.length;i++){
-                    if (this.users[i] === this.email){
-                        this.exist = true;
-                    }
-                }
-            }
+              async submitForm() {
+                    const response = await AuthServices.login({
+                      email: this.email,
+                      password: this.password
+                    });
+                    this.errorMessage = response.data.message;
+                    this.email = '';
+                    this.password = '';
+              }
+
         }
-    }
+  }
+  import AuthServices from '../services/ApiServices';
 </script>
 
 <style scoped>
@@ -91,6 +90,11 @@
         color:#999999;
 
     }
+    #errorMsg{
+        font-family: "Times New Roman", monospace;
+        font-weight: normal;
+        color: #0b5b5b;
+    }
 
     .submit-log{
         background:#02b3b3;
@@ -102,7 +106,7 @@
         font-size:15px;
         color:#FFFFFF; }
 
-    input[type=text], input[type=password], input[type=checkbox], select, textarea {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox] {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -110,7 +114,7 @@
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: wheat;
+        background: blanchedalmond;
         color: dimgray;
         font-family: "Times New Roman", monospace;
         font-weight: bold;
@@ -132,7 +136,7 @@
         height: auto;
         width: auto;
     }
-    input[type=submit] {
+    input[type=button] {
         background-color: #333333;
         font-family: "Times New Roman", monospace;
         font-weight: bold;
@@ -143,7 +147,7 @@
         cursor: pointer;
     }
 
-    input[type=submit]:hover {
+    input[type=button]:hover {
         background-color: #0b5b5b;
         color: wheat;
     }

@@ -4,9 +4,11 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from './router'
 import store from './store'
+import Login from './views/login'
 
-Vue.use(VueAxios, axios)
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.use(VueAxios, axios);
+Vue.component('app-login', Login);
 
 new Vue({
   router,
