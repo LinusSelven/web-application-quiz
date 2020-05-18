@@ -22,10 +22,6 @@
                 <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
                 <h3>{{countOfCorrectAnswers}} / {{quiz.length}}</h3>
             </div>
-<<<<<<< HEAD
-=======
-        </section>
->>>>>>> master
     </div>
 </template>
 
@@ -53,7 +49,7 @@
 
             userChoseAnswer: function (e) {
                 this.userHasGuessed = true;
-                if (e.target.value == this.quiz[this.questionNumber].quizCorrectAnswer) {
+                if (e.target.value === this.quiz[this.questionNumber].quizCorrectAnswer) {
                     this.countOfCorrectAnswers += 1;
                     return this.correctAnswer = true;
                 }
@@ -149,10 +145,6 @@
             width: 30%;
             height: 50px;
         }
-    }
-
-    .selectedanswer {
-        background-color: #212121;
     }
 
 

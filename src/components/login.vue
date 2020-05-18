@@ -183,11 +183,6 @@
     table tbody tr:nth-child(2n) td {
 
     }
-
-
-
-
-    /*  Aisha style */
     .login{
         text-align: center;
         margin-left:auto;
@@ -204,55 +199,6 @@
         color: #0b5b5b;
     }
 
-    .user-log{
-        background: #FFFFFF;
-        border-radius: 10px;
-        width:350px;
-        height:30px;
-        padding:5px;
-        font-size:15px;
-        color:#999999;
-
-    }
-
-    .submit-log{
-        background:#02b3b3;
-        border-radius: 10px;
-        border:none;
-        width:355px;
-        height:40px;
-        cursor:pointer;
-        font-size:15px;
-        color:#FFFFFF; }
-
-    .q-question{
-        color: #02b3b3;
-    }
-    .q-img{
-        margin: 0 auto;
-        width: 250px;
-    }
-    .q-answer{
-        text-align: center;
-        margin-left:auto;
-        margin-right:auto;
-    }
-    .q-btn{
-        width: 10%;
-        background-color: #333333;
-        font-size: 20px;
-        color: #02b3b3;
-        height: 50px;
-
-    }
-    .q-btn:hover {
-        background-color: #0b5b5b;
-        color: wheat;
-        cursor: pointer;
-    }
-
-
-
     /* Mobile */
     @media screen and (max-width: 400px) {
     }
@@ -261,9 +207,6 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .item3{
-            padding: 10px 10px 10px 10px;
-        }
         .signIn{
             border: 1px solid #02b3b3;
             border-radius: 10px;

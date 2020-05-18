@@ -1,11 +1,9 @@
 <template>
   <div class="category" >
-
     <router-link to="/mattequiz"><button class="btn">Matematik</button></router-link>
     <router-link to="/geographyquiz"><button class="btn">Geografi</button></router-link>
     <button class="btn">Svenska</button>
     <button class="btn">Engelska</button>
-
   </div>
 </template>
 
@@ -46,17 +44,11 @@
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
-<<<<<<< HEAD:src/components/category.vue
-    .category{
+    .category {
       width: 60%;
-      margin-left:auto;
-      margin-right:auto;
+      margin-left: auto;
+      margin-right: auto;
       text-align: center;
-
-=======
-    .item3{
-      padding: 10px 10px 10px 10px;
->>>>>>> master:src/views/category.vue
     }
     .btn{
       width: 48.5%;
