@@ -7,7 +7,13 @@ export default{
   register(credentials){
     return Api().post('users/', credentials)
   },
+  requiredFields(credentials){
+    return Api().post('fields', credentials)
+  },
   checkEmail(credentials){
     return Api().post('email', credentials)
+  },
+  verifyPasswords(credentials){
+    return Api().post('passwords', credentials)
   }
 }

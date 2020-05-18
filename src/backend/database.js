@@ -148,7 +148,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 // Table already created
             } else {
                 const insert = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
-                db.run(insert, ["admin",
+                db.run(insert, ["Admin",
                     "Halim Dakir",
                     "halim.halim@iths.se",
                     "123456",

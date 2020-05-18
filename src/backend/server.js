@@ -174,8 +174,9 @@ app.delete("/api/quiz/:id", (req, res, next) => {
     });
 })
 
-/* Users Handling */
 
+
+/* Users Handling */
 app.get('/api/users', session_Status, (req, res, next) => {
     const sql = "select * from users";
     const params = [];
@@ -205,17 +206,38 @@ app.get('/api/users/:id', session_Status, (request, response, next) => {
 
     });
 })
+app.post('/api/fields', (request, response, next) => {
+    const userData = {
+        userRole: request.body.userRole,
+        fullName: request.body.fullName,
+        email: request.body.email,
+        password: request.body.password,
+        confirmPassword: request.body.confirmPassword,
+    }
+    if (userData.userRole &&userData.fullName &&  userData.email && userData.password && userData.confirmPassword ) {
+                response.send({
+                    isFilled: true,
+                });
+
+    }else {
+            response.send({
+                isFilled: false,
+                message: `fill all required fields!`
+            });
+    }
+    response.end();
+})
 app.post('/api/email', (request, response, next) => {
     const userData = {
         email: request.body.email,
     }
-        db.get('SELECT * FROM users WHERE email = ?', [userData.email], function(error, row) {
+        db.get('SELECT * FROM users WHERE email = ?', [userData.email], function (error, row) {
             if (row) {
                 response.send({
                     isValid: false,
-                    message:`This email is already exist!`
+                    message: `This email is already exist!`
                 });
-            }else {
+            } else {
                 response.send({
                     isValid: true,
                     message: `This email is valid!`
@@ -224,12 +246,30 @@ app.post('/api/email', (request, response, next) => {
             response.end();
         });
 })
+app.post('/api/passwords', (request, response, next) => {
+    const userData = {
+        password: request.body.password,
+        confirmPassword: request.body.confirmPassword,
+    }
+            if (userData.confirmPassword !== userData.password ) {
+                response.send({
+                    isIdentical: false,
+                    message: `Your passwords are not identical!`
+                });
+            } else {
+                response.send({
+                    isIdentical: true,
+                    message: `Your passwords are identical!`
+                });
+            }
+            response.end();
+})
 app.post('/api/users/', (req, res, next) => {
     const userData = {
         userRole: req.body.userRole,
         fullName: req.body.fullName,
         email: req.body.email,
-        password: req.body.password,
+        password: req.body.confirmPassword,
         phoneNumber: req.body.phoneNumber,
         schoolLevel: req.body.schoolLevel,
     }
@@ -304,8 +344,9 @@ app.post('/api/auth', function(request, response) {
                 request.session.loggedin = true;
                 request.session.userId = row.userId;
                 request.session.username = row.fullName;
+                request.session.userRole = row.userRole;
                 response.send({
-                    message:`Welcome: ${request.session.username}`
+                    message:`Welcome: ${request.session.username} , You are: ${request.session.userRole}`
                 });
             } else {
                 response.send({

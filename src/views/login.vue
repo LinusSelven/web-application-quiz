@@ -21,7 +21,7 @@
             </tr>
             <tr><td></td></tr>
             <tr>
-                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp; <a class="vl"></a>&nbsp; Inget konto!  <a v-on:click="registerButton()" rel="register">Registrera!</a></td>
+                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; Inget konto! <a v-on:click="registerButton()" rel="register">Registrera!</a></td>
             </tr>
 
         </table>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-  import AuthServices from '../services/ApiServices'
   export default {
         name: "login",
         data: function () {
@@ -53,7 +52,8 @@
               }
 
         }
-    }
+  }
+  import AuthServices from '../services/ApiServices';
 </script>
 
 <style scoped>
@@ -114,7 +114,7 @@
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: wheat;
+        background: blanchedalmond;
         color: dimgray;
         font-family: "Times New Roman", monospace;
         font-weight: bold;

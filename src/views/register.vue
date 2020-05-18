@@ -6,19 +6,19 @@
         <p>{{welcomeMessage}}</p>
         <p id="validation">{{validation}}</p>
         <article v-show="isNotRegistered">
-                <label>
-                    <input type="radio" id="one" value="teacher" v-model="userRole">
-                    <label for="one"><span>I'm teacher</span></label>
-                    <a class="vl"></a>
-                    <input type="radio" id="two" value="student" v-model="userRole">
-                    <label for="two"><span>I'm student</span></label>
-            </label>
-            <input type="text" id="fullName" name="fullName" placeholder="Full Name" v-model="fullName" required>
-            <input type="email" id="email" name="email" placeholder="E-mail" v-model="email" required>
-            <input type="password" id="passWord" name="passWord" placeholder="Password" v-model="password" minlength="6" required>
-            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password" v-model="ConfirmPassword" minlength="6" required>
+                <article class="label">
+                        <input type="radio" id="one" value="Teacher" v-model="userRole">
+                        <label for="one"><span>Teacher </span></label>&nbsp;
+                         <a class="vl"></a>
+                        <input type="radio" id="two" value="Student" v-model="userRole">
+                        <label for="two"><span>&nbsp;Student</span></label>
+                </article>
+            <input type="text" id="fullName" name="fullName" placeholder="Full Name*" v-model="fullName" required>
+            <input type="email" id="email" name="email" placeholder="E-mail*" v-model="email" required>
+            <input type="password" id="passWord" name="passWord" placeholder="Password*" v-model="password" minlength="6" required>
+            <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password*" v-model="confirmPassword" minlength="6" required>
             <input type="text" id="phone" name="phone" placeholder="Phone Number" v-model="phoneNumber">
-            <select id="destination" name="country" @change="onChange($event)" v-model="key" >
+            <select id="destination" name="country" @change="onChange($event)" v-model="key">
                 <option value="0">Select your school level</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
@@ -30,7 +30,9 @@
                 <option value="8">8</option>
                 <option value="9">9</option>
             </select>
+            <article class="label">
             <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree / agreed with the terms and conditions.</span>
+            </article>
             <input type="submit" value="Save" @click.prevent="register()">
         </article>
     </div>
@@ -39,7 +41,6 @@
 </template>
 
 <script>
-    import AuthServices from '../services/ApiServices';
     export default {
         name: "register",
         data: function () {
@@ -49,8 +50,8 @@
                 fullName:'',
                 email: '',
                 phoneNumber:'',
-                ConfirmPassword:'',
                 password:'',
+                confirmPassword:'',
                 key: '0',
                 agree: false,
                 errors: [],
@@ -67,44 +68,62 @@
                 this.fullName='';
                 this.email= '';
                 this.phoneNumber='';
-                this.ConfirmPassword='';
                 this.password='';
+                this.confirmPassword='';
                 this.key= '0';
                 this.agree= false;
             },
             async register() {
-                  if (this.password === this.ConfirmPassword) {
-                        const response = await AuthServices.checkEmail({
-                          email: this.email,
-                        });
-                        if (!response.data.isValid){
-                          this.validation = response.data.message ;
-                        }else {
-                              await AuthServices.register({
-                                userRole: this.userRole,
-                                fullName: this.fullName,
-                                email: this.email,
-                                password: this.ConfirmPassword,
-                                phoneNumber: this.phoneNumber,
-                                schoolLevel: this.key
-                              });
-                              this.validation ='';
-                              this.welcomeMessage = 'Welcome ' + this.fullName + '!';
-                              this.isNotRegistered = false;
-                              this.emptyForm();
-                        }
+              const checkFields = await AuthServices.requiredFields({
+                userRole: this.userRole,
+                fullName: this.fullName,
+                email: this.email,
+                password: this.password,
+                confirmPassword: this.confirmPassword
 
-                  }else {
-                          this.validation = 'Your passwords are not identical ';
+              });
+              if (!checkFields.data.isFilled) {
+                this.validation = checkFields.data.message;
+              } else {
+                const verifyEmail = await AuthServices.checkEmail({
+                  email: this.email,
+                });
+                if (!verifyEmail.data.isValid) {
+                  this.validation = verifyEmail.data.message;
+                  this.email='';
+                } else {
+                  const verifyPass = await AuthServices.verifyPasswords({
+                    password: this.password,
+                    confirmPassword: this.confirmPassword
+                  });
+                  if (!verifyPass.data.isIdentical) {
+                    this.validation = verifyPass.data.message;
+                    this.password='';
+                    this.confirmPassword = '';
+                  } else {
+                    await AuthServices.register({
+                      userRole: this.userRole,
+                      fullName: this.fullName,
+                      email: this.email,
+                      password: this.confirmPassword,
+                      phoneNumber: this.phoneNumber,
+                      schoolLevel: this.key
+                    });
+                    this.validation ='';
+                    this.welcomeMessage = 'Welcome ' + this.fullName + '!';
+                    this.emptyForm();
+                    this.isNotRegistered = false;
                   }
+                }
 
+              }
             }
         },
     }
+    import AuthServices from '../services/ApiServices';
 </script>
-
 <style scoped>
-    input[type=text], input[type=email], input[type=password], input[type=checkbox], select, textarea {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox], select, textarea, .label {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -112,27 +131,20 @@
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: wheat;
+        background: blanchedalmond;
         color: dimgray;
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: bold;
         width: 100%;
         height: 40px;
     }
-    label{
-        padding: 5px;
-        margin-top: 2px;
-        margin-bottom: 2px;
-        text-align: center;
-        width: 100%;
-    }
     p{
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: normal;
         color: #04d279;
     }
     #validation{
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: normal;
         color: #cf042d;
     }
@@ -146,7 +158,7 @@
     }
     input[type=submit] {
         background-color: #333333;
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: bold;
         color: #02b3b3;
         border-radius: 6px;
@@ -165,8 +177,8 @@
         width: 100%;
     }
     span{
-        font-family: "Times New Roman", monospace;
-        font-weight: bold;
+        font-family: Calibri, monospace;
+        font-weight: bolder;
         color: dimgray;
     }
     ::-webkit-input-placeholder { /* Edge */
