@@ -18,10 +18,10 @@
                 </button>
             </div>
             <div class="q-question">
-                <h3 class="right-answer" v-if="correctAnswer">{{feedback}}</h3>
+                <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
-                <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
-                <h3>{{correctAnswers}} / {{matteQuiz.length}}</h3>
+                <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (matteQuiz.length-1)">Nästa fråga</button>
+                <h3>Your score: {{countOfCorrectAnswers}} / {{matteQuiz.length}}</h3>
             </div>
     </div>
 </template>
@@ -33,29 +33,28 @@
             return {
                 matteQuiz: [],
                 questionNumber: 0,
-                correctAnswer: false,
-                correctAnswers: 0,
+                countOfCorrectAnswers: 0,
                 userHasGuessed: false,
-                feedback:'',
+                key:'0',
+                resultat:'',
             }
         },
 
         methods: {
 
             nextQuestion: function () {
-                this.userHasGuessed = false;
-                this.correctAnswer = false;
-                return this.questionNumber += 1;
+              this.userHasGuessed = false;
+              this.resultat = '';
+              this.key='0';
+              this.questionNumber += 1;
             },
             userChoseAnswer: function (e) {
                 this.userHasGuessed = true
-                if (e.target.value === this.matteQuiz[this.questionNumber].quizCorrectAnswer) {
-                  this.feedback ='Rätt svar!';
-                    this.correctAnswers += 1;
-                    return this.correctAnswer = true;
-                }
-              else {
-                  this.feedback ='Fel svar!';
+                if (e.target.value == this.matteQuiz[this.questionNumber].quizCorrectAnswer) {
+                  this.countOfCorrectAnswers += 1;
+                  this.resultat = 'Rätt svar!';
+                } else {
+                   this.resultat = 'Fel svar!';
                 }
             },
 
@@ -133,7 +132,7 @@
         color: wheat;
     }
     .right-answer{
-        color: #1b9b52;
+        color: #06d4ee;
     }
     /* Mobile */
     @media screen and (max-width: 400px) {

@@ -17,10 +17,10 @@
                 </button>
             </div>
             <div class="q-question">
-                <h3 class="right-answer" v-if="correctAnswer">Rätt svar!</h3>
+                <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
-                <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
-                <h3>{{countOfCorrectAnswers}} / {{quiz.length}}</h3>
+                <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (quiz.length-1)">Nästa fråga</button>
+                <h3>Your score: {{countOfCorrectAnswers}} / {{quiz.length}}</h3>
             </div>
     </div>
 </template>
@@ -32,26 +32,29 @@
             return {
                 quiz: [],
                 questionNumber: 0,
-                correctAnswer: false,
                 countOfCorrectAnswers: 0,
-                userHasGuessed: false
+                userHasGuessed: false,
+                key:'0',
+                resultat:'',
             }
         },
 
         methods: {
-
             nextQuestion: function () {
                 this.userHasGuessed = false;
-                this.correctAnswer = false;
-                return this.questionNumber += 1;
+                this.resultat = '';
+                this.key='0';
+               this.questionNumber += 1;
             },
 
 
-            userChoseAnswer: function (e) {
+            userChoseAnswer: function (event) {
                 this.userHasGuessed = true;
-                if (e.target.value === this.quiz[this.questionNumber].quizCorrectAnswer) {
+                if (event.target.value == this.quiz[this.questionNumber].quizCorrectAnswer) {
                     this.countOfCorrectAnswers += 1;
-                    return this.correctAnswer = true;
+                    return this.resultat = 'Rätt svar!';
+                } else {
+                  return this.resultat = 'Fel svar!';
                 }
             },
 
@@ -124,7 +127,7 @@
         color: wheat;
     }
     .right-answer{
-        color: #1b9b52;
+        color: #06d4ee;
     }
     /* Mobile */
     @media screen and (max-width: 400px) {
