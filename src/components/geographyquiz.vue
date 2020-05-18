@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <section class="item3">
+    <div class="quiz-Geo">
             <div class="q-question">
                 <h2>{{quiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -18,12 +17,11 @@
                 </button>
             </div>
             <div class="q-question">
-                <h3 v-if="correctAnswer">Rätt svar!</h3>
+                <h3 class="right-answer" v-if="correctAnswer">Rätt svar!</h3>
+                <p></p>
                 <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
                 <h3>{{correctAnswers}} / {{quiz.length}}</h3>
             </div>
-        </section>
-
     </div>
 </template>
 
@@ -75,12 +73,6 @@
 
 
 <style scoped>
-
-    .item3 {
-        padding: 10px 5px 10px 5px;
-        grid-area: sidebar;
-    }
-
     .q-question {
         color: #02b3b3;
     }
@@ -97,11 +89,58 @@
     }
 
     .q-btn {
-        width: 10%;
+        width: 100%;
+        margin-right: 5px;
+        margin-top: 5px;
         background-color: #333333;
+        font-family: "Times New Roman", monospace;
         font-size: 20px;
-        color: #02b3b3;
-        height: 50px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+    }
+    .q-btn:hover {
+        background-color: #e9e608;
+        color: black;
+        cursor: pointer;
+    }
+    .quiz-Geo{
+        background: rgba(0, 0, 0, .7);
+        border-radius: 10px;
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+    p{
+        margin-bottom: 20px;
+    }
+    h2, h3{
+        font-family: "Times New Roman", monospace;
+        color: wheat;
+    }
+    .right-answer{
+        color: #1b9b52;
+    }
+    /* Mobile */
+    @media screen and (max-width: 400px) {
+    }
+    /* Tablet */
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+    }
+    /* Desktop */
+    @media screen and (min-width: 1025px) {
+        .quiz-Geo{
+            border: 1px solid #02b3b3;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, .6);
+            padding: 10px;
+            width: 60%;
+        }
+        .q-btn {
+            width: 30%;
+            height: 50px;
+        }
     }
 
 </style>

@@ -3,7 +3,7 @@
 
     <section class="item1">
       <div class="logo-box">
-      <img src="./assets/logo.png" alt="Logo" class="logo">
+      <img src="./assets/logo.png" alt="Logo" class="logo-img">
       <span class="slag">DET SKA VARA KUL ATT PLUGGA!</span>
       </div>
     </section>
@@ -27,7 +27,7 @@
             <a href="#">Rate us</a>
             <a href="#">Sign in</a>
           </div>
-          <a href="javascript:void(0);" class="icon" @click="myFunction">
+          <a href="javascript:void(0);" class="icon" @click="mobilMenu">
             <img src="./assets/icons.png" alt="menu" class="menuIcon">
           </a>
         </div>
@@ -46,10 +46,11 @@
   export default {
     name: "App",
     data: function () {
-      return {}
+      return {
+      }
     },
       methods: {
-        myFunction() {
+        mobilMenu() {
           const x = document.getElementById("links");
           if (x.style.display === "block") {
             x.style.display = "none";
@@ -102,7 +103,7 @@
     background-color: #02b3b3;
     color: whitesmoke;
   }
-  /*dektop*/
+  /*desktop*/
   ul {
     list-style-type: none;
     margin: 0;
@@ -165,9 +166,9 @@
   }
 
   .item3 {
-    padding: 10px 5px 10px 5px;
+    //padding: 10px 5px 10px 5px;
     grid-area: sidebar;
-    background: url('./assets/50.jpg') no-repeat;
+    background: url('./assets/qui.jpg') no-repeat;
     background-size: 100% 100%;
   }
 
@@ -189,7 +190,7 @@
     color: #02b3b3;
     font-family: Impact, monospace;
   }
-  .logo{
+  .logo-img{
     max-width: 100%;
     max-height: 100%;
     display: block;
@@ -227,7 +228,7 @@
     .item3 {
       padding: 10px 5px 10px 5px;
       grid-area: sidebar;
-      background: url('./assets/50.jpg') no-repeat;
+      background: url('./assets/qui.jpg') no-repeat;
       background-size: 100% 100%;
     }
     .logo-box{

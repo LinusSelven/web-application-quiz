@@ -1,5 +1,4 @@
 <template>
-
     <div class="register" >
         <p>{{registrationStatus}}</p>
         <p id="validation">{{validation}}</p>
@@ -124,7 +123,7 @@
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
-        border: 1px solid rgb(249, 250, 250);
+        border: 1px solid rgb(7, 172, 172);
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
@@ -144,7 +143,7 @@
     #validation{
         font-family: Calibri, monospace;
         font-weight: normal;
-        color: #cf042d;
+        color: #f60334;
     }
     .vl {
         border-left: 2px solid dimgray;
@@ -161,15 +160,16 @@
         font-family: Calibri, monospace;
         font-weight: bold;
         color: #02b3b3;
-        border-radius: 6px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
         width: 100%;
         height: 40px;
         cursor: pointer;
     }
 
     input[type=submit]:hover {
-        background-color: #0b5b5b;
-        color: wheat;
+        background-color: #e9e608;
+        color: black;
     }
 
     .register {
@@ -203,9 +203,9 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .register {
-            border: 2px solid #ccc;
+            border: 1px solid #02b3b3;
             border-radius: 10px;
-            background: rgba(0, 0, 0, .6);
+            background: rgba(0, 0, 0, 0.7);
             padding: 10px;
             width: 60%;
         }
@@ -213,7 +213,7 @@
             padding: 10px;
             margin-top: 2px;
             margin-bottom: 2px;
-            border: 1px solid rgb(249, 250, 250);
+            border: 1px solid rgb(7, 172, 172);
             border-radius: 4px;
             box-sizing: border-box;
             resize: vertical;

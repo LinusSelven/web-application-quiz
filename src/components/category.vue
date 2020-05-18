@@ -17,12 +17,12 @@
 
 <style scoped>
   .category{
-    background: rgba(0, 0, 0, .9);
     text-align: center;
     margin-left:auto;
     margin-right:auto;
   }
   .btn{
+    border: 1px solid rgb(7, 172, 172);
     margin-bottom: 5px;
     width: 100%;
     background-color: #333333;
@@ -50,9 +50,6 @@
       width: 60%;
       margin-left:auto;
       margin-right:auto;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, .6);
       text-align: center;
 
     }

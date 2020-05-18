@@ -49,8 +49,8 @@ app.get("/api/quiz", (req, res, next) => {
         })
       });
 });
-app.get("/api/mattequiz", (req, res, next) => {
-    var sql = "select * from mattequiz"
+app.get("/api/matteQuiz", (req, res, next) => {
+    var sql = "select * from matteQuiz"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -94,8 +94,8 @@ app.get("/api/quiz/:id", (req, res, next) => {
       });
 });
 
-app.get("/api/mattequiz/:id", (req, res, next) => {
-    var sql = "select * from mattequiz where quizId = ?"
+app.get("/api/matteQuiz/:id", (req, res, next) => {
+    var sql = "select * from matteQuiz where quizId = ?"
     var params = [req.params.id]
     db.get(sql, params, (err, row) => {
         if (err) {
