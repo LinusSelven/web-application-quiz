@@ -10,26 +10,18 @@
                 </h2>
             </div>
             <div class="q-answer">
-<<<<<<< HEAD
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="1">{{matteQuiz[questionNumber].quizAnswer1}}
+                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{matteQuiz[questionNumber].quizAnswer1}}
                 </button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="2">{{matteQuiz[questionNumber].quizAnswer2}}
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{matteQuiz[questionNumber].quizAnswer2}}
                 </button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="3">{{matteQuiz[questionNumber].quizAnswer3}}
-=======
-                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{mattequiz[questionNumber].quizAnswer1}}
-                </button>
-                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{mattequiz[questionNumber].quizAnswer2}}
-                </button>
-                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{mattequiz [questionNumber].quizAnswer3}}
->>>>>>> master
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{matteQuiz [questionNumber].quizAnswer3}}
                 </button>
             </div>
             <div class="q-question">
-                <h3 class="right-answer" v-if="correctAnswer">Rätt svar!</h3>
+                <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
-                <button class="q-btn" @click="nextQuestion()">Nästa fråga</button>
-                <h3>{{correctAnswers}} / {{matteQuiz.length}}</h3>
+                <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (matteQuiz.length-1)">Nästa fråga</button>
+                <h3>Your score: {{countOfCorrectAnswers}} / {{matteQuiz.length}}</h3>
             </div>
     </div>
 </template>
@@ -41,31 +33,28 @@
             return {
                 matteQuiz: [],
                 questionNumber: 0,
-                correctAnswer: false,
-                correctAnswers: 0,
-                userHasGuessed: false
+                countOfCorrectAnswers: 0,
+                userHasGuessed: false,
+                key:'0',
+                resultat:'',
             }
         },
 
         methods: {
 
             nextQuestion: function () {
-                this.userHasGuessed = false;
-                this.correctAnswer = false;
-                return this.questionNumber += 1;
+              this.userHasGuessed = false;
+              this.resultat = '';
+              this.key='0';
+              this.questionNumber += 1;
             },
-
-
-<<<<<<< HEAD
-            isCorrectAnswer: function (e) {
-                if (e.target.value == this.matteQuiz[this.questionNumber].quizCorrectAnswer) {
-=======
             userChoseAnswer: function (e) {
                 this.userHasGuessed = true
-                if (e.target.value == this.mattequiz[this.questionNumber].quizCorrectAnswer) {
->>>>>>> master
-                    this.correctAnswers += 1;
-                    return this.correctAnswer = true;
+                if (e.target.value == this.matteQuiz[this.questionNumber].quizCorrectAnswer) {
+                  this.countOfCorrectAnswers += 1;
+                  this.resultat = 'Rätt svar!';
+                } else {
+                   this.resultat = 'Fel svar!';
                 }
             },
 
@@ -76,26 +65,20 @@
         },
 
         mounted() {
-            fetch('http://127.0.0.1:3000/api/mattequiz/')
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log(data.mattequiz);
-                    this.matteQuiz = data.mattequiz;
-                });
+          fetch('http://127.0.0.1:3000/api/mattequiz/')
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              console.log(data.mattequiz);
+              this.matteQuiz = data.mattequiz;
+            });
         }
     }
 </script>
 
 
 <style scoped>
-
-    .item3 {
-        padding: 10px 5px 10px 5px;
-        grid-area: sidebar;
-    }
-
     .q-question {
         color: #02b3b3;
     }
@@ -104,7 +87,6 @@
         margin: 0 auto;
         width: 200px;
         height: 200px;
-        margin-bottom: 20px;
     }
     img{
         max-width: 100%;
@@ -150,7 +132,7 @@
         color: wheat;
     }
     .right-answer{
-        color: #1b9b52;
+        color: #06d4ee;
     }
     /* Mobile */
     @media screen and (max-width: 400px) {
