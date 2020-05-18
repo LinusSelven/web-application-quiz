@@ -7,6 +7,7 @@
         <p id="validation">{{validation}}</p>
         <article v-show="isNotRegistered">
                 <article class="label">
+                    <span>I'm*&nbsp;</span>
                         <input type="radio" id="one" value="Teacher" v-model="userRole">
                         <label for="one"><span>Teacher </span></label>&nbsp;
                          <a class="vl"></a>
@@ -179,7 +180,7 @@
     span{
         font-family: Calibri, monospace;
         font-weight: bolder;
-        color: dimgray;
+        color: #818181;
     }
     ::-webkit-input-placeholder { /* Edge */
         color: #fced62;

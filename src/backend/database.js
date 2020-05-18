@@ -149,7 +149,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             } else {
                 const insert = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
                 db.run(insert, ["Admin",
-                    "Halim Dakir",
+                    "Halim Halim",
                     "halim.halim@iths.se",
                     "123456",
                     "0722000000",

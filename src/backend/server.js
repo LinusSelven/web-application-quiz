@@ -222,7 +222,7 @@ app.post('/api/fields', (request, response, next) => {
     }else {
             response.send({
                 isFilled: false,
-                message: `fill all required fields!`
+                message: `Fields (*) are required!`
             });
     }
     response.end();
