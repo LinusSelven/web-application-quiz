@@ -297,11 +297,20 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
+        .item3{
+            padding: 10px 10px 10px 10px;
+        }
         .signIn{
             width: 60%;
         }
         table {
             width: 50%;
         }
+
     }
+
+
+
+
+
 </style>

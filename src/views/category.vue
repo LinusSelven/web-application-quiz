@@ -52,10 +52,16 @@
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
+    .item3{
+      padding: 10px 10px 10px 10px;
+    }
     .btn{
       width: 40%;
       height: 250px;
       background-color: #333333;
     }
   }
+
+
+
 </style>
