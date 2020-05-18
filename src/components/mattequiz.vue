@@ -10,11 +10,11 @@
                 </h2>
             </div>
             <div class="q-answer">
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="1">{{mattequiz[questionNumber].quizAnswer1}}
+                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{mattequiz[questionNumber].quizAnswer1}}
                 </button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="2">{{mattequiz[questionNumber].quizAnswer2}}
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{mattequiz[questionNumber].quizAnswer2}}
                 </button>
-                <button class="q-btn" @click="isCorrectAnswer($event)" value="3">{{mattequiz[questionNumber].quizAnswer3}}
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{mattequiz [questionNumber].quizAnswer3}}
                 </button>
             </div>
             <div class="q-question">
@@ -35,19 +35,22 @@
                 mattequiz: [],
                 questionNumber: 0,
                 correctAnswer: false,
-                correctAnswers: 0
+                correctAnswers: 0,
+                userHasGuessed: false
             }
         },
 
         methods: {
 
             nextQuestion: function () {
+                this.userHasGuessed = false;
                 this.correctAnswer = false;
                 return this.questionNumber += 1;
             },
 
 
-            isCorrectAnswer: function (e) {
+            userChoseAnswer: function (e) {
+                this.userHasGuessed = true
                 if (e.target.value == this.mattequiz[this.questionNumber].quizCorrectAnswer) {
                     this.correctAnswers += 1;
                     return this.correctAnswer = true;
