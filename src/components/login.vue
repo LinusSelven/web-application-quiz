@@ -1,32 +1,27 @@
 <template>
-
-    <div>
-        <section class="item3">
     <div class="signIn" >
         <table class="center">
             <tr>
                 <td><p id="errorMsg">{{errorMessage}}</p></td>
             </tr>
             <tr>
-                <td><input value="email" type="email" name="user-log" v-model="email"></td>
+                <td><input value="email" type="email" name="user-log" v-model="email" placeholder="Email"></td>
             </tr>
             <tr>
-                <td><input value="password" type="password" name="user-log" v-model="password"></td>
-            </tr>
-            <tr>
-                <td><input name="rememberMe" type="checkbox" value="Remember Me"> Jag vill förbli inloggad</td>
+                <td><input value="password" type="password" name="user-log" v-model="password" placeholder="Password"></td>
             </tr>
             <tr>
                 <td><input type="button" @click="submitForm" value="login"></td>
             </tr>
+            <tr>
+                <td><input name="rememberMe" type="checkbox" value="Remember Me"><span>Jag vill förbli inloggad</span> </td>
+            </tr>
             <tr><td></td></tr>
             <tr>
-                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; Inget konto! <a v-on:click="registerButton()" rel="register">Registrera!</a></td>
+                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; <span>Inget konto! </span><a><router-link to="/register">Registrera!</router-link></a></td>
             </tr>
 
         </table>
-    </div>
-        </section>
     </div>
 </template>
 
@@ -57,18 +52,6 @@
 </script>
 
 <style scoped>
-    .item3 {
-        padding: 10px 5px 10px 5px;
-        grid-area: sidebar;
-    }
-    .login{
-        text-align: center;
-        margin-left:auto;
-        margin-right:auto;
-        padding:80px 5px 80px 5px;
-        grid-area: sidebar;
-
-    }
     .center{
         margin: 0 auto;
     }
@@ -79,47 +62,27 @@
     .login a:hover {
         color: #0b5b5b;
     }
-
-    .user-log{
-        background: #FFFFFF;
-        border-radius: 10px;
-        width:350px;
-        height:30px;
-        padding:5px;
-        font-size:15px;
-        color:#999999;
-
-    }
     #errorMsg{
-        font-family: "Times New Roman", monospace;
+        font-family: Calibri, monospace;
         font-weight: normal;
-        color: #0b5b5b;
+        color: #fa7c8b;
     }
-
-    .submit-log{
-        background:#02b3b3;
-        border-radius: 10px;
-        border:none;
-        width:355px;
-        height:40px;
-        cursor:pointer;
-        font-size:15px;
-        color:#FFFFFF; }
 
     input[type=text], input[type=email], input[type=password], input[type=checkbox] {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
-        border: 1px solid rgb(0, 31, 31);
+        border: 1px solid rgb(7, 172, 172);
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: blanchedalmond;
-        color: dimgray;
-        font-family: "Times New Roman", monospace;
+        background: rgba(5, 5, 5, 0.9);
+        color: wheat;
+        font-family: Calibri, monospace;
         font-weight: bold;
         width: 100%;
         height: 40px;
+        cursor: pointer;
     }
     label{
         padding: 5px;
@@ -137,19 +100,20 @@
         width: auto;
     }
     input[type=button] {
-        background-color: #333333;
+        background-color: #222222;
         font-family: "Times New Roman", monospace;
         font-weight: bold;
         color: #02b3b3;
-        border-radius: 6px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
         width: 100%;
         height: 40px;
         cursor: pointer;
     }
 
     input[type=button]:hover {
-        background-color: #0b5b5b;
-        color: wheat;
+        background-color: #e9e608;
+        color: black;
     }
 
     .register {
@@ -157,9 +121,9 @@
         width: 100%;
     }
     span{
-        font-family: "Times New Roman", monospace;
-        font-weight: bold;
-        color: dimgray;
+        font-family: Calibri, monospace;
+        font-weight: normal;
+        color: wheat;
     }
     ::-webkit-input-placeholder { /* Edge */
         color: #fced62;
@@ -170,7 +134,7 @@
     }
 
     ::placeholder {
-        color: dimgray;
+        color: wheat;
     }
 
 
@@ -301,7 +265,26 @@
             padding: 10px 10px 10px 10px;
         }
         .signIn{
+            border: 1px solid #02b3b3;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, .6);
+            padding: 10px;
             width: 60%;
+        }
+        input[type=text], input[type=email], input[type=password], select, textarea, .label {
+            padding: 10px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            border: 1px solid rgb(7, 172, 172);
+            border-radius: 4px;
+            box-sizing: border-box;
+            resize: vertical;
+            background: rgba(5, 5, 5, 0.5);
+            color: wheat;
+            font-family: Calibri, monospace;
+            font-weight: bold;
+            width: 100%;
+            height: 40px;
         }
         table {
             width: 50%;

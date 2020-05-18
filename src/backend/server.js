@@ -49,8 +49,8 @@ app.get("/api/quiz", (req, res, next) => {
         })
       });
 });
-app.get("/api/mattequiz", (req, res, next) => {
-    var sql = "select * from mattequiz"
+app.get("/api/matteQuiz", (req, res, next) => {
+    var sql = "select * from matteQuiz"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -94,8 +94,8 @@ app.get("/api/quiz/:id", (req, res, next) => {
       });
 });
 
-app.get("/api/mattequiz/:id", (req, res, next) => {
-    var sql = "select * from mattequiz where quizId = ?"
+app.get("/api/matteQuiz/:id", (req, res, next) => {
+    var sql = "select * from matteQuiz where quizId = ?"
     var params = [req.params.id]
     db.get(sql, params, (err, row) => {
         if (err) {
@@ -211,10 +211,10 @@ app.post('/api/fields', (request, response, next) => {
         userRole: request.body.userRole,
         fullName: request.body.fullName,
         email: request.body.email,
-        password: request.body.password,
-        confirmPassword: request.body.confirmPassword,
+        password1: request.body.password1,
+        password2: request.body.password2,
     }
-    if (userData.userRole &&userData.fullName &&  userData.email && userData.password && userData.confirmPassword ) {
+    if (userData.userRole &&userData.fullName &&  userData.email && userData.password1 && userData.password2 ) {
                 response.send({
                     isFilled: true,
                 });
@@ -248,10 +248,10 @@ app.post('/api/email', (request, response, next) => {
 })
 app.post('/api/passwords', (request, response, next) => {
     const userData = {
-        password: request.body.password,
-        confirmPassword: request.body.confirmPassword,
+        password1: request.body.password1,
+        password2: request.body.password2,
     }
-            if (userData.confirmPassword !== userData.password ) {
+            if (userData.password1 !== userData.password2 ) {
                 response.send({
                     isIdentical: false,
                     message: `Your passwords are not identical!`
@@ -269,7 +269,7 @@ app.post('/api/users/', (req, res, next) => {
         userRole: req.body.userRole,
         fullName: req.body.fullName,
         email: req.body.email,
-        password: req.body.confirmPassword,
+        password: req.body.password2,
         phoneNumber: req.body.phoneNumber,
         schoolLevel: req.body.schoolLevel,
     }
@@ -281,7 +281,7 @@ app.post('/api/users/', (req, res, next) => {
                     return;
                 }
                 res.json({
-                    "message": "success",
+                    "message": "Success",
                     "users": userData,
                     "id": this.lastID
                 })
