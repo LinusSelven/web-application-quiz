@@ -7,7 +7,7 @@
             <select id="subject" name="subject" @change="onChange($event)" v-model="value">
                 <option value="default">Select The Subject</option>
                 <option value="geoQuiz">Geografi</option>
-                <option value="mattequiz">Matematik</option>
+                <option value="matteQuiz">Matematik</option>
                 <option value="svenskaQuiz">Svenska</option>
                 <option value="engelskaQuiz">Engelska</option>
             </select>
@@ -20,7 +20,12 @@
             <input type="text" id="answer1" name="answer1" placeholder="Answer 1*" v-model="quizAnswer1">
             <input type="text" id="answer2" name="answer2" placeholder="answer 2*" v-model="quizAnswer2">
             <input type="text" id="answer3" name="answer3" placeholder="answer 3*" v-model="quizAnswer3">
-            <input type="text" id="correctAnswer" name="correctAnswer" placeholder="Correct answer*" v-model="quizCorrectAnswer">
+            <select id="correctAnswer" name="correctAnswer" @change="onChangeAnswers($event)" v-model="quizCorrectAnswer">
+                <option value="0">Select The correct answer</option>
+                <option value="1">Answer 1</option>
+                <option value="2">answer 2</option>
+                <option value="3">answer 3</option>
+            </select>
             <label for="img">Select image:</label>
             <input type="file" id="img" name="img" accept="image/*">
             <input type="submit" value="Save" @submit="postNewQuiz">
@@ -43,7 +48,7 @@
         quizAnswer1 :'',
         quizAnswer2 :'',
         quizAnswer3 :'',
-        quizCorrectAnswer: '',
+        quizCorrectAnswer: 0,
         value:'',
         amount:0,
       }
@@ -53,38 +58,51 @@
       onChange (event) {
         this.value = event.target.value;
       },
+      onChangeAnswers(event){
+        this.quizCorrectAnswer = parseInt(event.target.value);
+      },
       emptyFields(){
         this.quizQuestion ='';
         this.quizAnswer1 ='';
         this.quizAnswer2 ='';
         this.quizAnswer3 ='';
-        this.quizCorrectAnswer= '';
+        this.quizCorrectAnswer= 0;
       },
       infoQuiz(){
         this.isSelected=true;
       },
-      getNewQuizRows(){
-        for(let i =0; i<this.amount; i++){
-          this.newQuiz.push(this.quizQuestion, this.quizAnswer1, this.quizAnswer2, this.quizAnswer3, this.quizCorrectAnswer);
-          this.emptyFields();
-        }
+
+      async postNewQuiz(){
+              for(let i =0; i<this.amount; i++){
+                    let response
+                    const credential = '  quizQuestion: this.quizQuestion,\n' +
+                      '              quizAnswer1: this.quizAnswer1,\n' +
+                      '              quizAnswer2: this.quizAnswer2,\n' +
+                      '              quizAnswer3: this.quizAnswer3,\n' +
+                      '              quizCorrectAnswer: this.quizCorrectAnswer';
+                    if (this.value ==='geoQuiz'){
+                      response = await ApiServices.newQuizGeo({
+                        credential
+                      });
+                    }else if (this.value ==='matteQuiz'){
+                       response = await ApiServices.newQuizMat({
+                        credential
+                      });
+                    }else if (this.value ==='engelskaQuiz'){
+                       response = await ApiServices.newQuizEng({
+                        credential
+                      });
+                    }else if (this.value ==='svenskaQuiz'){
+                       response = await ApiServices.newQuizSve({
+                        credential
+                      });
+                    }
+                    console.log(response);
+              }
+            this.emptyFields();
       },
 
-        async postNewQuiz(){
-          for(let i =0; i<this.amount; i++){
-            const response = await ApiServices.newQuiz({
-              quizQuestion: this.quizQuestion,
-              quizAnswer1: this.quizAnswer1,
-              quizAnswer2: this.quizAnswer2,
-              quizAnswer3: this.quizAnswer3,
-              quizCorrectAnswer: this.quizCorrectAnswer
-            });
-            console.log(response);
-          }
-            this.emptyFields();
-          }
-
-      }
+    }
 
   }
 </script>

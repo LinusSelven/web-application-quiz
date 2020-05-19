@@ -19,7 +19,16 @@ export default{
   logout(){
     return Api().post('logout')
   },
-  newQuiz(credentials){
+  newQuizGeo(credentials){
     return Api().post('geoQuiz/', credentials)
+  },
+  newQuizMat(credentials){
+    return Api().post('matteQuiz/', credentials)
+  },
+  newQuizEng(credentials){
+    return Api().post('engQuiz/', credentials)
+  },
+  newQuizSve(credentials){
+    return Api().post('sveQuiz/', credentials)
   },
 }

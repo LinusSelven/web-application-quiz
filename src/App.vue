@@ -2,14 +2,16 @@
   <div id="app"  class="grid">
 
     <section class="item1">
-      <div class="logo-box">
-      <img src="./assets/logo.png" alt="Logo" class="logo-img">
-      <span class="slag">DET SKA VARA KUL ATT PLUGGA!</span>
+      <div class="item1-body">
+        <div class="logo-box">
+          <img src="./assets/logo.png" alt="Logo" class="logo-img">
+          <span class="slag">DET SKA VARA KUL ATT PLUGGA!</span>
+        </div>
       </div>
     </section>
 
     <section class="item2">
-      <div id="desktop-menu1">
+      <div id="desktop-menu">
         <ul class="menu">
           <li><router-link to="/"> Quiz</router-link></li>
           <li><router-link to="/login">Sign in</router-link></li>
@@ -34,7 +36,10 @@
       </div>
     </section>
     <section class="item3">
-    <router-view />
+      <div class="item3-body">
+        <router-view />
+      </div>
+
     </section>
     <section class="item4">
       <p>Copyright (c) 2020 by Aisha, Anton, Halim, Linus.</p>
@@ -155,22 +160,16 @@
     grid-gap: 5px;
   }
   .item1 {
-    padding: 10px;
-    text-align: left;
     grid-area: header;
     height: auto;
   }
 
   .item2 {
-    border: none;
     grid-area: menu;
   }
 
   .item3 {
-    //padding: 10px 5px 10px 5px;
     grid-area: sidebar;
-    background: url('./assets/qui.jpg') no-repeat;
-    background-size: 100% 100%;
   }
 
   .item4 {
@@ -181,7 +180,7 @@
   }
   section{
     color: black;
-    border: 3px solid #ccc;
+    //border: 3px solid #ccc;
     border-radius: 10px;
     text-align: center;
     background-color: rgba(239, 236, 236, 0.14);
@@ -204,14 +203,11 @@
   .slag{
     display: none;
   }
-  #desktop-menu1{
+  #desktop-menu{
     display: none;
   }
   #mobil-menu{
     display: block;
-  }
-  .underConstruction{
-    text-align: center;
   }
 
   .login a {
@@ -221,17 +217,32 @@
   .login a:hover {
     color: #0b5b5b;
   }
+
+  .item3-body{
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 10px 5px 10px 5px;
+    grid-area: sidebar;
+    background: url('./assets/qui.jpg') no-repeat;
+    background-size: 100% 100%;
+    width: 100%;
+
+  }
+  .item1-body{
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    display: inline-block;
+    width: 100%;
+  }
   /* Mobile */
   @media screen and (max-width: 400px) {
-
   }
   /* Tablet */
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     .item3 {
-      padding: 10px 5px 10px 5px;
       grid-area: sidebar;
-      background: url('./assets/qui.jpg') no-repeat;
-      background-size: 100% 100%;
+
     }
     .logo-box{
       width: 200px;
@@ -247,6 +258,19 @@
     .item3{
       padding: 10px 10px 10px 10px;
     }
+    .item3-body{
+      display: inline-block;
+      padding: 10px 5px 10px 5px;
+      grid-area: sidebar;
+      background: url('./assets/qui.jpg') no-repeat;
+      background-size: 100% 100%;
+      width: 60%;
+    }
+    .item1-body{
+      display: inline-block;
+      text-align: center;
+      width: 60%;
+    }
     .logo-box{
       width: 200px;
       color: #02b3b3;
@@ -258,8 +282,9 @@
       font-family: Impact, monospace;
       font-weight: normal;
     }
-    #desktop-menu1{
-      display: block;
+    #desktop-menu{
+      display: inline-block;
+      width: 60%;
     }
     #mobil-menu{
       display: none;

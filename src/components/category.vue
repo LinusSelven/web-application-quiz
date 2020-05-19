@@ -46,7 +46,7 @@
   /* Desktop */
   @media screen and (min-width: 1025px) {
     .category {
-      width: 60%;
+      width: 100%;
       margin-left: auto;
       margin-right: auto;
       text-align: center;
