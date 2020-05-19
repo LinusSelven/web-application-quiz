@@ -15,5 +15,8 @@ export default{
   },
   verifyPasswords(credentials){
     return Api().post('passwords', credentials)
-  }
+  },
+  logout(credentials){
+    return Api().post('logout', credentials)
+  },
 }

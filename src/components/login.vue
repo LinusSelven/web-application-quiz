@@ -5,20 +5,23 @@
                 <td><p id="errorMsg">{{errorMessage}}</p></td>
             </tr>
             <tr>
-                <td><input value="email" type="email" name="user-log" v-model="email" placeholder="Email"></td>
+                <td v-if="isLogged"><input type="button" @click="submitLogout" value="logout"></td>
             </tr>
             <tr>
-                <td><input value="password" type="password" name="user-log" v-model="password" placeholder="Password"></td>
+                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" ></td>
             </tr>
             <tr>
-                <td><input type="button" @click="submitForm" value="login"></td>
+                <td v-if="!isLogged"><input value="password" type="password" name="user-log" v-model="password" placeholder="Password"></td>
             </tr>
             <tr>
-                <td><input name="rememberMe" type="checkbox" value="Remember Me"><span>Jag vill förbli inloggad</span> </td>
+                <td v-if="!isLogged"><input type="button" @click="submitForm" value="login"></td>
+            </tr>
+            <tr>
+                <td v-if="!isLogged"><input name="rememberMe" type="checkbox" value="Remember Me"><span>Jag vill förbli inloggad</span> </td>
             </tr>
             <tr><td></td></tr>
             <tr>
-                <td> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; <span>Inget konto! </span><a><router-link to="/register">Registrera!</router-link></a></td>
+                <td v-if="!isLogged"> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; <span>Inget konto! </span><a><router-link to="/register">Registrera!</router-link></a></td>
             </tr>
 
         </table>
@@ -33,6 +36,7 @@
                 email:'',
                 password:'',
               errorMessage:'',
+              isLogged: false,
             }
         },
         methods:{
@@ -41,11 +45,25 @@
                       email: this.email,
                       password: this.password
                     });
-                    this.errorMessage = response.data.message;
-                    this.email = '';
-                    this.password = '';
-              }
+                    if (response.data.isSessionCreated){
+                      this.errorMessage = response.data.message;
+                      this.isLogged = true;
+                      this.email = '';
+                      this.password = '';
+                    }
+                    else {
+                      this.errorMessage = response.data.message;
+                      this.email = '';
+                      this.password = '';
+                    }
+              },
+          async submitLogout() {
+            const response = await AuthServices.logout({
 
+            });
+            this.errorMessage = response.data.message;
+            this.isLogged = false;
+          }
         }
   }
   import AuthServices from '../services/ApiServices';

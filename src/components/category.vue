@@ -30,7 +30,8 @@
     height: 60px;
   }
   .btn:hover {
-    background-color: #0b5b5b;
+    border: 1px solid rgb(0, 3, 3);
+    background-color: #0a7272;
     color: wheat;
     cursor: pointer;
   }
