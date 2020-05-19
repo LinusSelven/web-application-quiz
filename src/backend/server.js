@@ -37,8 +37,8 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
-app.get("/api/quiz", (req, res, next) => {
-    var sql = "select * from quiz"
+app.get("/api/geoQuiz", (req, res, next) => {
+    var sql = "select * from geoQuiz"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -65,24 +65,9 @@ app.get("/api/matteQuiz", (req, res, next) => {
         })
     });
 });
-/* Get Users */
-app.get("/api/users", (req, res, next) => {
-    const sql = "select * from users";
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "users":rows
-        })
-    });
-});
 
-app.get("/api/quiz/:id", (req, res, next) => {
-    var sql = "select * from quiz where quizId = ?"
+app.get("/api/geoQuiz/:id", (req, res, next) => {
+    var sql = "select * from geoQuiz where quizId = ?"
     var params = [req.params.id]
     db.get(sql, params, (err, row) => {
         if (err) {
@@ -111,7 +96,7 @@ app.get("/api/matteQuiz/:id", (req, res, next) => {
     });
 });
 
-app.post("/api/quiz/", (req, res, next) => {
+app.post("/api/geoQuiz/", (req, res, next) => {
     var errors=[]
     if (!req.body.quizCorrectAnswer){
         errors.push("Inget korrekt svar angivet!");
@@ -124,7 +109,7 @@ app.post("/api/quiz/", (req, res, next) => {
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
-    var sql ='INSERT INTO quiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+    var sql ='INSERT INTO geoQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
     var params =[data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3,data.quizCorrectAnswer,data.quizImg]
     db.run(sql, params, function (err, result) {
         if (err){
@@ -133,13 +118,13 @@ app.post("/api/quiz/", (req, res, next) => {
         }
         res.json({
             "message": "success",
-            "quiz": data,
+            "geoQuiz": data,
             "id" : this.lastID
         })
     });
 })
 
-app.put("/api/quiz/:id", (req, res, next) => {
+app.put("/api/geoQuiz/:id", (req, res, next) => {
     var data = {
         quizQuestion: req.body.quizQuestion,
         quizAnswer1: req.body.quizAnswer1,
@@ -148,7 +133,7 @@ app.put("/api/quiz/:id", (req, res, next) => {
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
-    var sql ='UPDATE quiz SET quizQuestion = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, quizCorrectAnswer = ?, quizImg = ? WHERE quizId = ?'
+    var sql ='UPDATE geoQuiz SET quizQuestion = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, quizCorrectAnswer = ?, quizImg = ? WHERE quizId = ?'
     var params =[data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3,data.quizCorrectAnswer,data.quizImg, req.params.id]
     db.run(sql, params, function (err, result) {
         if (err){
@@ -157,15 +142,15 @@ app.put("/api/quiz/:id", (req, res, next) => {
         }
         res.json({
             "message": "success",
-            "quiz": data,
+            "geoQuiz": data,
             "id" : this.lastID
         })
     });
 })
 
-app.delete("/api/quiz/:id", (req, res, next) => {
+app.delete("/api/geoQuiz/:id", (req, res, next) => {
     db.run(
-        'DELETE FROM quiz WHERE quizId = ?',
+        'DELETE FROM geoQuiz WHERE quizId = ?',
         req.params.id,
         function (err, result) {
             if (err){

@@ -19,4 +19,7 @@ export default{
   logout(){
     return Api().post('logout')
   },
+  newQuiz(credentials){
+    return Api().post('geoQuiz/', credentials)
+  },
 }

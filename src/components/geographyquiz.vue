@@ -1,26 +1,26 @@
 <template>
     <div class="quiz-Geo">
             <div class="q-question">
-                <h2>{{quiz[questionNumber].quizQuestion}}</h2>
+                <h2>{{geoQuiz[questionNumber].quizQuestion}}</h2>
             </div>
             <div class="q-img">
                 <h2>
-                    <img :src="getImgUrl(quiz[questionNumber].quizImg)" v-bind:alt="pic">
+                    <img :src="getImgUrl(geoQuiz[questionNumber].quizImg)" v-bind:alt="pic">
                 </h2>
             </div>
             <div class="q-answer">
-                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{quiz[questionNumber].quizAnswer1}}
+                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{geoQuiz[questionNumber].quizAnswer1}}
                 </button>
-                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{quiz[questionNumber].quizAnswer2}}
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{geoQuiz[questionNumber].quizAnswer2}}
                 </button>
-                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{quiz[questionNumber].quizAnswer3}}
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{geoQuiz[questionNumber].quizAnswer3}}
                 </button>
             </div>
             <div class="q-question">
                 <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
-                <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (quiz.length-1)">Nästa fråga</button>
-                <h3>Your score: {{countOfCorrectAnswers}} / {{quiz.length}}</h3>
+                <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (geoQuiz.length-1)">Nästa fråga</button>
+                <h3>Your score: {{countOfCorrectAnswers}} / {{geoQuiz.length}}</h3>
             </div>
     </div>
 </template>
@@ -30,7 +30,7 @@
         name: "geographyquiz",
         data: function () {
             return {
-                quiz: [],
+                geoQuiz: [],
                 questionNumber: 0,
                 countOfCorrectAnswers: 0,
                 userHasGuessed: false,
@@ -50,7 +50,7 @@
 
             userChoseAnswer: function (event) {
                 this.userHasGuessed = true;
-                if (event.target.value == this.quiz[this.questionNumber].quizCorrectAnswer) {
+                if (event.target.value == this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
                     this.countOfCorrectAnswers += 1;
                     return this.resultat = 'Rätt svar!';
                 } else {
@@ -70,8 +70,8 @@
                     return response.json();
                 })
                 .then((data) => {
-                    console.log(data.quiz);
-                    this.quiz = data.quiz;
+                    console.log(data.geoQuiz);
+                    this.geoQuiz = data.geoQuiz;
                 });
         }
 

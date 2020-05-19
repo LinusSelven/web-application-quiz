@@ -9,7 +9,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
     } else {
         console.log('Connected to the SQlite database.')
-        db.run(`CREATE TABLE quiz (
+        db.run(`CREATE TABLE geoQuiz (
             quizId INTEGER PRIMARY KEY,
             quizQuestion TEXT,
             quizAnswer1 TEXT,
@@ -23,7 +23,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 // Table already created
             } else {
                 // Table just created, creating some rows
-                var insert = 'INSERT INTO quiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+                var insert = 'INSERT INTO geoQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
                 db.run(insert, ["Vilken världsdel visas?",
                     "Sydamerika",
                     "Asien",
