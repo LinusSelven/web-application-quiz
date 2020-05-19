@@ -346,18 +346,21 @@ app.post('/api/auth', function(request, response) {
                 request.session.username = row.fullName;
                 request.session.userRole = row.userRole;
                 response.send({
-                    message:`Welcome: ${request.session.username} , You are: ${request.session.userRole}`
+                    message:`Welcome: ${request.session.username} , You are: ${request.session.userRole}, Your ID: ${request.session.userId}`,
+                    isSessionCreated:  true
                 });
             } else {
                 response.send({
-                    message: `Incorrect Username and/or Password!`
+                    message: `Incorrect Username and/or Password!`,
+                    isSessionCreated:  false
                 });
             }
             response.end();
         });
     } else {
         response.send({
-            message: `Please enter Username and Password!`
+            message: `Please enter Username and Password!`,
+            isSessionCreated:  false
         });
         response.end();
     }
@@ -377,7 +380,9 @@ app.post('/logout', session_Status,  (req, res) => {
                 if (err) {
                     return res.redirect('/home')
                 }
-                res.send('<h3>Goodbye!</h3>');
+                res.send({
+                    message:`Goodbye!`
+                });
             })
 })
 
