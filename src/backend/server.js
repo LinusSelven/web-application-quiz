@@ -19,8 +19,10 @@ app.use(session({
     saveUninitialized: true
 }));
 const session_Status = (req, res, next) =>{
-    if (!req.session.userId){
-        res.send('Login to see this page!')
+    if (!req.session.userId) {
+        res.send('Sorry! Login to see this page.')
+    }else if (req.session.userRole !== 'Admin'){
+        res.send('Sorry! You have to be an admin.')
     }else{
         next()
     }
@@ -177,20 +179,20 @@ app.delete("/api/quiz/:id", (req, res, next) => {
 
 
 /* Users Handling */
-app.get('/api/users', session_Status, (req, res, next) => {
-    const sql = "select * from users";
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "users":rows
-        })
-    });
-})
+app.get('/api/users', session_Status, (request, response, next) => {
+        const sql = 'select * from users';
+        const params = [];
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                response.status(400).json({ "error": err.message });
+                return;
+            }
+            response.json({
+                "message": "success",
+                "users": rows
+            })
+        });
+});
 app.get('/api/users/:id', session_Status, (request, response, next) => {
     const sql = 'select * from users where userId = ?'
     const params = [request.params.id]
@@ -205,7 +207,7 @@ app.get('/api/users/:id', session_Status, (request, response, next) => {
             })
 
     });
-})
+});
 app.post('/api/fields', (request, response, next) => {
     const userData = {
         userRole: request.body.userRole,
@@ -269,7 +271,7 @@ app.post('/api/users/', (req, res, next) => {
         userRole: req.body.userRole,
         fullName: req.body.fullName,
         email: req.body.email,
-        password: req.body.password2,
+        password: req.body.password,
         phoneNumber: req.body.phoneNumber,
         schoolLevel: req.body.schoolLevel,
     }
@@ -365,6 +367,13 @@ app.post('/api/auth', function(request, response) {
         response.end();
     }
 });
+app.post('/logout', session_Status,(req, res) => {
+        req.session.destroy(err => {
+            res.send({
+                message: `Goodbye!`
+            });
+        })
+})
 app.get('/home', function(request, response) {
     if (request.session.loggedin) {
         response.send(`<h3>Welcome back: ` + request.session.username +`</h3><form method="post" action="/logout"><button>Logout</button></form>
@@ -375,16 +384,6 @@ app.get('/home', function(request, response) {
     }
     response.end();
 });
-app.post('/logout', session_Status,  (req, res) => {
-            req.session.destroy(err => {
-                if (err) {
-                    return res.redirect('/home')
-                }
-                res.send({
-                    message:`Goodbye!`
-                });
-            })
-})
 
 // Root path
 app.get("/", (req, res, next) => {

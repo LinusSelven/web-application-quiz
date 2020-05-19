@@ -101,7 +101,7 @@
                       userRole: this.userRole,
                       fullName: this.fullName,
                       email: this.email,
-                      password2: this.password2,
+                      password: this.password2,
                       phoneNumber: this.phoneNumber,
                       schoolLevel: this.key
                     });

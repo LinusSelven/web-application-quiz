@@ -58,9 +58,7 @@
                     }
               },
           async submitLogout() {
-            const response = await AuthServices.logout({
-
-            });
+            const response = await AuthServices.logout();
             this.errorMessage = response.data.message;
             this.isLogged = false;
           }
