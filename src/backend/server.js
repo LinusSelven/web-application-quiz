@@ -19,8 +19,10 @@ app.use(session({
     saveUninitialized: true
 }));
 const session_Status = (req, res, next) =>{
-    if (!req.session.userId){
-        res.send('Login to see this page!')
+    if (!req.session.userId) {
+        res.send('Sorry! Login to see this page.')
+    }else if (req.session.userRole !== 'Admin'){
+        res.send('Sorry! You have to be an admin.')
     }else{
         next()
     }
@@ -35,8 +37,8 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
-app.get("/api/quiz", (req, res, next) => {
-    var sql = "select * from quiz"
+app.get("/api/geoQuiz", (req, res, next) => {
+    var sql = "select * from geoQuiz"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -63,24 +65,9 @@ app.get("/api/matteQuiz", (req, res, next) => {
         })
     });
 });
-/* Get Users */
-app.get("/api/users", (req, res, next) => {
-    const sql = "select * from users";
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "users":rows
-        })
-    });
-});
 
-app.get("/api/quiz/:id", (req, res, next) => {
-    var sql = "select * from quiz where quizId = ?"
+app.get("/api/geoQuiz/:id", (req, res, next) => {
+    var sql = "select * from geoQuiz where quizId = ?"
     var params = [req.params.id]
     db.get(sql, params, (err, row) => {
         if (err) {
@@ -109,7 +96,7 @@ app.get("/api/matteQuiz/:id", (req, res, next) => {
     });
 });
 
-app.post("/api/quiz/", (req, res, next) => {
+app.post("/api/geoQuiz/", (req, res, next) => {
     var errors=[]
     if (!req.body.quizCorrectAnswer){
         errors.push("Inget korrekt svar angivet!");
@@ -122,7 +109,7 @@ app.post("/api/quiz/", (req, res, next) => {
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
-    var sql ='INSERT INTO quiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+    var sql ='INSERT INTO geoQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
     var params =[data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3,data.quizCorrectAnswer,data.quizImg]
     db.run(sql, params, function (err, result) {
         if (err){
@@ -131,13 +118,13 @@ app.post("/api/quiz/", (req, res, next) => {
         }
         res.json({
             "message": "success",
-            "quiz": data,
+            "geoQuiz": data,
             "id" : this.lastID
         })
     });
 })
 
-app.put("/api/quiz/:id", (req, res, next) => {
+app.put("/api/geoQuiz/:id", (req, res, next) => {
     var data = {
         quizQuestion: req.body.quizQuestion,
         quizAnswer1: req.body.quizAnswer1,
@@ -146,7 +133,7 @@ app.put("/api/quiz/:id", (req, res, next) => {
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
-    var sql ='UPDATE quiz SET quizQuestion = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, quizCorrectAnswer = ?, quizImg = ? WHERE quizId = ?'
+    var sql ='UPDATE geoQuiz SET quizQuestion = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, quizCorrectAnswer = ?, quizImg = ? WHERE quizId = ?'
     var params =[data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3,data.quizCorrectAnswer,data.quizImg, req.params.id]
     db.run(sql, params, function (err, result) {
         if (err){
@@ -155,15 +142,15 @@ app.put("/api/quiz/:id", (req, res, next) => {
         }
         res.json({
             "message": "success",
-            "quiz": data,
+            "geoQuiz": data,
             "id" : this.lastID
         })
     });
 })
 
-app.delete("/api/quiz/:id", (req, res, next) => {
+app.delete("/api/geoQuiz/:id", (req, res, next) => {
     db.run(
-        'DELETE FROM quiz WHERE quizId = ?',
+        'DELETE FROM geoQuiz WHERE quizId = ?',
         req.params.id,
         function (err, result) {
             if (err){
@@ -177,20 +164,20 @@ app.delete("/api/quiz/:id", (req, res, next) => {
 
 
 /* Users Handling */
-app.get('/api/users', session_Status, (req, res, next) => {
-    const sql = "select * from users";
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "users":rows
-        })
-    });
-})
+app.get('/api/users', session_Status, (request, response, next) => {
+        const sql = 'select * from users';
+        const params = [];
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                response.status(400).json({ "error": err.message });
+                return;
+            }
+            response.json({
+                "message": "success",
+                "users": rows
+            })
+        });
+});
 app.get('/api/users/:id', session_Status, (request, response, next) => {
     const sql = 'select * from users where userId = ?'
     const params = [request.params.id]
@@ -205,7 +192,7 @@ app.get('/api/users/:id', session_Status, (request, response, next) => {
             })
 
     });
-})
+});
 app.post('/api/fields', (request, response, next) => {
     const userData = {
         userRole: request.body.userRole,
@@ -269,7 +256,7 @@ app.post('/api/users/', (req, res, next) => {
         userRole: req.body.userRole,
         fullName: req.body.fullName,
         email: req.body.email,
-        password: req.body.password2,
+        password: req.body.password,
         phoneNumber: req.body.phoneNumber,
         schoolLevel: req.body.schoolLevel,
     }
@@ -365,6 +352,13 @@ app.post('/api/auth', function(request, response) {
         response.end();
     }
 });
+app.post('/logout', session_Status,(req, res) => {
+        req.session.destroy(err => {
+            res.send({
+                message: `Goodbye!`
+            });
+        })
+})
 app.get('/home', function(request, response) {
     if (request.session.loggedin) {
         response.send(`<h3>Welcome back: ` + request.session.username +`</h3><form method="post" action="/logout"><button>Logout</button></form>
@@ -375,16 +369,6 @@ app.get('/home', function(request, response) {
     }
     response.end();
 });
-app.post('/logout', session_Status,  (req, res) => {
-            req.session.destroy(err => {
-                if (err) {
-                    return res.redirect('/home')
-                }
-                res.send({
-                    message:`Goodbye!`
-                });
-            })
-})
 
 // Root path
 app.get("/", (req, res, next) => {

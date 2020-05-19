@@ -14,7 +14,7 @@
           <li><router-link to="/"> Quiz</router-link></li>
           <li><router-link to="/login">Sign in</router-link></li>
           <li><router-link to="/register">Sign up</router-link></li>
-          <li><router-link to="/rate">Rate us</router-link></li>
+          <li><router-link to="/CreateNewQuiz">Rate us</router-link></li>
           <li><router-link to="/aboutus">About us</router-link></li>
         </ul>
       </div>
