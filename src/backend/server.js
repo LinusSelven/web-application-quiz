@@ -51,7 +51,7 @@ app.get("/api/geoQuiz", (req, res, next) => {
         }
         res.json({
             "message":"success",
-            "quiz":rows
+            "geoQuiz":rows
         })
       });
 });
@@ -65,7 +65,7 @@ app.get("/api/geoQuiz/:id", (req, res, next) => {
         }
         res.json({
             "message":"success",
-            "quiz":row
+            "geoQuiz":row
         })
       });
 });

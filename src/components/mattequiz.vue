@@ -143,11 +143,10 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .quiz-Matte{
-            border: 1px solid #02b3b3;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, .6);
-            padding: 10px;
-            width: 60%;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            background: rgba(0, 0, 0, 0.7);
         }
         .q-btn {
             width: 30%;

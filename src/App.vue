@@ -42,7 +42,9 @@
 
     </section>
     <section class="item4">
-      <p>Copyright (c) 2020 by Aisha, Anton, Halim, Linus.</p>
+      <div class="item4-body">
+        <p>Copyright (c) 2020 by Aisha, Anton, Halim, Linus.</p>
+      </div>
     </section>
 
    </div>
@@ -170,6 +172,7 @@
 
   .item3 {
     grid-area: sidebar;
+    display:flex;
   }
 
   .item4 {
@@ -221,15 +224,18 @@
   .item3-body{
     border: 3px solid #ccc;
     border-radius: 10px;
-    display: inline-block;
-    padding: 10px 5px 10px 5px;
-    grid-area: sidebar;
-    background: url('./assets/qui.jpg') no-repeat;
-    background-size: 100% 100%;
+    background-color: #ccc;
     width: 100%;
-
+    display: table;
+    margin: auto;
   }
   .item1-body{
+    border: 3px solid #ccc;
+    border-radius: 10px;
+    display: inline-block;
+    width: 100%;
+  }
+  .item4-body{
     border: 3px solid #ccc;
     border-radius: 10px;
     display: inline-block;
@@ -255,16 +261,11 @@
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
-    .item3{
-      padding: 10px 10px 10px 10px;
-    }
     .item3-body{
-      display: inline-block;
-      padding: 10px 5px 10px 5px;
-      grid-area: sidebar;
       background: url('./assets/qui.jpg') no-repeat;
       background-size: 100% 100%;
       width: 60%;
+      height: 500px;
     }
     .item1-body{
       display: inline-block;
@@ -288,6 +289,9 @@
     }
     #mobil-menu{
       display: none;
+    }
+    .item4-body{
+      width: 60%;
     }
   }
 

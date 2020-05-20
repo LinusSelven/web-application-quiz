@@ -25,9 +25,8 @@
                 <option value="1">Answer 1</option>
                 <option value="2">answer 2</option>
                 <option value="3">answer 3</option>
-            </select>
-            <label for="img">Select image:</label>
-            <input type="file" id="img" name="img" accept="image/*">
+            </select><br>
+            <input type="file" id="upload" name="upload" accept="image/*" placeholder="Select image">
             <input type="submit" value="Save" @submit="postNewQuiz">
         </div>
 
@@ -38,7 +37,6 @@
 
 <script>
   import ApiServices from '../services/ApiServices'
-
   export default {
     name: 'CreateNewQuiz',
     data: function () {
@@ -108,7 +106,7 @@
 </script>
 
 <style scoped>
-    input[type=text], input[type=email], input[type=password], input[type=checkbox], input[type=number],select, label {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox], input[type=number],input[type=file], select,textarea, label {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -192,26 +190,14 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .createQuiz {
-            border: 1px solid #02b3b3;
-            border-radius: 10px;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
             background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            width: 60%;
         }
-        input[type=text], input[type=email], input[type=password], select, textarea, label {
-            padding: 10px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            border: 1px solid rgb(7, 172, 172);
-            border-radius: 4px;
-            box-sizing: border-box;
-            resize: vertical;
+        input[type=text], input[type=email],input[type=submit], input[type=password],input[type=number], input[type=file],select, textarea, label {
             background: rgba(5, 5, 5, 0.5);
-            color: wheat;
-            font-family: Calibri, monospace;
-            font-weight: bold;
-            width: 100%;
-            height: 40px;
+            width: 90%;
         }
         label{
             border: none;
