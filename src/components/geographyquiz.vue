@@ -65,7 +65,7 @@
         },
 
         mounted() {
-            fetch('http://127.0.0.1:3000/api/quiz/')
+            fetch('http://127.0.0.1:3000/api/geoQuiz/')
                 .then((response) => {
                     return response.json();
                 })
@@ -86,7 +86,13 @@
 
     .q-img {
         margin: 0 auto;
-        width: 250px;
+        width: 200px;
+        height: 200px;
+    }
+    img{
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
     }
 
     .q-answer {
@@ -138,11 +144,10 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .quiz-Geo{
-            border: 1px solid #02b3b3;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, .6);
-            padding: 10px;
-            width: 60%;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            background: rgba(0, 0, 0, 0.7);
         }
         .q-btn {
             width: 30%;

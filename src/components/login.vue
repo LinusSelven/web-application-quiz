@@ -16,10 +16,11 @@
             <tr>
                 <td v-if="!isLogged"><input type="button" @click="submitForm" value="login"></td>
             </tr>
+            <tr><td></td></tr>
+            <tr><td></td></tr>
             <tr>
                 <td v-if="!isLogged"><input name="rememberMe" type="checkbox" value="Remember Me"><span>Jag vill förbli inloggad</span> </td>
             </tr>
-            <tr><td></td></tr>
             <tr>
                 <td v-if="!isLogged"> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; <span>Inget konto! </span><a><router-link to="/register">Registrera!</router-link></a></td>
             </tr>
@@ -84,7 +85,7 @@
         color: #fa7c8b;
     }
 
-    input[type=text], input[type=email], input[type=password], input[type=checkbox] {
+    input[type=email], input[type=password], input[type=checkbox] {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -131,29 +132,11 @@
         background-color: #e9e608;
         color: black;
     }
-
-    .register {
-        display: inline-block;
-        width: 100%;
-    }
     span{
         font-family: Calibri, monospace;
         font-weight: normal;
         color: wheat;
     }
-    ::-webkit-input-placeholder { /* Edge */
-        color: #fced62;
-    }
-
-    :-ms-input-placeholder { /* Internet Explorer */
-        color: #fced62;
-    }
-
-    ::placeholder {
-        color: wheat;
-    }
-
-
     .signIn{
         display: inline-block;
         width: 100%;
@@ -164,20 +147,13 @@
         cursor: pointer;
     }
     .signIn a:hover {
-        color: #05e3e3;
-    }
-    table.center {
-        margin-left:auto;
-        margin-right:auto;
-        color: rgba(6, 25, 45, 0.6);
+        color: #e9e608;
     }
     table {
         width: 100%;
         font: inherit;
         border-collapse: collapse;
-        margin-top: 1px;
         color: rgba(6, 25, 45, 0.6);
-
     }
 
     table th {
@@ -197,22 +173,17 @@
         border-right: none;
     }
     table tbody tr:nth-child(2n) td {
+    }
+    ::-webkit-input-placeholder { /* Edge */
+        color: #fced62;
+    }
 
+    :-ms-input-placeholder { /* Internet Explorer */
+        color: #fced62;
     }
-    .login{
-        text-align: center;
-        margin-left:auto;
-        margin-right:auto;
-        padding:80px 5px 80px 5px;
-        grid-area: sidebar;
 
-    }
-    .login a {
-        color: #02b3b3;
-        text-decoration: none;
-    }
-    .login a:hover {
-        color: #0b5b5b;
+    ::placeholder {
+        color: wheat;
     }
 
     /* Mobile */
@@ -224,30 +195,15 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .signIn{
-            border: 1px solid #02b3b3;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, .6);
-            padding: 10px;
-            width: 60%;
-        }
-        input[type=text], input[type=email], input[type=password], select, textarea, .label {
-            padding: 10px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            border: 1px solid rgb(7, 172, 172);
-            border-radius: 4px;
-            box-sizing: border-box;
-            resize: vertical;
-            background: rgba(5, 5, 5, 0.5);
-            color: wheat;
-            font-family: Calibri, monospace;
-            font-weight: bold;
-            width: 100%;
-            height: 40px;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            background: rgba(0, 0, 0, 0.7);
         }
         table {
             width: 50%;
         }
+
 
     }
 

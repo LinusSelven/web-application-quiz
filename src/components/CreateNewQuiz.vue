@@ -7,7 +7,7 @@
             <select id="subject" name="subject" @change="onChange($event)" v-model="value">
                 <option value="default">Select The Subject</option>
                 <option value="geoQuiz">Geografi</option>
-                <option value="mattequiz">Matematik</option>
+                <option value="matteQuiz">Matematik</option>
                 <option value="svenskaQuiz">Svenska</option>
                 <option value="engelskaQuiz">Engelska</option>
             </select>
@@ -20,9 +20,13 @@
             <input type="text" id="answer1" name="answer1" placeholder="Answer 1*" v-model="quizAnswer1">
             <input type="text" id="answer2" name="answer2" placeholder="answer 2*" v-model="quizAnswer2">
             <input type="text" id="answer3" name="answer3" placeholder="answer 3*" v-model="quizAnswer3">
-            <input type="text" id="correctAnswer" name="correctAnswer" placeholder="Correct answer*" v-model="quizCorrectAnswer">
-            <label for="img">Select image:</label>
-            <input type="file" id="img" name="img" accept="image/*">
+            <select id="correctAnswer" name="correctAnswer" @change="onChangeAnswers($event)" v-model="quizCorrectAnswer">
+                <option value="0">Select The correct answer</option>
+                <option value="1">Answer 1</option>
+                <option value="2">answer 2</option>
+                <option value="3">answer 3</option>
+            </select><br>
+            <input type="file" id="upload" name="upload" accept="image/*" placeholder="Select image">
             <input type="submit" value="Save" @submit="postNewQuiz">
         </div>
 
@@ -33,7 +37,6 @@
 
 <script>
   import ApiServices from '../services/ApiServices'
-
   export default {
     name: 'CreateNewQuiz',
     data: function () {
@@ -43,7 +46,7 @@
         quizAnswer1 :'',
         quizAnswer2 :'',
         quizAnswer3 :'',
-        quizCorrectAnswer: '',
+        quizCorrectAnswer: 0,
         value:'',
         amount:0,
       }
@@ -53,44 +56,57 @@
       onChange (event) {
         this.value = event.target.value;
       },
+      onChangeAnswers(event){
+        this.quizCorrectAnswer = parseInt(event.target.value);
+      },
       emptyFields(){
         this.quizQuestion ='';
         this.quizAnswer1 ='';
         this.quizAnswer2 ='';
         this.quizAnswer3 ='';
-        this.quizCorrectAnswer= '';
+        this.quizCorrectAnswer= 0;
       },
       infoQuiz(){
         this.isSelected=true;
       },
-      getNewQuizRows(){
-        for(let i =0; i<this.amount; i++){
-          this.newQuiz.push(this.quizQuestion, this.quizAnswer1, this.quizAnswer2, this.quizAnswer3, this.quizCorrectAnswer);
-          this.emptyFields();
-        }
+
+      async postNewQuiz(){
+              for(let i =0; i<this.amount; i++){
+                    let response
+                    const credential = '  quizQuestion: this.quizQuestion,\n' +
+                      '              quizAnswer1: this.quizAnswer1,\n' +
+                      '              quizAnswer2: this.quizAnswer2,\n' +
+                      '              quizAnswer3: this.quizAnswer3,\n' +
+                      '              quizCorrectAnswer: this.quizCorrectAnswer';
+                    if (this.value ==='geoQuiz'){
+                      response = await ApiServices.newQuizGeo({
+                        credential
+                      });
+                    }else if (this.value ==='matteQuiz'){
+                       response = await ApiServices.newQuizMat({
+                        credential
+                      });
+                    }else if (this.value ==='engelskaQuiz'){
+                       response = await ApiServices.newQuizEng({
+                        credential
+                      });
+                    }else if (this.value ==='svenskaQuiz'){
+                       response = await ApiServices.newQuizSve({
+                        credential
+                      });
+                    }
+                    console.log(response);
+              }
+            this.emptyFields();
       },
 
-        async postNewQuiz(){
-          for(let i =0; i<this.amount; i++){
-            const response = await ApiServices.newQuiz({
-              quizQuestion: this.quizQuestion,
-              quizAnswer1: this.quizAnswer1,
-              quizAnswer2: this.quizAnswer2,
-              quizAnswer3: this.quizAnswer3,
-              quizCorrectAnswer: this.quizCorrectAnswer
-            });
-            console.log(response);
-          }
-            this.emptyFields();
-          }
-
-      }
+    }
 
   }
 </script>
 
 <style scoped>
-    input[type=text], input[type=email], input[type=password], input[type=checkbox], input[type=number],select, label {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox], input[type=number],input[type=file], select,textarea, label {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -174,26 +190,14 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .createQuiz {
-            border: 1px solid #02b3b3;
-            border-radius: 10px;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
             background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            width: 60%;
         }
-        input[type=text], input[type=email], input[type=password], select, textarea, label {
-            padding: 10px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            border: 1px solid rgb(7, 172, 172);
-            border-radius: 4px;
-            box-sizing: border-box;
-            resize: vertical;
+        input[type=text], input[type=email],input[type=submit], input[type=password],input[type=number], input[type=file],select, textarea, label {
             background: rgba(5, 5, 5, 0.5);
-            color: wheat;
-            font-family: Calibri, monospace;
-            font-weight: bold;
-            width: 100%;
-            height: 40px;
+            width: 90%;
         }
         label{
             border: none;
