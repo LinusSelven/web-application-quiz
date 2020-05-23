@@ -21,6 +21,7 @@
                 <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
                 <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (matteQuiz.length-1)">Nästa fråga</button>
+                <router-link to="/results"><button class="q-btn" v-show="questionNumber === (matteQuiz.length-1) && userHasGuessed == true">Resultat</button></router-link>
                 <h3>Your score: {{countOfCorrectAnswers}} / {{matteQuiz.length}}</h3>
             </div>
     </div>
