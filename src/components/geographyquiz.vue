@@ -20,6 +20,7 @@
                 <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
                 <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (geoQuiz.length-1)">Nästa fråga</button>
+                <router-link to="/results"><button class="q-btn" v-show="questionNumber === (geoQuiz.length-1)">Resultat</button></router-link>
                 <h3>Your score: {{countOfCorrectAnswers}} / {{geoQuiz.length}}</h3>
             </div>
     </div>
