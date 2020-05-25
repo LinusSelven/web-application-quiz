@@ -4,6 +4,9 @@ export default{
   login(credentials){
     return Api().post('auth', credentials)
   },
+  logout(credentials){
+    return Api().post('logout', credentials)
+  },
   register(credentials){
     return Api().post('users/', credentials)
   },
@@ -15,9 +18,6 @@ export default{
   },
   verifyPasswords(credentials){
     return Api().post('passwords', credentials)
-  },
-  logout(){
-    return Api().post('logout')
   },
   newQuizGeo(credentials){
     return Api().post('geoQuiz/', credentials)

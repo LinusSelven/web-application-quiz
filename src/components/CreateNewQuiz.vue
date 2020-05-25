@@ -1,4 +1,4 @@
-<template>
+<template v-if="isLogin">
     <div class="createQuiz">
     <p id="validation">{{validation}}</p>
     <article>

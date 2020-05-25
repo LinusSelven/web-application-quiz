@@ -2,19 +2,19 @@
   <div class="category" >
     <router-link to="/mattequiz"><button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-math-100.png" alt="math">
-      <img class="icon-mobile" src="../assets/icon/icons8-math-50.png" alt="math">
+      <img class="icon-mobile" src="../assets/icon/icons8-math-50.png" alt="math" width="30px" height="30px">
     </button></router-link>
     <router-link to="/geographyquiz"><button class="btn">
         <img class="icon-desktop" src="../assets/icon/icons8-geography-100.png" alt="geo">
-        <img class="icon-mobile" src="../assets/icon/icons8-geography-50.png" alt="geo">
+        <img class="icon-mobile" src="../assets/icon/icons8-geography-50.png" alt="geo" width="30px" height="30px">
       </button></router-link>
     <button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-scandinavian-100.png" alt="sve">
-      <img class="icon-mobile" src="../assets/icon/icons8-scandinavian-50.png" alt="sve">
+      <img class="icon-mobile" src="../assets/icon/icons8-scandinavian-50.png" alt="sve" width="30px" height="30px">
     </button>
     <button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-great-britain-100.png" alt="eng">
-      <img class="icon-mobile" src="../assets/icon/icons8-great-britain-50.png" alt="eng">
+      <img class="icon-mobile" src="../assets/icon/icons8-great-britain-50.png" alt="eng" width="30px" height="30px">
     </button>
   </div>
 </template>

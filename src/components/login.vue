@@ -2,10 +2,10 @@
     <div class="signIn" >
         <table class="center">
             <tr>
-                <td><p id="errorMsg">{{errorMessage}}</p></td>
+                <td><p id="errorMsg">{{message}}</p></td>
             </tr>
             <tr>
-                <td v-if="isLogged"><input type="button" @click="submitLogout" value="logout"></td>
+                <td v-if="isLogged"><input type="button" @click="submitLogout" value="login"></td>
             </tr>
             <tr>
                 <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" ></td>
@@ -34,9 +34,9 @@
         name: "login",
         data: function () {
             return{
-                email:'',
-                password:'',
-              errorMessage:'',
+              email:'',
+              password:'',
+              message:'',
               isLogged: false,
             }
         },
@@ -47,22 +47,28 @@
                       password: this.password
                     });
                     if (response.data.isSessionCreated){
-                      this.errorMessage = response.data.message;
+                      /*const jsonObject = '{"message": "'+response.data.message+'", "fullName": "'+response.data.fullName+'", "userRole": "'+response.data.userRole+'", "userId": "'+response.data.userId+'"}';
+                      let obj = JSON.parse(jsonObject);
+                      let jsonUser_serialized = JSON.stringify(obj);
+                      sessionStorage.setItem("userLogged", jsonUser_serialized);*/
+                      localStorage.setItem("message", response.data.message);
+                      localStorage.setItem("fullName", response.data.fullName);
+                      localStorage.setItem("userRole", response.data.userRole);
+                      localStorage.setItem("userId", response.data.userId);
+                      this.message= response.data.message+", "+sessionStorage.getItem("fullName");
                       this.isLogged = true;
                       this.email = '';
                       this.password = '';
                     }
                     else {
-                      this.errorMessage = response.data.message;
+                      this.message = response.data.message;
                       this.email = '';
                       this.password = '';
                     }
               },
-          async submitLogout() {
-            const response = await AuthServices.logout();
-            this.errorMessage = response.data.message;
-            this.isLogged = false;
-          }
+          submitLogout() {
+            localStorage.clear();
+          },
         }
   }
   import AuthServices from '../services/ApiServices';
