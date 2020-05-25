@@ -21,6 +21,7 @@
                 <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
                 <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (matteQuiz.length-1)">Nästa fråga</button>
+                <router-link to="/results"><button class="q-btn" v-show="questionNumber === (matteQuiz.length-1) && userHasGuessed == true">Resultat</button></router-link>
                 <h3>Your score: {{countOfCorrectAnswers}} / {{matteQuiz.length}}</h3>
             </div>
     </div>
@@ -143,11 +144,10 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .quiz-Matte{
-            border: 1px solid #02b3b3;
-            border-radius: 10px;
-            background: rgba(0, 0, 0, .6);
-            padding: 10px;
-            width: 60%;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            background: rgba(0, 0, 0, 0.7);
         }
         .q-btn {
             width: 30%;

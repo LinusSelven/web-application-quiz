@@ -71,7 +71,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
         //---------------
 
-        db.run(`CREATE TABLE mattequiz (
+        db.run(`CREATE TABLE matteQuiz (
             quizId INTEGER PRIMARY KEY,
             quizQuestion TEXT,
             quizAnswer1 TEXT,

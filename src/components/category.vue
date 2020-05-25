@@ -1,9 +1,21 @@
 <template>
   <div class="category" >
-    <router-link to="/mattequiz"><button class="btn">Matematik</button></router-link>
-    <router-link to="/geographyquiz"><button class="btn">Geografi</button></router-link>
-    <button class="btn">Svenska</button>
-    <button class="btn">Engelska</button>
+    <router-link to="/mattequiz"><button class="btn">
+      <img class="icon-desktop" src="../assets/icon/icons8-math-100.png" alt="math">
+      <img class="icon-mobile" src="../assets/icon/icons8-math-50.png" alt="math">
+    </button></router-link>
+    <router-link to="/geographyquiz"><button class="btn">
+        <img class="icon-desktop" src="../assets/icon/icons8-geography-100.png" alt="geo">
+        <img class="icon-mobile" src="../assets/icon/icons8-geography-50.png" alt="geo">
+      </button></router-link>
+    <button class="btn">
+      <img class="icon-desktop" src="../assets/icon/icons8-scandinavian-100.png" alt="sve">
+      <img class="icon-mobile" src="../assets/icon/icons8-scandinavian-50.png" alt="sve">
+    </button>
+    <button class="btn">
+      <img class="icon-desktop" src="../assets/icon/icons8-great-britain-100.png" alt="eng">
+      <img class="icon-mobile" src="../assets/icon/icons8-great-britain-50.png" alt="eng">
+    </button>
   </div>
 </template>
 
@@ -15,25 +27,29 @@
 
 <style scoped>
   .category{
-    text-align: center;
-    margin-left:auto;
-    margin-right:auto;
   }
   .btn{
-    border: 1px solid rgb(7, 172, 172);
+    border: 3px solid rgb(0, 10, 10);
     margin-bottom: 5px;
-    width: 100%;
-    background-color: #333333;
+    width: 99%;
+    background-color: #384e4e;
     font-family: "Impact", monospace;
     font-size: 20px;
     color: #02b3b3;
     height: 60px;
+    text-align: center;
   }
   .btn:hover {
-    border: 1px solid rgb(0, 3, 3);
-    background-color: #0a7272;
+    border: 3px solid #0a7272;
+    background-color: #000000;
     color: wheat;
     cursor: pointer;
+  }
+  .icon-mobile{
+    display: inline-block;
+  }
+  .icon-desktop{
+   display: none;
   }
 
   /* Mobile */
@@ -41,22 +57,29 @@
   }
   /* Tablet */
   @media screen and (min-width: 768px) and (max-width: 1024px) {
-
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
     .category {
-      width: 60%;
-      margin-left: auto;
-      margin-right: auto;
+      display: table-cell;
       text-align: center;
+      vertical-align: middle;
+      background: rgba(0, 0, 0, 0.7);
     }
     .btn{
-      width: 48.5%;
+      width: 20%;
       height: 200px;
-      margin: 5px;
-      background-color: #333333;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 10px;
     }
+    .icon-mobile{
+      display: none;
+    }
+    .icon-desktop{
+      display: inline-block;
+    }
+
   }
 
 

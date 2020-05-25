@@ -119,7 +119,7 @@
     import AuthServices from '../services/ApiServices';
 </script>
 <style scoped>
-    input[type=text], input[type=email], input[type=password], input[type=checkbox], select, textarea, .label {
+    input[type=text], input[type=email], input[type=password], input[type=checkbox], select, .label {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -184,50 +184,34 @@
     ::-webkit-input-placeholder { /* Edge */
         color: #fced62;
     }
-
     :-ms-input-placeholder { /* Internet Explorer */
         color: #fced62;
     }
-
     ::placeholder {
         color: wheat;
     }
     /* Mobile */
     @media screen and (max-width: 400px) {
-
     }
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
-
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .item3{
-            padding: 10px 10px 10px 10px;
-        }
         .register {
-            border: 1px solid #02b3b3;
-            border-radius: 10px;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
             background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            width: 60%;
         }
-        input[type=text], input[type=email], input[type=password], select, textarea, .label {
-            padding: 10px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            border: 1px solid rgb(7, 172, 172);
-            border-radius: 4px;
-            box-sizing: border-box;
-            resize: vertical;
+        input[type=text], input[type=email], input[type=password], select, .label {
             background: rgba(5, 5, 5, 0.5);
-            color: wheat;
-            font-family: Calibri, monospace;
-            font-weight: bold;
-            width: 100%;
-            height: 40px;
+            width: 90%;
         }
-        .label{
+        input[type=submit] {
+            width: 90%;
+        }
+            .label{
             border: none;
             background: none;
         }

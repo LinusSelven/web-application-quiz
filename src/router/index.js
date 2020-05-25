@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/category.vue'
 import Login from '../components/login.vue'
+import Register from '../components/register.vue'
 import CreateNewQuiz from '../components/CreateNewQuiz.vue'
 
 Vue.use(VueRouter)
@@ -18,9 +19,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
     },
     {
+        path: '/results',
+        name: 'Results',
+        component: () => import(/* webpackChunkName: "about" */ '../components/Results.vue')
+    },
+    {
         path: '/register',
-        name: 'register',
-        component: () => import(/* webpackChunkName: "about" */ '../components/register.vue')
+        name: 'Register',
+        component: Register
     },
     {
         path: '/login',

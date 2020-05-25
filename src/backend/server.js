@@ -37,6 +37,10 @@ app.listen(HTTP_PORT, () => {
     console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 
+
+
+
+/* Geography Quiz */
 app.get("/api/geoQuiz", (req, res, next) => {
     var sql = "select * from geoQuiz"
     var params = []
@@ -47,25 +51,10 @@ app.get("/api/geoQuiz", (req, res, next) => {
         }
         res.json({
             "message":"success",
-            "quiz":rows
+            "geoQuiz":rows
         })
       });
 });
-app.get("/api/matteQuiz", (req, res, next) => {
-    var sql = "select * from matteQuiz"
-    var params = []
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "mattequiz":rows
-        })
-    });
-});
-
 app.get("/api/geoQuiz/:id", (req, res, next) => {
     var sql = "select * from geoQuiz where quizId = ?"
     var params = [req.params.id]
@@ -76,26 +65,10 @@ app.get("/api/geoQuiz/:id", (req, res, next) => {
         }
         res.json({
             "message":"success",
-            "quiz":row
+            "geoQuiz":row
         })
       });
 });
-
-app.get("/api/matteQuiz/:id", (req, res, next) => {
-    var sql = "select * from matteQuiz where quizId = ?"
-    var params = [req.params.id]
-    db.get(sql, params, (err, row) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "mattequiz":row
-        })
-    });
-});
-
 app.post("/api/geoQuiz/", (req, res, next) => {
     var errors=[]
     if (!req.body.quizCorrectAnswer){
@@ -123,7 +96,6 @@ app.post("/api/geoQuiz/", (req, res, next) => {
         })
     });
 })
-
 app.put("/api/geoQuiz/:id", (req, res, next) => {
     var data = {
         quizQuestion: req.body.quizQuestion,
@@ -147,7 +119,6 @@ app.put("/api/geoQuiz/:id", (req, res, next) => {
         })
     });
 })
-
 app.delete("/api/geoQuiz/:id", (req, res, next) => {
     db.run(
         'DELETE FROM geoQuiz WHERE quizId = ?',
@@ -160,7 +131,58 @@ app.delete("/api/geoQuiz/:id", (req, res, next) => {
             res.json({"message":"deleted", rows: this.changes})
     });
 })
-
+/* Mathematics Quiz */
+app.get("/api/matteQuiz", (req, res, next) => {
+    var sql = "select * from matteQuiz"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "mattequiz":rows
+        })
+    });
+});
+app.get("/api/matteQuiz/:id", (req, res, next) => {
+    var sql = "select * from matteQuiz where quizId = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "mattequiz":row
+        })
+    });
+});
+app.post("/api/matteQuiz/", (req, res, next) => {
+    const data = {
+        quizQuestion: req.body.quizQuestion,
+        quizAnswer1: req.body.quizAnswer1,
+        quizAnswer2: req.body.quizAnswer2,
+        quizAnswer3: req.body.quizAnswer3,
+        quizCorrectAnswer: req.body.quizCorrectAnswer,
+        quizImg: req.body.quizImg
+    }
+    const sql = 'INSERT INTO matteQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+    const params = [data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3, data.quizCorrectAnswer, data.quizImg]
+    db.run(sql, params, function (err, result) {
+        if (err) {
+            res.status(400).json({ "error": err.message })
+            return;
+        }
+        res.json({
+            "message": "success",
+            "matteQuiz": data,
+            "id": this.lastID
+        })
+    });
+})
 
 
 /* Users Handling */
