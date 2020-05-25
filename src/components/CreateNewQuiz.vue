@@ -13,7 +13,7 @@
             <input type="number" id="amount" name="amount" placeholder="Amount of question*" v-model="amount">
             <input type="submit" value="Next" @click="infoQuiz()">
         </div>
-        <div v-show="isSelected">
+        <div v-show="isSelected" v-if="count !==amount">
 
             <input type="text" id="question" name="question" placeholder="The Question*" v-model="quizQuestion">
             <input type="text" id="answer1" name="answer1" placeholder="Answer 1*" v-model="quizAnswer1">
@@ -27,6 +27,9 @@
             </select><br>
             <input type="file" id="upload" name="upload" accept="image/*" placeholder="Select image">
             <input type="submit" value="Save" @submit="postNewQuiz">
+        </div>
+        <div v-if="count===amount" v-show="isSelected">
+            <input type="submit" value="Back" @submit="goBack">
         </div>
 
     </article>
@@ -49,6 +52,7 @@
         value:'default',
         amount:'Amount of question*',
         validation:'',
+        count:1,
       }
 
     },
@@ -74,7 +78,11 @@
           this.validation='Please select a subject and enter amount of question!'
         }
       },
-
+      goBack(){
+        this.emptyFields();
+        this.isSelected=false;
+        this.count = 1;
+      },
       async postNewQuiz(){
               for(let i =0; i<this.amount; i++){
                     let response
@@ -101,8 +109,9 @@
                       });
                     }
                     console.log(response);
+                this.emptyFields();
+                this.count += 1;
               }
-            this.emptyFields();
       },
 
     }

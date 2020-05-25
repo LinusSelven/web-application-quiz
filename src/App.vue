@@ -8,7 +8,7 @@
             <span class="slag">DET SKA VARA KUL ATT PLUGGA!</span>
           </div>
           <div class="logout-box">
-            <label><span>Hi, Halim Dakir!</span></label>
+            <label><span>Hi, Halim Halim!</span></label>
             <label><a href="">[log out!]</a></label>
           </div>
         </div>
