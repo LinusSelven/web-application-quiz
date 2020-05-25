@@ -1,6 +1,5 @@
 <template>
     <div class="createQuiz">
-    <p>{{registrationStatus}}</p>
     <p id="validation">{{validation}}</p>
     <article>
         <div v-show="!isSelected">
@@ -47,8 +46,9 @@
         quizAnswer2 :'',
         quizAnswer3 :'',
         quizCorrectAnswer: 0,
-        value:'',
-        amount:0,
+        value:'default',
+        amount:'Amount of question*',
+        validation:'',
       }
 
     },
@@ -67,17 +67,22 @@
         this.quizCorrectAnswer= 0;
       },
       infoQuiz(){
-        this.isSelected=true;
+        if (this.value !== 'default' && this.amount > 0){
+          this.isSelected=true;
+          this.validation='';
+        }else {
+          this.validation='Please select a subject and enter amount of question!'
+        }
       },
 
       async postNewQuiz(){
               for(let i =0; i<this.amount; i++){
                     let response
-                    const credential = '  quizQuestion: this.quizQuestion,\n' +
-                      '              quizAnswer1: this.quizAnswer1,\n' +
-                      '              quizAnswer2: this.quizAnswer2,\n' +
-                      '              quizAnswer3: this.quizAnswer3,\n' +
-                      '              quizCorrectAnswer: this.quizCorrectAnswer';
+                    const credential = 'quizQuestion: this.quizQuestion,\n' +
+                                       'quizAnswer1: this.quizAnswer1,\n' +
+                                       'quizAnswer2: this.quizAnswer2,\n' +
+                                       'quizAnswer3: this.quizAnswer3,\n' +
+                                       'quizCorrectAnswer: this.quizCorrectAnswer';
                     if (this.value ==='geoQuiz'){
                       response = await ApiServices.newQuizGeo({
                         credential
