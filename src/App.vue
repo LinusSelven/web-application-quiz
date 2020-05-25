@@ -19,7 +19,7 @@
           <li><router-link to="/"> Quiz</router-link></li>
           <li><router-link to="/login">Sign in</router-link></li>
           <li><router-link to="/register">Sign up</router-link></li>
-          <li><router-link to="/CreateNewQuiz">Rate us</router-link></li>
+          <li v-if="(isLogged && user_Role==='Admin')"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
           <li><router-link to="/aboutus">About us</router-link></li>
         </ul>
       </div>
@@ -80,6 +80,8 @@
         message:'',
         errorMessage:'',
         isLogged: false,
+        userID: 0,
+        user_Role:'',
       }
     },
       methods: {
@@ -104,6 +106,8 @@
             sessionStorage.setItem("userLogged", jsonUser_serialized);
             this.message= JSON.parse(sessionStorage.getItem('userLogged')).message+", "+JSON.parse(sessionStorage.getItem('userLogged')).fullName+"!";
             this.isLogged = true;
+            this.userID= JSON.parse(sessionStorage.getItem('userLogged')).userId;
+            this.user_Role= JSON.parse(sessionStorage.getItem('userLogged')).userRole;
             this.email = '';
             this.password = '';
           }
