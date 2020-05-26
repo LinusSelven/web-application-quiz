@@ -1,7 +1,7 @@
 <template>
     <div class="quiz-Geo">
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}}/{{geoQuiz.length}}</h1>
+            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{geoQuiz.length}}</h1>
             <div>
                 <h2>{{geoQuiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -104,13 +104,11 @@
                 return response.json();
               })
               .then((data) => {
-                console.log(data.geoQuiz);
                 this.geoQuiz = data.geoQuiz;
               });
           },
         },
         mounted() {
-
           fetch('http://127.0.0.1:3000/api/geoQuiz/numberOfLevel')
             .then((response) => {
               return response.json();
@@ -123,7 +121,6 @@
               return response.json();
             })
             .then((data) => {
-              console.log(data.geoQuiz);
               this.geoQuiz = data.geoQuiz;
             });
         }
@@ -207,7 +204,7 @@
             display: table-cell;
             text-align: center;
             vertical-align: top;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
         }
         .q-btn {
             margin-top: 20px;
