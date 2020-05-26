@@ -68,8 +68,8 @@ app.get("/api/geoQuiz/level", (req, res, next) => {
     });
 });
 app.get("/api/geoQuiz/numberOfLevel", (req, res, next) => {
-    var sql = 'select quizLevel from geoQuiz GROUP BY quizLevel'
-    var params = []
+    const sql = 'select quizLevel from geoQuiz GROUP BY quizLevel';
+    const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
             res.status(400).json({"error":err.message});
