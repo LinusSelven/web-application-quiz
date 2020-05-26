@@ -1,5 +1,7 @@
 <template>
     <div class="quiz-Geo">
+        <div v-if="!isDone">
+            <h3> This is : {{questionNumber}}</h3>
             <div class="q-question">
                 <h2>{{geoQuiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -19,10 +21,15 @@
             <div class="q-question">
                 <h3 class="right-answer">{{resultat}}</h3>
                 <p></p>
-                <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (geoQuiz.length-1)">Nästa fråga</button>
-                <router-link to="/results"><button class="q-btn" v-show="questionNumber === (geoQuiz.length-1) && userHasGuessed == true">Resultat</button></router-link>
-                <h3>Your score: {{countOfCorrectAnswers}} / {{geoQuiz.length}}</h3>
             </div>
+        </div>
+
+        <div v-if="isDone">
+            <button class="q-btn" @click="correctAnswers">Nästa Quiz</button>
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h3>Your Score: {{countOfCorrectAnswers}} / {{geoQuiz.length}}</h3>
+
+        </div>
     </div>
 </template>
 
@@ -32,12 +39,13 @@
         data: function () {
             return {
                 geoQuiz: [],
-                questionNumber: 0,
+                questionNumber: 1,
                 countOfCorrectAnswers: 0,
                 userHasGuessed: false,
                 key:'0',
                 resultat:'',
-                selectedLevel : 1 /* default */
+                selectedLevel : 1, /* default */
+              isDone:false,
             }
         },
 
@@ -46,20 +54,62 @@
                 this.userHasGuessed = false;
                 this.resultat = '';
                 this.key='0';
-               this.questionNumber += 1;
             },
 
 
             userChoseAnswer: function (event) {
                 this.userHasGuessed = true;
                 if (event.target.value == this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
-                    this.countOfCorrectAnswers += 1;
-                    return this.resultat = 'Rätt svar!';
-                } else {
-                  return this.resultat = 'Fel svar!';
-                }
-            },
+                    this.resultat = 'Rätt svar!';
+                  this.countOfCorrectAnswers += 1;
 
+                } else {
+                  this.resultat = 'Fel svar!';
+                }
+                this.nextQuestion();
+              this.countQuestions();
+            },
+          fetchNextQuiz(level){
+            fetch('http://127.0.0.1:3000/api/geoQuiz/level/'+level)
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data.geoQuiz);
+                this.geoQuiz = data.geoQuiz;
+              });
+          },
+          countQuestions(){
+            this.questionNumber += 1;
+            this.isDone = this.questionNumber === this.geoQuiz.length;
+          },
+          correctAnswers(){
+            let amount = this.geoQuiz.length;
+            let modulo = amount%2;
+            let middleScore = Math.floor(amount/2);
+            if(modulo === 1){
+              if (this.countOfCorrectAnswers >=  middleScore+1){
+                this.selectedLevel +=1 ;
+                this.fetchNextQuiz(this.selectedLevel);
+                this.userHasGuessed = false;
+                this.countOfCorrectAnswers=0;
+                this.questionNumber= 0;
+                this.resultat='';
+                this.isDone =false;
+              }
+            }else {
+              if (this.countOfCorrectAnswers >=  middleScore){
+                this.selectedLevel +=1 ;
+                this.fetchNextQuiz(this.selectedLevel);
+                this.userHasGuessed = false;
+                this.countOfCorrectAnswers=0;
+                this.questionNumber= 0;
+                this.resultat='';
+                this.isDone =false;
+              }
+            }
+
+          },
 
             getImgUrl: function (pic) {
                 return require('../assets/' + pic)
