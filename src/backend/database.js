@@ -12,6 +12,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(`CREATE TABLE geoQuiz (
             quizId INTEGER PRIMARY KEY,
             quizQuestion TEXT,
+            quizLevel INTEGER,
             quizAnswer1 TEXT,
             quizAnswer2 TEXT,
             quizAnswer3 TEXT,
@@ -23,44 +24,51 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 // Table already created
             } else {
                 // Table just created, creating some rows
-                var insert = 'INSERT INTO geoQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+                var insert = 'INSERT INTO geoQuiz (quizQuestion, quizLevel, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?,?)'
                 db.run(insert, ["Vilken världsdel visas?",
+                    "1",
                     "Sydamerika",
                     "Asien",
                     "Afrika",
                     "3",
                     "280px-Africa_(orthographic_projection).svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
+                    "1",
                     "Afrika",
                     "Asien",
                     "Nordamerika",
                     "2",
                     "280px-Asia_(orthographic_projection).svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
+                    "1",
                     "Antarktis",
                     "Oceanien",
                     "Europa",
                     "3",
                     "280px-Europe_(orthographic_projection).svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
+                    "2",
                     "Nordamerika",
                     "Antarktis",
                     "Oceanien",
                     "2",
                     "280px-Antarctica_(orthographic_projection).svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
+                    "3",
                     "Sydamerika",
                     "Afrika",
                     "Nordamerika",
                     "3",
                     "280px-Location_North_America.svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
+                    "1",
                     "Oceanien",
                     "Afrika",
                     "Antarktis",
                     "1",
                     "280px-Oceania_(orthographic_projection).svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
+                    "1",
                     "Sydamerika",
                     "Nordamerika",
                     "Europa",
