@@ -1,31 +1,6 @@
 <template>
-    <div class="signIn" >
-        <table class="center">
-            <tr>
-                <td><p id="errorMsg">{{message}}</p></td>
-            </tr>
-            <tr>
-                <td v-if="isLogged"><input type="button" @click="submitLogout" value="login"></td>
-            </tr>
-            <tr>
-                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" ></td>
-            </tr>
-            <tr>
-                <td v-if="!isLogged"><input value="password" type="password" name="user-log" v-model="password" placeholder="Password"></td>
-            </tr>
-            <tr>
-                <td v-if="!isLogged"><input type="button" @click="submitForm" value="login"></td>
-            </tr>
-            <tr><td></td></tr>
-            <tr><td></td></tr>
-            <tr>
-                <td v-if="!isLogged"><input name="rememberMe" type="checkbox" value="Remember Me"><span>Jag vill förbli inloggad</span> </td>
-            </tr>
-            <tr>
-                <td v-if="!isLogged"> <a href="#" rel="">Har du glömt lösenordet?</a>&nbsp;&nbsp; <span>Inget konto! </span><a><router-link to="/register">Registrera!</router-link></a></td>
-            </tr>
-
-        </table>
+    <div class="myPage" >
+        <div class="showData" id="showData"></div>
     </div>
 </template>
 
@@ -34,44 +9,14 @@
         name: "login",
         data: function () {
             return{
-              email:'',
-              password:'',
-              message:'',
-              isLogged: false,
+
             }
         },
         methods:{
-              async submitForm() {
-                    const response = await AuthServices.login({
-                      email: this.email,
-                      password: this.password
-                    });
-                    if (response.data.isSessionCreated){
-                      /*const jsonObject = '{"message": "'+response.data.message+'", "fullName": "'+response.data.fullName+'", "userRole": "'+response.data.userRole+'", "userId": "'+response.data.userId+'"}';
-                      let obj = JSON.parse(jsonObject);
-                      let jsonUser_serialized = JSON.stringify(obj);
-                      sessionStorage.setItem("userLogged", jsonUser_serialized);*/
-                      localStorage.setItem("message", response.data.message);
-                      localStorage.setItem("fullName", response.data.fullName);
-                      localStorage.setItem("userRole", response.data.userRole);
-                      localStorage.setItem("userId", response.data.userId);
-                      this.message= response.data.message+", "+sessionStorage.getItem("fullName");
-                      this.isLogged = true;
-                      this.email = '';
-                      this.password = '';
-                    }
-                    else {
-                      this.message = response.data.message;
-                      this.email = '';
-                      this.password = '';
-                    }
-              },
-          submitLogout() {
-            localStorage.clear();
-          },
+
         }
   }
-  import AuthServices from '../services/ApiServices';
+  //import AuthServices from '../services/ApiServices';
 </script>
 
 <style scoped>
@@ -143,16 +88,16 @@
         font-weight: normal;
         color: wheat;
     }
-    .signIn{
+    .myPage{
         display: inline-block;
         width: 100%;
     }
-    .signIn a {
+    .myPage a {
         color: #3d8cb5;
         text-decoration: none;
         cursor: pointer;
     }
-    .signIn a:hover {
+    .myPage a:hover {
         color: #e9e608;
     }
     table {
@@ -200,7 +145,7 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .signIn{
+        .myPage{
             display: table-cell;
             text-align: center;
             vertical-align: middle;
