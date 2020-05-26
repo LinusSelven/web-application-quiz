@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz-Geo">
+    <div class="quiz-matte">
         <div class="q-img">
             <h2>
                 <img :src="getImgUrl(geoQuiz[questionNumber].quizImg)" v-bind:alt="pic">
@@ -134,7 +134,7 @@
         color: black;
         cursor: pointer;
     }
-    .quiz-Geo{
+    .quiz-matte{
         background: rgba(0, 0, 0, .7);
         border-radius: 10px;
         display: inline-block;
@@ -159,7 +159,7 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .quiz-Geo{
+        .quiz-matte{
             display: table-cell;
             text-align: center;
             vertical-align: middle;

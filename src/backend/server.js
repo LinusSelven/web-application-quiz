@@ -186,6 +186,48 @@ app.get("/api/matteQuiz", (req, res, next) => {
         })
     });
 });
+app.get("/api/matteQuiz/level", (req, res, next) => {
+    var sql = "select * from matteQuiz";
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "matteQuiz":rows
+        })
+    });
+});
+app.get("/api/matteQuiz/numberOfLevel", (req, res, next) => {
+    var sql = 'select quizLevel from matteQuiz GROUP BY quizLevel'
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "matteQuizLevel":rows
+        })
+    });
+});
+app.get("/api/matteQuiz/level/:id", (req, res, next) => {
+    var sql = "select * from matteQuiz where quizLevel = ?";
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "matteQuiz":rows
+        })
+    });
+});
 app.get("/api/matteQuiz/:id", (req, res, next) => {
     var sql = "select * from matteQuiz where quizId = ?"
     var params = [req.params.id]
@@ -223,7 +265,41 @@ app.post("/api/matteQuiz/", (req, res, next) => {
         })
     });
 })
-
+app.put("/api/matteQuiz/:id", (req, res, next) => {
+    var data = {
+        quizQuestion: req.body.quizQuestion,
+        quizAnswer1: req.body.quizAnswer1,
+        quizAnswer2: req.body.quizAnswer2,
+        quizAnswer3: req.body.quizAnswer3,
+        quizCorrectAnswer: req.body.quizCorrectAnswer,
+        quizImg: req.body.quizImg
+    }
+    var sql ='UPDATE matteQuiz SET quizQuestion = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, quizCorrectAnswer = ?, quizImg = ? WHERE quizId = ?'
+    var params =[data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3,data.quizCorrectAnswer,data.quizImg, req.params.id]
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "matteQuiz": data,
+            "id" : this.lastID
+        })
+    });
+})
+app.delete("/api/matteQuiz/:id", (req, res, next) => {
+    db.run(
+      'DELETE FROM matteQuiz WHERE quizId = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+          res.json({"message":"deleted", rows: this.changes})
+      });
+})
 
 /* Users Handling */
 app.get('/api/users', session_Status, (request, response, next) => {
