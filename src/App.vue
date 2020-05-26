@@ -17,9 +17,9 @@
       <div id="desktop-menu">
         <ul class="menu">
           <li><router-link to="/"> Quiz</router-link></li>
-          <li><router-link to="/login">Sign in</router-link></li>
-          <li><router-link to="/register">Sign up</router-link></li>
-          <li v-if="(isLogged && user_Role==='Admin')"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
+          <li v-if="isLogged"><router-link to="/login">My page</router-link></li>
+          <li v-if="!isLogged"><router-link to="/register">Sign up</router-link></li>
+          <li v-if="isLogged && user_Role!=='Student'"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
           <li><router-link to="/aboutus">About us</router-link></li>
         </ul>
       </div>
@@ -106,7 +106,7 @@
             sessionStorage.setItem("userLogged", jsonUser_serialized);
             this.message= JSON.parse(sessionStorage.getItem('userLogged')).message+", "+JSON.parse(sessionStorage.getItem('userLogged')).fullName+"!";
             this.isLogged = true;
-            this.userID= JSON.parse(sessionStorage.getItem('userLogged')).userId;
+            this.userID= parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId);
             this.user_Role= JSON.parse(sessionStorage.getItem('userLogged')).userRole;
             this.email = '';
             this.password = '';
@@ -124,6 +124,8 @@
           });
           sessionStorage.clear();
           this.isLogged = false;
+          this.userID= 0;
+          this.user_Role= '';
           this.errorMessage ='';
           this.message = response.data.message;
           //setTimeout(this.message, 3000);
