@@ -51,7 +51,14 @@ const routes = [
         path: '/matteQuiz',
         name: 'mattequiz',
         component: () => import(/* webpackChunkName: "about" */ '../components/mattequiz.vue')
+    },
+
+    {
+        path: '/svenskaQuiz',
+        name: 'svenskaQuiz',
+        component: () => import(/* webpackChunkName: "about" */ '../components/svenskaQuiz.vue')
     }
+
 
 ]
 
