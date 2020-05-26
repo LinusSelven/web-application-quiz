@@ -37,6 +37,7 @@
                 userHasGuessed: false,
                 key:'0',
                 resultat:'',
+                selectedLevel : 1 /* default */
             }
         },
 
@@ -66,7 +67,7 @@
         },
 
         mounted() {
-            fetch('http://127.0.0.1:3000/api/geoQuiz/')
+            fetch('http://127.0.0.1:3000/api/geoQuiz/level/' + this.selectedLevel)
                 .then((response) => {
                     return response.json();
                 })
