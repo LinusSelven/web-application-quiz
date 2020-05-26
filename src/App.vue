@@ -183,7 +183,7 @@
   }
 
   .item3-body{
-    border: 3px solid #ccc;
+    border: 3px solid #cccc;
     width: 100%;
     display: table;
     margin: auto;
@@ -198,7 +198,7 @@ span{
     height: auto;
   }
   .login-cell{
-    border-bottom: 2px solid #ccc;
+    border-bottom: 3px solid #cccc;
     height: 50px;
     width: 100%;
     display: table-cell;

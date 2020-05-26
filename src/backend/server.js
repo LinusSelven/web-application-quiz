@@ -67,6 +67,20 @@ app.get("/api/geoQuiz/level", (req, res, next) => {
         })
     });
 });
+app.get("/api/geoQuiz/numberOfLevel", (req, res, next) => {
+    var sql = 'select quizLevel from geoQuiz GROUP BY quizLevel'
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "geoQuizLevel":rows
+        })
+    });
+});
 app.get("/api/geoQuiz/level/:id", (req, res, next) => {
     var sql = "select * from geoQuiz where quizLevel = ?";
     var params = [req.params.id]
