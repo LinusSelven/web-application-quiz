@@ -16,13 +16,11 @@ app.use(bodyParser.json());
 app.use(session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
 }));
 const session_Status = (req, res, next) =>{
     if (!req.session.userId) {
         res.send('Sorry! Login to see this page.')
-    }else if (req.session.userRole !== 'Admin'){
-        res.send('Sorry! You have to be an admin.')
     }else{
         next()
     }
@@ -66,6 +64,20 @@ app.get("/api/geoQuiz/level", (req, res, next) => {
         res.json({
             "message":"success",
             "geoQuiz":rows
+        })
+    });
+});
+app.get("/api/geoQuiz/numberOfLevel", (req, res, next) => {
+    var sql = 'select quizLevel from geoQuiz GROUP BY quizLevel'
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "geoQuizLevel":rows
         })
     });
 });
@@ -382,9 +394,13 @@ app.post('/api/auth', function(request, response) {
                 request.session.userId = row.userId;
                 request.session.username = row.fullName;
                 request.session.userRole = row.userRole;
+
                 response.send({
-                    message:`Welcome: ${request.session.username} , You are: ${request.session.userRole}, Your ID: ${request.session.userId}`,
-                    isSessionCreated:  true
+                    message:`Welcome`,
+                    fullName: request.session.username,
+                    userRole: request.session.userRole,
+                    userId: request.session.userId,
+                    isSessionCreated: true
                 });
             } else {
                 response.send({
@@ -402,12 +418,23 @@ app.post('/api/auth', function(request, response) {
         response.end();
     }
 });
-app.post('/logout', session_Status,(req, res) => {
-        req.session.destroy(err => {
-            res.send({
-                message: `Goodbye!`
+app.post('/api/logout', (req, res) => {
+    const userData = {
+        isSessionActive: req.body.sessionStatus,
+    }
+        if (userData.isSessionActive){
+            req.session.destroy(function(err){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.send({
+                        message: `Your are disconnected!`
+                    });
+                    res.end();
+                }
             });
-        })
+    }
+
 })
 app.get('/home', function(request, response) {
     if (request.session.loggedin) {

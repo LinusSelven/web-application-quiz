@@ -1,6 +1,8 @@
 <template>
     <div class="quiz-Geo">
-            <div class="q-question">
+        <div v-if="!isDone" class="q-question">
+            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}}/{{geoQuiz.length}}</h1>
+            <div>
                 <h2>{{geoQuiz[questionNumber].quizQuestion}}</h2>
             </div>
             <div class="q-img">
@@ -16,13 +18,14 @@
                 <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{geoQuiz[questionNumber].quizAnswer3}}
                 </button>
             </div>
-            <div class="q-question">
-                <h3 class="right-answer">{{resultat}}</h3>
-                <p></p>
-                <button class="q-btn" @click="nextQuestion()" v-show="questionNumber !== (geoQuiz.length-1)">Nästa fråga</button>
-                <router-link to="/results"><button class="q-btn" v-show="questionNumber === (geoQuiz.length-1) && userHasGuessed == true">Resultat</button></router-link>
-                <h3>Your score: {{countOfCorrectAnswers}} / {{geoQuiz.length}}</h3>
-            </div>
+        </div>
+        <div v-if="isDone" class="q-question">
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h1>{{finalScore}} %</h1>
+            <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
+            <button class="q-btn" @click="redoQuiz">Last Quiz</button>
+            <h2>{{nextQuizMessage}}</h2>
+        </div>
     </div>
 </template>
 
@@ -31,52 +34,99 @@
         name: "geographyquiz",
         data: function () {
             return {
-                geoQuiz: [],
-                questionNumber: 0,
-                countOfCorrectAnswers: 0,
-                userHasGuessed: false,
-                key:'0',
-                resultat:'',
-                selectedLevel : 1 /* default */
+              geoQuiz: [],
+              quizLevel:[],
+              questionNumber: 0,
+              countOfCorrectAnswers: 0,
+              userHasGuessed: false,
+              selectedLevel : 1, /* default */
+              isDone:false,
+              finalScore:0,
+              nextQuizMessage:'',
+              numberOfLevel:0,
             }
         },
 
         methods: {
-            nextQuestion: function () {
+            nextQuestion() {
                 this.userHasGuessed = false;
-                this.resultat = '';
-                this.key='0';
-               this.questionNumber += 1;
             },
-
-
             userChoseAnswer: function (event) {
                 this.userHasGuessed = true;
-                if (event.target.value == this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
-                    this.countOfCorrectAnswers += 1;
-                    return this.resultat = 'Rätt svar!';
-                } else {
-                  return this.resultat = 'Fel svar!';
+                if (parseInt(event.target.value) === this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
+                  this.countOfCorrectAnswers += 1;
                 }
+                this.nextQuestion();
+                this.countQuestions();
+                this.percentageScore();
             },
 
-
-            getImgUrl: function (pic) {
+          countQuestions(){
+            this.questionNumber += 1;
+            this.isDone = this.questionNumber === this.geoQuiz.length;
+          },
+          nextLevelQuiz(){
+                if(this.finalScore >= 50){
+                        if (this.selectedLevel<this.quizLevel.length ){
+                          this.selectedLevel +=1 ;
+                          this.fetchNextQuiz(this.selectedLevel);
+                          this.userHasGuessed = false;
+                          this.countOfCorrectAnswers=0;
+                          this.questionNumber= 0;
+                          this.isDone =false;
+                          this.nextQuizMessage='';
+                        }else{
+                          this.nextQuizMessage='Sorry! There is no next level for the moment.';
+                        }
+                }else {
+                      this.nextQuizMessage='You have to get at least 50 % correct';
+                }
+          },
+          redoQuiz(){
+            this.fetchNextQuiz(this.selectedLevel);
+            this.userHasGuessed = false;
+            this.countOfCorrectAnswers=0;
+            this.questionNumber= 0;
+            this.isDone =false;
+            this.nextQuizMessage='';
+          },
+          percentageScore(){
+            let amount = this.geoQuiz.length;
+            let scorePerQuestion = 100/amount;
+            this.finalScore= this.countOfCorrectAnswers*scorePerQuestion;
+          },
+          getImgUrl: function (pic) {
                 return require('../assets/' + pic)
-            }
+          },
+          fetchNextQuiz(level){
+            fetch('http://127.0.0.1:3000/api/geoQuiz/level/'+level)
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data.geoQuiz);
+                this.geoQuiz = data.geoQuiz;
+              });
+          },
         },
-
         mounted() {
-            fetch('http://127.0.0.1:3000/api/geoQuiz/level/' + this.selectedLevel)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log(data.geoQuiz);
-                    this.geoQuiz = data.geoQuiz;
-                });
-        }
 
+          fetch('http://127.0.0.1:3000/api/geoQuiz/numberOfLevel')
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.quizLevel = data.geoQuizLevel;
+            });
+          fetch('http://127.0.0.1:3000/api/geoQuiz/level/' + this.selectedLevel)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              console.log(data.geoQuiz);
+              this.geoQuiz = data.geoQuiz;
+            });
+        }
     }
 </script>
 
@@ -95,6 +145,14 @@
         max-width: 100%;
         max-height: 100%;
         display: block;
+    }
+    h1{
+        background: rgba(0, 0, 0, 0.9);
+        font-family: "Nirmala UI Semilight", monospace;
+        font-size: x-large;
+        color: wheat;
+        border-bottom: 1px solid black;
+        margin: 0;
     }
 
     .q-answer {
@@ -122,20 +180,20 @@
     }
     .quiz-Geo{
         background: rgba(0, 0, 0, .7);
-        border-radius: 10px;
         display: inline-block;
         text-align: center;
         width: 100%;
     }
-    p{
-        margin-bottom: 20px;
-    }
     h2, h3{
-        font-family: "Times New Roman", monospace;
+        font-family: "Nirmala UI Semilight", monospace;
+        font-size: large;
         color: wheat;
     }
-    .right-answer{
-        color: #06d4ee;
+    .res{
+        margin: 0 auto;
+        width: 300px;
+        height: 220px;
+        display: flow;
     }
     /* Mobile */
     @media screen and (max-width: 400px) {
@@ -148,12 +206,16 @@
         .quiz-Geo{
             display: table-cell;
             text-align: center;
-            vertical-align: middle;
-            background: rgba(0, 0, 0, 0.7);
+            vertical-align: top;
+            background: rgba(0, 0, 0, 0.8);
         }
         .q-btn {
-            width: 30%;
+            margin-top: 20px;
+            width: 32%;
             height: 50px;
+        }
+        h1{
+          padding: 13px;
         }
     }
 
