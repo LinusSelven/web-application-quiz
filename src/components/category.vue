@@ -8,14 +8,14 @@
         <img class="icon-desktop" src="../assets/icon/icons8-geography-100.png" alt="geo">
         <img class="icon-mobile" src="../assets/icon/icons8-geography-50.png" alt="geo">
       </button></router-link>
-    <button class="btn">
+    <router-link to="/svenskaQuiz"><button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-scandinavian-100.png" alt="sve">
       <img class="icon-mobile" src="../assets/icon/icons8-scandinavian-50.png" alt="sve">
-    </button>
-    <button class="btn">
+    </button></router-link>
+    <router-link to="/xx"><button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-great-britain-100.png" alt="eng">
       <img class="icon-mobile" src="../assets/icon/icons8-great-britain-50.png" alt="eng">
-    </button>
+    </button></router-link>
   </div>
 </template>
 
