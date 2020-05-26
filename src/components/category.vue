@@ -8,14 +8,23 @@
         <img class="icon-desktop" src="../assets/icon/icons8-geography-100.png" alt="geo">
         <img class="icon-mobile" src="../assets/icon/icons8-geography-50.png" alt="geo" width="30px" height="30px">
       </button></router-link>
-    <button class="btn">
+    <router-link to="/svenskaQuiz"><button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-scandinavian-100.png" alt="sve">
+<<<<<<< HEAD
       <img class="icon-mobile" src="../assets/icon/icons8-scandinavian-50.png" alt="sve" width="30px" height="30px">
     </button>
     <button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-great-britain-100.png" alt="eng">
       <img class="icon-mobile" src="../assets/icon/icons8-great-britain-50.png" alt="eng" width="30px" height="30px">
     </button>
+=======
+      <img class="icon-mobile" src="../assets/icon/icons8-scandinavian-50.png" alt="sve">
+    </button></router-link>
+    <router-link to="/engelskaQuiz"><button class="btn">
+      <img class="icon-desktop" src="../assets/icon/icons8-great-britain-100.png" alt="eng">
+      <img class="icon-mobile" src="../assets/icon/icons8-great-britain-50.png" alt="eng">
+    </button></router-link>
+>>>>>>> d2268fe82f15c031587409570b91ca7c469a9143
   </div>
 </template>
 
