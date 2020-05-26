@@ -55,6 +55,34 @@ app.get("/api/geoQuiz", (req, res, next) => {
         })
       });
 });
+app.get("/api/geoQuiz/level", (req, res, next) => {
+    var sql = "select * from geoQuiz";
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "geoQuiz":rows
+        })
+    });
+});
+app.get("/api/geoQuiz/level/:id", (req, res, next) => {
+    var sql = "select * from geoQuiz where quizLevel = ?";
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "geoQuiz":rows
+        })
+    });
+});
 app.get("/api/geoQuiz/:id", (req, res, next) => {
     var sql = "select * from geoQuiz where quizId = ?"
     var params = [req.params.id]
