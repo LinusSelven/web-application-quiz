@@ -110,20 +110,17 @@ app.get("/api/geoQuiz/:id", (req, res, next) => {
       });
 });
 app.post("/api/geoQuiz/", (req, res, next) => {
-    var errors=[]
-    if (!req.body.quizCorrectAnswer){
-        errors.push("Inget korrekt svar angivet!");
-    }
-    var data = {
+    const data = {
         quizQuestion: req.body.quizQuestion,
+        quizLevel: req.body.quizLevel,
         quizAnswer1: req.body.quizAnswer1,
         quizAnswer2: req.body.quizAnswer2,
         quizAnswer3: req.body.quizAnswer3,
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
-    var sql ='INSERT INTO geoQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
-    var params =[data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3,data.quizCorrectAnswer,data.quizImg]
+    const sql = 'INSERT INTO geoQuiz (quizQuestion, quizLevel, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?,?)'
+    const params = [data.quizQuestion, data.quizLevel, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3, data.quizCorrectAnswer, data.quizImg]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})
