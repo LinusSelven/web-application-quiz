@@ -12,7 +12,7 @@
       <img class="icon-desktop" src="../assets/icon/icons8-scandinavian-100.png" alt="sve">
       <img class="icon-mobile" src="../assets/icon/icons8-scandinavian-50.png" alt="sve">
     </button></router-link>
-    <router-link to="/xx"><button class="btn">
+    <router-link to="/engelskaQuiz"><button class="btn">
       <img class="icon-desktop" src="../assets/icon/icons8-great-britain-100.png" alt="eng">
       <img class="icon-mobile" src="../assets/icon/icons8-great-britain-50.png" alt="eng">
     </button></router-link>
