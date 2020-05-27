@@ -89,6 +89,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(`CREATE TABLE matteQuiz (
             quizId INTEGER PRIMARY KEY,
             quizQuestion TEXT,
+            quizLevel INTEGER,
             quizAnswer1 TEXT,
             quizAnswer2 TEXT,
             quizAnswer3 TEXT,
@@ -100,49 +101,156 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 // Table already created
             } else {
                 // Table just created, creating some rows
-                var insert1 = 'INSERT INTO matteQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
+                var insert1 = 'INSERT INTO matteQuiz (quizQuestion,quizLevel, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?,?)'
                 db.run(insert1, ["4 + 5 = ?",
+                    "1",
                     "11",
                     "7",
                     "9",
                     "3",
-                    "mathematics.jpg"])
+                    "math.png"])
                 db.run(insert1, ["7 - 3 = ?",
+                    "1",
                     "5",
                     "4",
                     "2",
                     "2",
-                    "mathematics.jpg"])
+                    "math.png"])
                 db.run(insert1, ["3 * 4 = ?",
+                    "1",
                     "14",
                     "10",
                     "12",
                     "3",
-                    "mathematics.jpg"])
+                    "math.png"])
                 db.run(insert1, ["8 / 2 = ?",
+                    "1",
                     "3",
                     "4",
                     "6",
                     "2",
-                    "mathematics.jpg"])
+                    "math.png"])
                 db.run(insert1, ["Ruben, Harry och Kattja ska dela lika på 18 jordgubbar, hur många får de var?",
+                    "1",
                     "7 stycken.",
                     "4 stycken.",
                     "6 stycken.",
                     "3",
-                    "strawberry.png"])
+                    "math.png"])
                 db.run(insert1, ["16 + 9 = ?",
+                    "1",
                     "25",
                     "27",
                     "22",
                     "1",
-                    "mathematics.jpg"])
+                    "math.png"])
                 db.run(insert1, ["34 - 14 = ?",
+                    "1",
                     "20",
                     "24",
                     "30",
                     "1",
-                    "mathematics.jpg"])
+                    "math.png"])
+
+                db.run(insert1, ["Vad är klockan ?",
+                    "2",
+                    "Klockan fyra",
+                    "Fem  över  fyra",
+                    "Fem  i fyra",
+                    "3",
+                    "1c.png"])
+                db.run(insert1, ["Vad är klockan ?",
+                    "2",
+                    "Fem över tio",
+                    "Klockan ett",
+                    "halv tio",
+                    "1",
+                    "2c.png"])
+                db.run(insert1, ["Vad är klockan ?",
+                    "2",
+                    "Klockan två",
+                    "Kvart i två",
+                    "Halv nio",
+                    "2",
+                    "3c.png"])
+                db.run(insert1, ["Vad är klockan ?",
+                    "2",
+                    "Tjugo i nio",
+                    "Klockan nio",
+                    "Halv åtta",
+                    "1",
+                    "4c.png"])
+                db.run(insert1, ["Vad är klockan ?",
+                    "2",
+                    "Klockan fyra",
+                    "Kvart över fyra ",
+                    "Klockan tre",
+                    "2",
+                    "5c.png"])
+                db.run(insert1, ["Vad är klockan ?",
+                    "2",
+                    "Fem i halv åtta",
+                    "Halv åtta",
+                    "Klockan fem",
+                    "1",
+                    "6c.png"])
+                db.run(insert1, ["Vad är klockan ?",
+                    "2",
+                    "Halv elva",
+                    "Tolv",
+                    "Halv tolv",
+                    "3",
+                    "7c.png"])
+
+                db.run(insert1, ["Figuren är en",
+                    "3",
+                    "Cirkel",
+                    "Kub",
+                    "Rektangel",
+                    "3",
+                    "1sh.png"])
+                db.run(insert1, ["Figuren är en",
+                    "3",
+                    "Kub",
+                    "Cirkel",
+                    "Rektangel",
+                    "2",
+                    "2sh.png"])
+                db.run(insert1, ["Figuren är en",
+                    "3",
+                    "Cirkel",
+                    "Rektangel",
+                    "Triangel",
+                    "3",
+                    "3sh.png"])
+                db.run(insert1, ["Figuren är en",
+                    "3",
+                    "Kub",
+                    "Kvadrat",
+                    "Rektangel",
+                    "2",
+                    "4sh.png"])
+                db.run(insert1, ["Figuren är en",
+                    "3",
+                    "Cirkel",
+                    "Rektangel",
+                    "Kon",
+                    "3",
+                    "5sh.png"])
+                db.run(insert1, ["Figuren är en",
+                    "3",
+                    "Pyramid",
+                    "Triangel",
+                    "Kub",
+                    "1",
+                    "6sh.png"])
+                db.run(insert1, ["Figuren är en",
+                    "3",
+                    "Cylinder",
+                    "Cirkel",
+                    "Kon",
+                    "1",
+                    "7sh.png"])
 
             }
         })
