@@ -288,26 +288,77 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     "bird",
                     "bird.png"])
                 db.run(insert1, ["Vad heter kanin?",
-                    "2",
+                    "1",
                     "kanin",
                     "rabbit",
                     "rabbit.png"])
                 db.run(insert1, ["Vad heter ko?",
-                    "2",
+                    "1",
                     "ko",
                     "cow",
                     "cow.png"])
                 db.run(insert1, ["Vad heter får?",
-                    "3",
+                    "1",
                     "får",
                     "sheep",
                     "sheep.png"])
                 db.run(insert1, ["Vad heter katt?",
-                    "3",
+                    "1",
                     "katt",
                     "cat",
                     "cat.png"])
 
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "blå",
+                    "blue",
+                    "blue.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "grön",
+                    "green",
+                    "green.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "röd",
+                    "red",
+                    "red.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "vit",
+                    "white",
+                    "white.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "gul",
+                    "yellow",
+                    "yellow.png"])
+
+                db.run(insert1, ["Vad heter \"läsa\" på engelska?",
+                    "3",
+                    "läsa",
+                    "read",
+                    "read.png"])
+                db.run(insert1, ["Vad heter \"hoppa\" på engelska?",
+                    "3",
+                    "hoppa",
+                    "jump",
+                    "jump.png"])
+                db.run(insert1, ["Vad heter \"spela\" på engelska?",
+                    "3",
+                    "spela",
+                    "play",
+                    "play.png"])
+                db.run(insert1, ["Vad heter \"skriva\" på engelska?",
+                    "3",
+                    "skriva",
+                    "write",
+                    "write.png"])
+                db.run(insert1, ["Vad heter \"sova \" på engelska?",
+                    "3",
+                    "sova",
+                    "sleep",
+                    "sleep.png"])
             }
         })
 
