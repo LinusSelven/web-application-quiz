@@ -12,7 +12,6 @@ app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -168,6 +167,7 @@ app.delete("/api/geoQuiz/:id", (req, res, next) => {
             res.json({"message":"deleted", rows: this.changes})
     });
 })
+
 /* Mathematics Quiz */
 app.get("/api/matteQuiz", (req, res, next) => {
     var sql = "select * from matteQuiz"
@@ -288,6 +288,137 @@ app.put("/api/matteQuiz/:id", (req, res, next) => {
 app.delete("/api/matteQuiz/:id", (req, res, next) => {
     db.run(
       'DELETE FROM matteQuiz WHERE quizId = ?',
+      req.params.id,
+      function (err, result) {
+          if (err){
+              res.status(400).json({"error": res.message})
+              return;
+          }
+          res.json({"message":"deleted", rows: this.changes})
+      });
+})
+
+/* Engelska Quiz */
+app.get("/api/engQuiz", (req, res, next) => {
+    var sql = "select * from engQuiz"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "engQuiz":rows
+        })
+    });
+});
+app.get("/api/engQuiz/level", (req, res, next) => {
+    var sql = "select * from engQuiz";
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "engQuiz":rows
+        })
+    });
+});
+app.get("/api/engQuiz/numberOfLevel", (req, res, next) => {
+    const sql = 'select quizLevel from engQuiz GROUP BY quizLevel';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "engQuizLevel":rows
+        })
+    });
+});
+app.get("/api/engQuiz/level/:id", (req, res, next) => {
+    var sql = "select * from engQuiz where quizLevel = ?";
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "engQuiz":rows
+        })
+    });
+});
+app.get("/api/engQuiz/:id", (req, res, next) => {
+    var sql = "select * from engQuiz where quizId = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "engQuiz":row
+        })
+    });
+});
+app.post("/api/engQuiz/", (req, res, next) => {
+    const data = {
+        quizQuestion: req.body.quizQuestion,
+        quizLevel: req.body.quizLevel,
+        quizAnswer1: req.body.quizAnswer1,
+        quizAnswer2: req.body.quizAnswer2,
+        quizAnswer3: req.body.quizAnswer3,
+        quizCorrectAnswer: req.body.quizCorrectAnswer,
+        quizImg: req.body.quizImg
+    }
+    const sql = 'INSERT INTO geoQuiz (quizQuestion, quizLevel, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?,?)'
+    const params = [data.quizQuestion, data.quizLevel, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3, data.quizCorrectAnswer, data.quizImg]
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "geoQuiz": data,
+            "id" : this.lastID
+        })
+    });
+})
+app.put("/api/engQuiz/:id", (req, res, next) => {
+    var data = {
+        quizQuestion: req.body.quizQuestion,
+        quizAnswer1: req.body.quizAnswer1,
+        quizAnswer2: req.body.quizAnswer2,
+        quizAnswer3: req.body.quizAnswer3,
+        quizCorrectAnswer: req.body.quizCorrectAnswer,
+        quizImg: req.body.quizImg
+    }
+    var sql ='UPDATE engQuiz SET quizQuestion = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, quizCorrectAnswer = ?, quizImg = ? WHERE quizId = ?'
+    var params =[data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3,data.quizCorrectAnswer,data.quizImg, req.params.id]
+    db.run(sql, params, function (err, result) {
+        if (err){
+            res.status(400).json({"error": err.message})
+            return;
+        }
+        res.json({
+            "message": "success",
+            "engQuiz": data,
+            "id" : this.lastID
+        })
+    });
+})
+app.delete("/api/engQuiz/:id", (req, res, next) => {
+    db.run(
+      'DELETE FROM engQuiz WHERE quizId = ?',
       req.params.id,
       function (err, result) {
           if (err){

@@ -256,8 +256,65 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         })
 
 
-
         //---------------
+
+        db.run(`CREATE TABLE engQuiz (
+            quizId INTEGER PRIMARY KEY,
+            quizQuestion TEXT,
+            quizLevel INTEGER,
+            quizAnswer1 TEXT,
+            quizCorrectAnswer TEXT,
+            quizImg TEXT
+
+            )`, (err) => {
+            if (err) {
+                // Table already created
+            } else {
+                // Table just created, creating some rows
+                var insert1 = 'INSERT INTO engQuiz (quizQuestion,quizLevel, quizAnswer1, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?)'
+                db.run(insert1, ["Vad heter häst? ",
+                    "1",
+                    "Häst",
+                    "horse",
+                    "horse.png"])
+                db.run(insert1, ["Vad heter hund?",
+                    "1",
+                    "Hund",
+                    "dog",
+                    "dog.png"])
+                db.run(insert1, ["Vad heter fågel?",
+                    "1",
+                    "fågel",
+                    "bird",
+                    "bird.png"])
+                db.run(insert1, ["Vad heter kanin?",
+                    "2",
+                    "kanin",
+                    "rabbit",
+                    "rabbit.png"])
+                db.run(insert1, ["Vad heter ko?",
+                    "2",
+                    "ko",
+                    "cow",
+                    "cow.png"])
+                db.run(insert1, ["Vad heter får?",
+                    "3",
+                    "får",
+                    "sheep",
+                    "sheep.png"])
+                db.run(insert1, ["Vad heter katt?",
+                    "3",
+                    "katt",
+                    "cat",
+                    "cat.png"])
+
+            }
+        })
+
+
+
+
+                //---------------
         db.run(`CREATE TABLE users (
             userId INTEGER PRIMARY KEY,
             userRole TEXT,
