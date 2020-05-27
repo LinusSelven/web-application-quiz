@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz-matte">
+    <div class="about">
         <div v-if="!isDone" class="q-question">
             <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}}/{{matteQuiz.length}}</h1>
             <div>
@@ -178,7 +178,7 @@
         color: black;
         cursor: pointer;
     }
-    .quiz-matte{
+    .about{
         background: rgba(0, 0, 0, .7);
         display: inline-block;
         text-align: center;
@@ -203,7 +203,7 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .quiz-matte{
+        .about{
             display: table-cell;
             text-align: center;
             vertical-align: top;
