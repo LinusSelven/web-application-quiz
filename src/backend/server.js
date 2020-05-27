@@ -18,9 +18,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
-const session_Status = (req, res, next) =>{
-    if (!req.session.userId) {
-        res.send('Sorry! Login to see this page.')
+const session_Status = (request, response, next) =>{
+    if (!request.session.loggedin) {
+        response.send('Sorry! Login to see this page.')
     }else{
         next()
     }
@@ -455,6 +455,25 @@ function hashPassword(password, salt) {
     hash.update(salt);
     return hash.digest('hex');
 }
+
+app.post('/api/users/user/', session_Status, (request, response, next) => {
+   if (request.body.userId === request.session.userId){
+        const userData = {
+            userId: request.body.userId,
+        }
+        db.get('select * from users where userId = ?', [userData.userId], (err, row) => {
+            if (err) {
+                response.status(400).json({"error":err.message});
+                return;
+            }
+            response.json({
+                "message":"success",
+                "user":row
+            })
+            response.end();
+        });
+   }
+});
 app.post('/api/auth', function(request, response) {
     const userData = {
         email: request.body.email,
