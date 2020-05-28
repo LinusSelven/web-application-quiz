@@ -1,29 +1,31 @@
 <template>
     <div class="about">
-
-        <div class="q-img">
-            <h2>
-                <img :src="getImgUrl(geoQuiz[questionNumber].quizImg)" v-bind:alt="pic">
-            </h2>
+        <div v-if="!isDone" class="q-question">
+            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{geoQuiz.length}}</h1>
+            <div>
+                <h2>{{geoQuiz[questionNumber].quizQuestion}}</h2>
+            </div>
+            <div class="q-img">
+                <h2>
+                    <img :src="getImgUrl(geoQuiz[questionNumber].quizImg)" v-bind:alt="pic">
+                </h2>
+            </div>
+            <div class="q-answer">
+                <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{geoQuiz[questionNumber].quizAnswer1}}
+                </button>
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">{{geoQuiz[questionNumber].quizAnswer2}}
+                </button>
+                <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{geoQuiz[questionNumber].quizAnswer3}}
+                </button>
+            </div>
         </div>
-        <div class="q-question">
-            <p></p>
-
-            <input value="" type="" name="" placeholder="Jordklot" >
-            <p></p>
+        <div v-if="isDone" class="q-question">
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h1>{{finalScore}} %</h1>
+            <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
+            <button class="q-btn" @click="redoQuiz">Last Quiz</button>
+            <h2>{{nextQuizMessage}}</h2>
         </div>
-        <div class="q-question">
-
-            <input value="" type="" name=""  placeholder="" >
-            <p></p>
-        </div>
-        <div class="q-answer">
-            <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">Rätt
-            </button>
-            <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">Nästa
-            </button>
-        </div>
-
     </div>
 </template>
 
