@@ -58,7 +58,7 @@
       userChoseAnswer: function () {
         this.userHasGuessed = true;
         this.answer = document.getElementById("answer").value;
-        if ((this.answer)==(this.engQuiz[this.questionNumber].quizCorrectAnswer)){
+        if ((this.answer.toLocaleLowerCase())===(this.engQuiz[this.questionNumber].quizCorrectAnswer)){
           this.countOfCorrectAnswers += 1;
 
         }
