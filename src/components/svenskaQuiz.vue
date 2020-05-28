@@ -1,5 +1,6 @@
 <template>
     <div class="about">
+
         <div class="q-img">
             <h2>
                 <img :src="getImgUrl(geoQuiz[questionNumber].quizImg)" v-bind:alt="pic">
@@ -22,6 +23,7 @@
             <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="2">Nästa
             </button>
         </div>
+
     </div>
 </template>
 
