@@ -430,7 +430,7 @@ app.delete("/api/engQuiz/:id", (req, res, next) => {
 })
 
 /* Users Handling */
-app.get('/api/users', session_Status, (request, response, next) => {
+app.get('/api/users', (request, response, next) => {
         const sql = 'select * from users';
         const params = [];
         db.all(sql, params, (err, rows) => {
@@ -438,7 +438,7 @@ app.get('/api/users', session_Status, (request, response, next) => {
                 response.status(400).json({ "error": err.message });
                 return;
             }
-            response.json({
+            response.send({
                 "message": "success",
                 "users": rows
             })

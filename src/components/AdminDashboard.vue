@@ -1,0 +1,92 @@
+<template>
+    <div class="showData" id="showData"></div></template>
+<script>
+  import AuthServices from '../services/ApiServices'
+
+  export default {
+    name: 'AdminDashboard',
+    data: function () {
+      return {
+        users:[],
+      }
+    },
+    async mounted () {
+      let response = await AuthServices.getAllUsers();
+      this.users = response.data.users;
+      this.createTable();
+    },
+    methods:{
+      createTable() {
+          let i;
+          const arrItems = this.users;
+          const col = [];
+
+          for (i = 0; i < arrItems.length; i++) {
+            for (const key in arrItems[i]) {
+              if (col.indexOf(key) === -1) {
+                col.push(key);
+              }
+            }
+          }
+          col.push('function'); //Delete
+          const table = document.createElement('table')
+          table.setAttribute('class', 'userTable');
+
+          let tr = table.insertRow(-1)
+          for ( i = 0; i < col.length; i++) {
+            var th = document.createElement('th')
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+
+          for (i = 0; i < arrItems.length; i++) {
+            tr = table.insertRow(-1);
+            for (let j = 0; j < col.length; j++) {
+              var tabCell = tr.insertCell(-1)
+              tabCell.innerHTML = arrItems[i][col[j]];
+            }
+          }
+         tabCell.innerHTML = '<input type="submit" class="submit" value="DELETE">';
+
+        const divContainer = document.getElementById('showData')
+          divContainer.innerHTML = "";
+          divContainer.appendChild(table);
+      }
+    },
+  }
+</script>
+
+<style scoped>
+    .showData {
+        display: table-cell;
+        text-align: center;
+        vertical-align: top;
+        margin: 2px;
+        //background: rgba(0, 0, 0, 0.7);
+        background: #f1f1f1;
+    }
+    .submit {
+        margin-top: 2px;
+        margin-bottom: 2px;
+        background-color: darkred;
+        font-family: Calibri, monospace;
+        font-weight: bold;
+        color: white;
+        border-radius: 4px;
+        width: 100px;
+        height: 40px;
+        cursor: pointer;
+    }
+    /* Mobile */
+    @media screen and (max-width: 400px) {
+    }
+
+    /* Tablet */
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+    }
+
+    /* Desktop */
+    @media screen and (min-width: 1025px) {
+    }
+</style>

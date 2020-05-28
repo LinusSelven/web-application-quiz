@@ -47,7 +47,7 @@
                 <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
               </tr>
               <tr>
-                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm" value="login"></td>
+                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm()" value="login"></td>
               </tr>
               <tr>
                 <td v-if="!isLogged"><span>Har inget konto? </span><a><router-link to="/register">Registrera!</router-link></a></td>
@@ -217,14 +217,14 @@ a {
 a:hover {
   color: #02b3b3;
 }
-table {
+.center {
   width: 100%;
   font: inherit;
   border-collapse: collapse;
   color: rgba(6, 25, 45, 0.6);
 }
 
-table th {
+.center th {
   text-transform: uppercase;
   text-align: center;
   background: #44475C;
@@ -232,15 +232,39 @@ table th {
   padding-top: 5px;
 }
 
-table td {
+.center td {
   padding-top: 5px;
   text-align: center;
   border-right: 2px solid #7D82A8;
 }
-table td:last-child {
+.center td:last-child {
   border-right: none;
 }
-table tbody tr:nth-child(2n) td {
+.center tbody tr:nth-child(2n) td {
+}
+.userTable {
+  width: 100%;
+  font: inherit;
+  border-collapse: collapse;
+  color: rgba(6, 25, 45, 0.6);
+}
+
+.userTable th {
+  text-transform: uppercase;
+  text-align: center;
+  background: #44475C;
+  color: #FFF;
+  padding-top: 5px;
+}
+
+.userTable td {
+  padding-top: 5px;
+  text-align: center;
+  border: 2px solid #7D82A8;
+}
+.userTable td:last-child {
+}
+.userTable tbody tr:nth-child(2n) td {
 }
   .item1-body{
     border: 3px solid #ccc;
@@ -466,6 +490,18 @@ input[type=email], input[type=password] {
     }
     input[type=email], input[type=password] {
       width: 200px;
+    }
+    .submit {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      background-color: darkred;
+      font-family: Calibri, monospace;
+      font-weight: bold;
+      color: white;
+      border-radius: 4px;
+      width: 100px;
+      height: 30px;
+      cursor: pointer;
     }
   }
 

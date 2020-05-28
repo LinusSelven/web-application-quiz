@@ -4,6 +4,7 @@ import Home from '../components/category.vue'
 import Login from '../components/login.vue'
 import Register from '../components/register.vue'
 import CreateNewQuiz from '../components/CreateNewQuiz.vue'
+import AdminDashboard from '../components/AdminDashboard'
 
 Vue.use(VueRouter)
 
@@ -17,6 +18,11 @@ const routes = [
         path: '/aboutus',
         name: 'About us',
         component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
+    },
+    {
+        path: '/AdminDashboard',
+        name: 'AdminDashboard',
+        component: AdminDashboard
     },
     {
         path: '/results',
