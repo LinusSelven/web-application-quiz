@@ -31,4 +31,7 @@ export default{
   newQuizSve(credentials){
     return Api().post('sveQuiz/', credentials)
   },
+  userData(credentials){
+    return Api().post('users/user/', credentials)
+  },
 }

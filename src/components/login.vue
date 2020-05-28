@@ -1,6 +1,8 @@
 <template>
     <div class="myPage" >
-        <div class="showData" id="showData"></div>
+
+
+
     </div>
 </template>
 
@@ -10,13 +12,24 @@
         data: function () {
             return{
 
+
+
             }
         },
         methods:{
-
+              async getUserData() {
+                let response = await AuthServices.userData({
+                  userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+                });
+                let jsonUser_serialized = JSON.stringify(response.data.user);
+                localStorage.setItem("userData", jsonUser_serialized);
+              }
         }
   }
-  //import AuthServices from '../services/ApiServices';
+
+
+
+  import AuthServices from '../services/ApiServices';
 </script>
 
 <style scoped>
