@@ -2,7 +2,7 @@
     <div class="createQuiz">
     <p id="validation">{{validation}}</p>
     <article>
-        <div v-show="!isSelected">
+        <div>
             <select id="subject" name="subject" @change="onChange($event)" v-model="value">
                 <option value="default">Select The Subject</option>
                 <option value="geoQuiz">Geografi</option>
@@ -10,10 +10,10 @@
                 <option value="svenskaQuiz">Svenska</option>
                 <option value="engelskaQuiz">Engelska</option>
             </select>
-            <input type="number" id="amount" name="amount" placeholder="Amount of question*" v-model="amount">
-            <input type="submit" value="Next" @click="infoQuiz()">
+            <!-- <input type="number" id="amount" name="amount" placeholder="Amount of question*" v-model="amount">
+            <input type="submit" value="Next" @click="infoQuiz()"> -->
         </div>
-        <div v-show="isSelected" v-if="count !==amount">
+        <div>
 
             <input type="text" id="question" name="question" placeholder="The Question*" v-model="quizQuestion">
             <input type="text" id="answer1" name="answer1" placeholder="Answer 1*" v-model="quizAnswer1">
@@ -26,7 +26,7 @@
                 <option value="3">answer 3</option>
             </select><br>
             <input type="file" id="upload" name="upload" accept="image/*" placeholder="Select image">
-            <input type="submit" value="Save" @submit="postNewQuiz">
+            <input type="submit" value="Save" @click="postNewQuiz">
         </div>
         <div v-if="count===amount" v-show="isSelected">
             <input type="submit" value="Back" @submit="goBack">
@@ -48,7 +48,10 @@
         quizAnswer1 :'',
         quizAnswer2 :'',
         quizAnswer3 :'',
+        image: 'image.jpg',
         quizCorrectAnswer: 0,
+        quizLevels:[],
+        level:0,
         value:'default',
         amount:'Amount of question*',
         validation:'',
@@ -83,18 +86,29 @@
         this.isSelected=false;
         this.count = 1;
       },
+      nextLevel(){
+       this.level = this.quizLevels.length +1;
+      },
       async postNewQuiz(){
-              for(let i =0; i<this.amount; i++){
-                    let response
+        this.nextLevel();
+        let response
                     const credential = 'quizQuestion: this.quizQuestion,\n' +
+                                       'quizLevel: this.level,\n' +
                                        'quizAnswer1: this.quizAnswer1,\n' +
                                        'quizAnswer2: this.quizAnswer2,\n' +
                                        'quizAnswer3: this.quizAnswer3,\n' +
-                                       'quizCorrectAnswer: this.quizCorrectAnswer';
+                                       'quizCorrectAnswer: this.quizCorrectAnswer,\n' +
+                                       'quizImg: this.image';
                     if (this.value ==='geoQuiz'){
-                      response = await ApiServices.newQuizGeo({
-                        credential
-                      });
+                    response = await ApiServices.newQuizGeo({
+                      quizQuestion: this.quizQuestion,
+                      quizLevel: this.level,
+                      quizAnswer1: this.quizAnswer1,
+                      quizAnswer2: this.quizAnswer2,
+                      quizAnswer3: this.quizAnswer3,
+                      quizCorrectAnswer: this.quizCorrectAnswer,
+                      quizImg: this.image
+                    });
                     }else if (this.value ==='matteQuiz'){
                        response = await ApiServices.newQuizMat({
                         credential
@@ -108,12 +122,20 @@
                         credential
                       });
                     }
-                    console.log(response);
+                    console.log(response.json);
                 this.emptyFields();
-                this.count += 1;
-              }
+
       },
 
+    },
+    mounted() {
+      fetch('http://127.0.0.1:3000/api/geoQuiz/numberOfLevel')
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.quizLevels = data.geoQuizLevel;
+        });
     }
 
   }

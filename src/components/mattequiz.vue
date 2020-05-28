@@ -93,7 +93,7 @@
       percentageScore(){
         let amount = this.matteQuiz.length;
         let scorePerQuestion = 100/amount;
-        this.finalScore= this.countOfCorrectAnswers*scorePerQuestion;
+        this.finalScore = Math.round(this.countOfCorrectAnswers * scorePerQuestion);
       },
       getImgUrl: function (pic) {
         return require('../assets/' + pic)

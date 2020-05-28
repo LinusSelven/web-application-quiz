@@ -1,36 +1,61 @@
 <template>
-    <div class="myPage" >
+    <div class="myPage">
         <div class="showData" id="showData"></div>
+        <input type="file" id="upload" name="upload" accept="image/*" placeholder="Select image">
+        <input type="submit" value="Save" @click="saveProfileimg()">
+        <div><p>Namn :</p> <input value="" type="" name="" placeholder="Anton">
+        </div>
+        <div><p>Email :</p> <input value="" type="" name="" placeholder="anton@gmail.com">
+        </div>
+        <div><p>Användare :</p>
+            <input type="radio" id="one" value="Teacher" v-model="userRole">
+            <label for="one"><span>&nbsp;Teacher </span></label>
+            <a class="vl"></a>
+            <input type="radio" id="two" value="Student" v-model="userRole">
+            <label for="two"><span>&nbsp;Student</span></label>
+        </div>
+        <div class="q-answer">
+            <button class="q-btn">Quiz Stats</button>
+            <button class="q-btn" @click="saveChanges()">Save changes</button>
+        </div>
     </div>
 </template>
 
 <script>
-  export default {
+    export default {
         name: "login",
         data: function () {
-            return{
+            return {}
+        },
+        methods: {
+
+            saveProfileimg: function () {
+                /* kod för att spara en bild */
+            },
+            saveChanges: function () {
 
             }
-        },
-        methods:{
 
         }
-  }
-  //import AuthServices from '../services/ApiServices';
+    }
+    //import AuthServices from '../services/ApiServices';
 </script>
 
 <style scoped>
-    .center{
+    .center {
         margin: 0 auto;
     }
+
     .login a {
         color: #02b3b3;
         text-decoration: none;
     }
+
     .login a:hover {
         color: #0b5b5b;
     }
-    #errorMsg{
+
+    #errorMsg {
         font-family: Calibri, monospace;
         font-weight: normal;
         color: #fa7c8b;
@@ -52,21 +77,49 @@
         height: 40px;
         cursor: pointer;
     }
-    label{
+
+    label {
         padding: 5px;
         margin-top: 2px;
         margin-bottom: 2px;
         text-align: center;
         width: 100%;
     }
+
+    .q-btn {
+        width: 100%;
+        margin-right: 5px;
+        margin-top: 5px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+    }
+    .q-answer {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .q-btn:hover {
+        background-color: #e9e608;
+        color: black;
+        cursor: pointer;
+    }
+
     .vl {
         border-left: 2px solid dimgray;
         height: 100%;
     }
-    input[type=checkbox]{
+
+    input[type=checkbox] {
         height: auto;
         width: auto;
     }
+
     input[type=button] {
         background-color: #222222;
         font-family: "Times New Roman", monospace;
@@ -83,23 +136,35 @@
         background-color: #e9e608;
         color: black;
     }
-    span{
+    p{
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+
+    }
+
+    span {
         font-family: Calibri, monospace;
         font-weight: normal;
         color: wheat;
     }
-    .myPage{
+
+    .myPage {
         display: inline-block;
         width: 100%;
     }
+
     .myPage a {
         color: #3d8cb5;
         text-decoration: none;
         cursor: pointer;
     }
+
     .myPage a:hover {
         color: #e9e608;
     }
+
     table {
         width: 100%;
         font: inherit;
@@ -120,11 +185,14 @@
         text-align: center;
         border-right: 2px solid #7D82A8;
     }
+
     table td:last-child {
         border-right: none;
     }
+
     table tbody tr:nth-child(2n) td {
     }
+
     ::-webkit-input-placeholder { /* Edge */
         color: #fced62;
     }
@@ -134,32 +202,32 @@
     }
 
     ::placeholder {
-        color: wheat;
+        color: black;
     }
 
     /* Mobile */
     @media screen and (max-width: 400px) {
     }
+
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
     }
+
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .myPage{
+        .myPage {
             display: table-cell;
             text-align: center;
             vertical-align: middle;
             background: rgba(0, 0, 0, 0.7);
         }
+
         table {
             width: 50%;
         }
 
 
     }
-
-
-
 
 
 </style>

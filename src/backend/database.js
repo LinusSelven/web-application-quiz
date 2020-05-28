@@ -47,21 +47,14 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     "3",
                     "280px-Europe_(orthographic_projection).svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
-                    "2",
+                    "1",
                     "Nordamerika",
                     "Antarktis",
                     "Oceanien",
                     "2",
                     "280px-Antarctica_(orthographic_projection).svg.png"])
                 db.run(insert, ["Vilken världsdel visas?",
-                    "2",
-                    "Nordamerika",
-                    "Antarktis",
-                    "Oceanien",
-                    "2",
-                    "280px-Antarctica_(orthographic_projection).svg.png"])
-                db.run(insert, ["Vilken världsdel visas?",
-                    "3",
+                    "1",
                     "Sydamerika",
                     "Afrika",
                     "Nordamerika",
@@ -81,6 +74,91 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     "Europa",
                     "1",
                     "280px-South_America_(orthographic_projection).svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "2",
+                    "Norge",
+                    "Finland",
+                    "Sverige",
+                    "3",
+                    "280px-Flag_of_Sweden.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "2",
+                    "Danmark",
+                    "Norge",
+                    "Finland",
+                    "2",
+                    "280px-Flag_of_Norway.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "2",
+                    "Danmark",
+                    "Island",
+                    "Sverige",
+                    "1",
+                    "280px-Flag_of_Denmark.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "2",
+                    "Island",
+                    "Finland",
+                    "Danmark",
+                    "1",
+                    "280px-Flag_of_Iceland.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "2",
+                    "Norge",
+                    "Sverige",
+                    "Finland",
+                    "3",
+                    "280px-Flag_of_Finland.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "3",
+                    "Tyskland",
+                    "Tjeckien",
+                    "Polen",
+                    "1",
+                    "280px-Flag_of_Germany.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "3",
+                    "Frankrike",
+                    "Nederländerna",
+                    "Tjeckien",
+                    "2",
+                    "280px-Flag_of_the_Netherlands.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "3",
+                    "Polen",
+                    "Tyskland",
+                    "Österrike",
+                    "1",
+                    "280px-Flag_of_Poland.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "3",
+                    "Tjeckien",
+                    "Tyskland",
+                    "England",
+                    "1",
+                    "280px-Flag_of_the_Czech_Republic.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "3",
+                    "Polen",
+                    "Frankrike",
+                    "Österrike",
+                    "3",
+                    "280px-Flag_of_Austria.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "3",
+                    "Finland",
+                    "Tyskland",
+                    "England",
+                    "3",
+                    "280px-Flag_of_England.svg.png"])
+                db.run(insert, ["Vems flagga visas?",
+                    "3",
+                    "Tjeckien",
+                    "Frankrike",
+                    "Nederländerna",
+                    "2",
+                    "280px-Flag_of_France.svg.png"])
+
             }
         })
 
@@ -256,8 +334,116 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         })
 
 
-
         //---------------
+
+        db.run(`CREATE TABLE engQuiz (
+            quizId INTEGER PRIMARY KEY,
+            quizQuestion TEXT,
+            quizLevel INTEGER,
+            quizAnswer1 TEXT,
+            quizCorrectAnswer TEXT,
+            quizImg TEXT
+
+            )`, (err) => {
+            if (err) {
+                // Table already created
+            } else {
+                // Table just created, creating some rows
+                var insert1 = 'INSERT INTO engQuiz (quizQuestion,quizLevel, quizAnswer1, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?)'
+                db.run(insert1, ["Vad heter häst? ",
+                    "1",
+                    "Häst",
+                    "horse",
+                    "horse.png"])
+                db.run(insert1, ["Vad heter hund?",
+                    "1",
+                    "Hund",
+                    "dog",
+                    "dog.png"])
+                db.run(insert1, ["Vad heter fågel?",
+                    "1",
+                    "fågel",
+                    "bird",
+                    "bird.png"])
+                db.run(insert1, ["Vad heter kanin?",
+                    "1",
+                    "kanin",
+                    "rabbit",
+                    "rabbit.png"])
+                db.run(insert1, ["Vad heter ko?",
+                    "1",
+                    "ko",
+                    "cow",
+                    "cow.png"])
+                db.run(insert1, ["Vad heter får?",
+                    "1",
+                    "får",
+                    "sheep",
+                    "sheep.png"])
+                db.run(insert1, ["Vad heter katt?",
+                    "1",
+                    "katt",
+                    "cat",
+                    "cat.png"])
+
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "blå",
+                    "blue",
+                    "blue.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "grön",
+                    "green",
+                    "green.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "röd",
+                    "red",
+                    "red.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "vit",
+                    "white",
+                    "white.png"])
+                db.run(insert1, ["Vilken färg är det?",
+                    "2",
+                    "gul",
+                    "yellow",
+                    "yellow.png"])
+
+                db.run(insert1, ["Vad heter \"läsa\" på engelska?",
+                    "3",
+                    "läsa",
+                    "read",
+                    "read.png"])
+                db.run(insert1, ["Vad heter \"hoppa\" på engelska?",
+                    "3",
+                    "hoppa",
+                    "jump",
+                    "jump.png"])
+                db.run(insert1, ["Vad heter \"spela\" på engelska?",
+                    "3",
+                    "spela",
+                    "play",
+                    "play.png"])
+                db.run(insert1, ["Vad heter \"skriva\" på engelska?",
+                    "3",
+                    "skriva",
+                    "write",
+                    "write.png"])
+                db.run(insert1, ["Vad heter \"sova \" på engelska?",
+                    "3",
+                    "sova",
+                    "sleep",
+                    "sleep.png"])
+            }
+        })
+
+
+
+
+                //---------------
         db.run(`CREATE TABLE users (
             userId INTEGER PRIMARY KEY,
             userRole TEXT,
