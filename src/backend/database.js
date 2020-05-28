@@ -351,63 +351,63 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 // Table just created, creating some rows
                 var insert1 = 'INSERT INTO engQuiz (quizQuestion,quizLevel, quizAnswer1, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?)'
                 db.run(insert1, ["Vad heter häst? ",
-                    "1",
+                    "2",
                     "Häst",
                     "horse",
                     "horse.png"])
                 db.run(insert1, ["Vad heter hund?",
-                    "1",
+                    "2",
                     "Hund",
                     "dog",
                     "dog.png"])
                 db.run(insert1, ["Vad heter fågel?",
-                    "1",
+                    "2",
                     "fågel",
                     "bird",
                     "bird.png"])
                 db.run(insert1, ["Vad heter kanin?",
-                    "1",
+                    "2",
                     "kanin",
                     "rabbit",
                     "rabbit.png"])
                 db.run(insert1, ["Vad heter ko?",
-                    "1",
+                    "2",
                     "ko",
                     "cow",
                     "cow.png"])
                 db.run(insert1, ["Vad heter får?",
-                    "1",
+                    "2",
                     "får",
                     "sheep",
                     "sheep.png"])
                 db.run(insert1, ["Vad heter katt?",
-                    "1",
+                    "2",
                     "katt",
                     "cat",
                     "cat.png"])
 
                 db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                    "1",
                     "blå",
                     "blue",
                     "blue.png"])
                 db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                    "1",
                     "grön",
                     "green",
                     "green.png"])
                 db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                    "1",
                     "röd",
                     "red",
                     "red.png"])
                 db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                    "1",
                     "vit",
                     "white",
                     "white.png"])
                 db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                    "1",
                     "gul",
                     "yellow",
                     "yellow.png"])
