@@ -4,17 +4,18 @@
         <div class="q-question">
 
             <div class="q-words-board" id="board-1" @dragover.prevent @drop.prevent="drop">
-                <p id="answer1" :draggable="true" @dragstart="dragStart" @dragover.stop>Card 1</p>
-                <p id="answer2" :draggable="true" @dragstart="dragStart" @dragover.stop>Card 2</p>
+                <p id="answer1" :draggable="true" @dragstart="dragStart" @dragover.stop>{{svenskaQuiz[0].quizAnswer1}}</p>
+                <p id="answer2" :draggable="true" @dragstart="dragStart" @dragover.stop>{{svenskaQuiz[0].quizAnswer2}}</p>
+                <p id="answer3" :draggable="true" @dragstart="dragStart" @dragover.stop>{{svenskaQuiz[0].quizAnswer3}}</p>
             </div>
 
             <div class="q-answer">
                 <div class="part"><p>{{svenskaQuiz[0].quizPart1}}</p></div>
-                <div class="empty" id="board-2" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
+                <div class="empty" id="board-2" @dragover.prevent @drop.prevent="drop"></div>
                 <div class="part"><p>{{svenskaQuiz[0].quizPart2}}</p></div>
-                <div class="empty" id="board-3" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
+                <div class="empty" id="board-3" @dragover.prevent @drop.prevent="drop"></div>
                 <div class="part"><p>{{svenskaQuiz[0].quizPart3}}</p></div>
-                <div class="empty" id="board-4" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
+                <div class="empty" id="board-4" @dragover.prevent @drop.prevent="drop"></div>
                 <div class="part"><p>{{svenskaQuiz[0].quizEnd}}</p></div>
             </div>
         </div>
@@ -47,18 +48,17 @@
                 this.questionNumber += 1;
             },
 
-            drop: (ev, target) => {
-                ev.preventDefault();
-                console.log("drop function: " + ev.target.id + target.id)
-
-                /* const card = document.getElementById('answer');
-                card.style.display = "inline";
-                target.appendChild(card) */
+            drop: e => {
+                e.preventDefault();
+                const card_id = e.dataTransfer.getData('text')
+                console.log(card_id)
+                e.target.appendChild(document.getElementById(card_id))
             },
 
             dragStart: e => {
                 console.log("drag: " + e.target.id)
                 e.dataTransfer.setData('text', e.target.id);
+
             },
 
 
@@ -124,6 +124,15 @@
         border: 1px solid black;
         border-right: none;
         box-sizing: border-box;
+    }
+
+    .q-words-board p {
+        display: inline;
+        padding: 5%;
+        margin: 1%;
+        justify-content: center;
+        align-content: center;
+        text-align: center;
     }
 
     .q-question > .q-answer {
