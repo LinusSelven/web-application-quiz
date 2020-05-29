@@ -2,22 +2,21 @@
   <div id="app"  class="grid">
     <section class="item1">
       <div class="item1-body">
-
-        <ul>
-          <li><router-link to="/"> Quiz</router-link></li>
-          <li v-if="isLogged"><router-link to="/login">My page</router-link></li>
-          <li v-if="!isLogged"><router-link to="/register">Sign up</router-link></li>
-          <li v-if="isLogged && user_Role!=='Student'"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
-          <li><router-link to="/aboutus">About us</router-link></li>
-          <li style="float:right">
+        <ul class="topnav">
+          <li style="float:left">
             <p class="logo-box">
               <img src="./assets/logo.png" alt="Logo" class="logo-img">
             </p>
           </li>
+          <li style="float: right"><router-link to="/"> Quiz</router-link></li>
+          <li style="float: right" v-if="isLogged && user_Role==='Student'"><router-link to="/login">My page</router-link></li>
+          <li style="float: right" v-if="isLogged && user_Role==='Admin'"><router-link to="/AdminDashboard">Admin</router-link></li>
+          <li style="float: right" v-if="!isLogged"><router-link to="/register">Sign up</router-link></li>
+          <li style="float: right" v-if="isLogged && user_Role!=='Student'"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
+          <li style="float: right"><router-link to="/aboutus">About us</router-link></li>
         </ul>
       </div>
     </section>
-
     <section class="item2">
     </section>
     <section class="item3">
@@ -241,7 +240,6 @@ a:hover {
   }
   .item4-body{
     border: 3px solid #ccc;
-    border-radius: 10px;
     display: inline-block;
     width: 100%;
   }
@@ -270,68 +268,33 @@ a:hover {
   }
 
 /* Menu Mobile & Desktop*/
-/* mobil*/
-.topNav {
-  overflow: hidden;
-  background-color: #333;
-  position: relative;
-  font-family: "Times New Roman", monospace;
-  font-weight: bold;
-}
-
-.topNav #links {
-
-  display: none;
-}
-
-.topNav a {
-  color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.83);
-}
-
-.topNav a.icon {
-  background: dimgray;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.topNav a:hover {
-  background-color: rgba(250, 242, 82, 0.99);
-  color: dimgray;
-}
-
-.active {
-  background-color: #02b3b3;
-  color: whitesmoke;
-}
-/*desktop*/
-ul {
+ul.topnav {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  background-color: #44475C;
+  font-family: "Fira Code Retina", Arial, Helvetica, sans-serif;
+font-size: large;
 }
 
-li {
+ul.topnav li {
   float: left;
 }
-li a {
+
+ul.topnav li a {
   display: block;
   color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
-li a:hover:not(.active) {
-  background-color: #111;
-}
+
+ul.topnav li a:hover:not(.active) {background-color: #111;}
+
+ul.topnav li a.active {background-color: #4CAF50;}
+
+ul.topnav li.right {float: right;}
 
 input[type=button] {
   background-color: #222222;
@@ -379,6 +342,9 @@ input[type=email], input[type=password] {
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
+    ul.topnav li.right, ul.topnav li {
+      float: none;
+    }
     .item3-body{
       background: url('./assets/qui.jpg') no-repeat;
       background-size: 100% 100%;
@@ -389,21 +355,17 @@ input[type=email], input[type=password] {
       display: inline-block;
       text-align: center;
       width: 60%;
+      padding-top: 5px;
     }
     .logo-box{
+      padding-left: 10px;
+      vertical-align: middle;
       width: 100px;
       height: 50px;
     }
-
-    #desktop-menu{
-      display: inline-block;
-      width: 60%;
-    }
-    #mobil-menu{
-      display: none;
-    }
     .item4-body{
       width: 60%;
+      background-color: #f3f3f3;
     }
     input[type=button] {
       width: 50px;

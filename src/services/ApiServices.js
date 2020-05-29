@@ -35,6 +35,9 @@ export default{
     return Api().post('users/user/', credentials)
   },
   getAllUsers(){
-    return Api().get('/users')
+    return Api().get('users')
+  },
+  deleteUser(credentials){
+    return Api().delete('users/:id', credentials)
   }
 }

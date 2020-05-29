@@ -1,14 +1,16 @@
 <template>
-    <div class="showData" id="showData"></div>
-
+    <div class="showData" id="showData">
+    </div>
 </template>
 <script>
   import AuthServices from '../services/ApiServices'
-
+  import axios from 'axios'
   export default {
     name: 'AdminDashboard',
     data: function () {
       return {
+        message:'',
+        selectedId:0,
         users:[],
       }
     },
@@ -18,40 +20,63 @@
       this.createTable();
     },
     methods:{
-      createTable() {
-          let i;
-          const arrItems = this.users;
-          const col = [];
-          for (i = 0; i < arrItems.length; i++) {
-            for (const key in arrItems[i]) {
-              if (col.indexOf(key) === -1) {
-                col.push(key);
-              }
+          createTable() {
+                const table = document.createElement('table')
+                table.className = "userTable";
+                let i,j;
+                const arrItems = this.users
+                const titles = ['ID', 'ROLE', 'FULL NAME', 'EMAIL', 'PASSWORD', 'PHONE', 'LEVEL', 'FUNCTION']
+                const col = []
+                for (i = 0; i < arrItems.length; i++) {
+                  for (var key in arrItems[i]) {
+                    if (col.indexOf(key) === -1) {
+                      col.push(key);
+                    }
+                  }
+                }
+                col.push('function');
+                let tr = table.insertRow(-1)
+                for (i = 0; i < titles.length; i++) {
+                  const th = document.createElement('th')
+                  th.innerHTML = titles[i];
+                    tr.appendChild(th);
+                }
+                for (i = 0; i < arrItems.length; i++) {
+                  tr = table.insertRow(-1);
+                  for (j = 0; j < col.length; j++) {
+                    var tabCell = tr.insertCell(-1)
+                    tabCell.innerHTML = arrItems[i][col[j]];
+                  }
+                  tabCell.innerHTML = '<input type="submit" class="submit" value="DELETE" v-on:submit="delete()">';
+                }
+                const divContainer = document.getElementById('showData')
+                divContainer.innerHTML = "";
+                divContainer.appendChild(table);
+          },
+          async delete () {
+            if (this.selectedId && this.selectedId>0){
+              let response = await axios.delete('http://localhost:3000/api/users/'+this.selectedId);
+              this.message = response.data.message
+              await this.getUsers();
             }
+          },
+          TD:onclick= function (e) {
+                e = e || window.event;
+                let target = e.srcElement || e.target
+                while (target && target.nodeName !== "TR") {
+                  target = target.parentNode;
+                }
+                if (target) {
+                  const cells = target.getElementsByTagName('td')
+                    this.selectedId = (cells[0].innerHTML);
+                }
+          },
+          async getUsers () {
+            this.users.clear();
+            let response = await AuthServices.getAllUsers();
+            this.users = response.data.users;
+            this.createTable();
           }
-          col.push('function');
-          const table = document.createElement('table')
-          table.setAttribute('class', 'userTable');
-          let tr = table.insertRow(-1)
-          for ( i = 0; i < col.length; i++) {
-            var th = document.createElement('th')
-            th.innerHTML = col[i];
-            tr.appendChild(th);
-        }
-        for (i = 0; i < arrItems.length; i++) {
-            tr = table.insertRow(-1);
-            for (let j = 0; j < col.length; j++) {
-              var tabCell = tr.insertCell(-1)
-              tabCell.innerHTML = arrItems[i][col[j]];
-            }
-            tabCell.innerHTML = '<input type="submit" class="submit" value="DELETE">';
-        }
-        const divContainer = document.getElementById('showData')
-          divContainer.innerHTML = "";
-          divContainer.appendChild(table);
-      },
-      deleteUser(){
-      }
     },
   }
 </script>
@@ -70,14 +95,14 @@
         width: 100%;
         border-collapse: collapse;
         color: rgba(6, 25, 45, 0.6);
-        //background: #7D82A8;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(250, 250, 252, 0.55);
+        //background: rgba(0, 0, 0, 0.9);
 
     }
     .userTable th {
         padding-left: 4px;
         text-transform: uppercase;
-        text-align: left;
+        text-align: center;
         background: #44475C;
         color: #ccc;
         height: 45px
@@ -86,20 +111,21 @@
     .userTable td {
         padding-left: 4px;
         vertical-align: middle;
-        text-align: left;
-        color: wheat;
+        text-align: center;
+        color: navajowhite;
         height: 35px;
     }
     .userTable td:last-child {
     }
     .userTable tbody tr:nth-child(2n) td {
-        //background-color: #3d8cb5;
-        background: rgba(0, 0, 0, 0.5);
+        background-color: rgba(61, 140, 181, 0.42);
+        //background: rgba(0, 0, 0, 0.5);
     }
     .submit {
         background-color: #d61515;
         font-family: Calibri, monospace;
         font-weight: bold;
+        border: none;
         color: white;
         width: 100px;
         height: 30px;

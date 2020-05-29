@@ -1,7 +1,7 @@
-var express = require("express")
-var app = express()
-var cors = require('cors')
-var db = require("./database.js")
+var express = require("express");
+var app = express();
+var cors = require('cors');
+var db = require("./database.js");
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
@@ -12,6 +12,7 @@ app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -563,7 +564,7 @@ app.put('/api/users/:id', session_Status, (request, response, next) => {
         })
     });
 })
-app.delete('/api/users/:id', session_Status, (request, response, next) => {
+app.delete('/api/users/:id', (request, response, next) => {
     db.run(
       'DELETE FROM users WHERE userId = ?',
       request.params.id,
