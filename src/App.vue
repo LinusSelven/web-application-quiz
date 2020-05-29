@@ -2,41 +2,23 @@
   <div id="app"  class="grid">
     <section class="item1">
       <div class="item1-body">
-        <div class="logo-table">
-          <div class="logo-box">
-            <img src="./assets/logo.png" alt="Logo" class="logo-img">
-            <span class="slag">DET SKA VARA KUL ATT PLUGGA!</span>
-          </div>
-          <div class="logout-box">
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="item2">
-      <div id="desktop-menu">
-        <ul class="menu">
+        <ul>
           <li><router-link to="/"> Quiz</router-link></li>
           <li v-if="isLogged"><router-link to="/login">My page</router-link></li>
           <li v-if="!isLogged"><router-link to="/register">Sign up</router-link></li>
           <li v-if="isLogged && user_Role!=='Student'"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
           <li><router-link to="/aboutus">About us</router-link></li>
+          <li style="float:right">
+            <p class="logo-box">
+              <img src="./assets/logo.png" alt="Logo" class="logo-img">
+            </p>
+          </li>
         </ul>
       </div>
-      <div id="mobil-menu">
-        <div class="topNav">
-          <a class="active">Quiz</a>
-          <div id="links">
-            <a href="/register">Register</a>
-            <a href="#">About us</a>
-            <a href="#">Rate us</a>
-            <a href="#">Sign in</a>
-          </div>
-          <a href="javascript:void(0);" class="icon" @click="mobilMenu">
-            <img src="./assets/icons.png" alt="menu" class="menuIcon">
-          </a>
-        </div>
-      </div>
+    </section>
+
+    <section class="item2">
     </section>
     <section class="item3">
       <div class="item3-body">
@@ -242,41 +224,13 @@ a:hover {
 }
 .center tbody tr:nth-child(2n) td {
 }
-.userTable {
-  width: 100%;
-  font: inherit;
-  border-collapse: collapse;
-  color: rgba(6, 25, 45, 0.6);
-}
 
-.userTable th {
-  text-transform: uppercase;
-  text-align: center;
-  background: #44475C;
-  color: #FFF;
-  padding-top: 5px;
-}
-
-.userTable td {
-  padding-top: 5px;
-  text-align: center;
-  border: 2px solid #7D82A8;
-}
-.userTable td:last-child {
-}
-.userTable tbody tr:nth-child(2n) td {
-}
   .item1-body{
-    border: 3px solid #ccc;
     width: 100%;
     display: table;
   }
-  .logo-table{
-    display: table-row;
-  }
   .logo-box{
     display: table-cell;
-    width: 20%;
     color: #02b3b3;
     font-family: Impact, monospace;
   }
@@ -284,15 +238,6 @@ a:hover {
     max-width: 100%;
     max-height: 100%;
     display: block;
-  }
-  .logout-box{
-    display: table-cell;
-    width: 80%;
-    color: #182423;
-    font-family: Calibri, monospace;
-  //font-size: medium;
-    text-align: right;
-    vertical-align: middle;
   }
   .item4-body{
     border: 3px solid #ccc;
@@ -371,34 +316,23 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: dimgray;
-}
-li {
-  float: left;
-  font-family: "Times New Roman", monospace;
-  font-weight: bold;
-  width: 20%;
+  background-color: #333;
 }
 
+li {
+  float: left;
+}
 li a {
   display: block;
-  color: wheat;
+  color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.83);
-  cursor: pointer;
 }
-
 li a:hover:not(.active) {
-  background-color: rgba(250, 242, 82, 0.99);
-  color: dimgray;
+  background-color: #111;
 }
 
-.active {
-  background-color: #02b3b3;
-  color: whitesmoke;
-}
 input[type=button] {
   background-color: #222222;
   font-family: "Times New Roman", monospace;
@@ -430,6 +364,9 @@ input[type=email], input[type=password] {
   cursor: pointer;
   width: 49%;
 }
+.md-toolbar + .md-toolbar {
+  margin-top: 16px;
+}
   /* Mobile */
   @media screen and (max-width: 400px) {
   }
@@ -438,14 +375,6 @@ input[type=email], input[type=password] {
     .item3 {
       grid-area: sidebar;
 
-    }
-    .logo-box{
-      width: 200px;
-      color: #02b3b3;
-      font-family: Impact, monospace;
-    }
-    .slag{
-      display: block;
     }
   }
   /* Desktop */
@@ -462,18 +391,10 @@ input[type=email], input[type=password] {
       width: 60%;
     }
     .logo-box{
-      width: 25%;
+      width: 100px;
+      height: 50px;
     }
-    .logout-box{
-      width: 75%;
-      vertical-align: top;
-    }
-    .slag{
-      display: block;
-      color: #02b3b3;
-      font-family: Impact, monospace;
-      font-weight: normal;
-    }
+
     #desktop-menu{
       display: inline-block;
       width: 60%;
@@ -490,18 +411,6 @@ input[type=email], input[type=password] {
     }
     input[type=email], input[type=password] {
       width: 200px;
-    }
-    .submit {
-      margin-top: 2px;
-      margin-bottom: 2px;
-      background-color: darkred;
-      font-family: Calibri, monospace;
-      font-weight: bold;
-      color: white;
-      border-radius: 4px;
-      width: 100px;
-      height: 30px;
-      cursor: pointer;
     }
   }
 

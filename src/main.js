@@ -5,7 +5,11 @@ import VueAxios from 'vue-axios'
 import router from './router'
 import store from './store'
 import Login from './components/login'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
 
+
+Vue.use(VueMaterial)
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.component('app-login', Login);

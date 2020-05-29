@@ -431,8 +431,8 @@ app.delete("/api/engQuiz/:id", (req, res, next) => {
 
 /* Users Handling */
 app.get('/api/users', (request, response, next) => {
-        const sql = 'select * from users';
-        const params = [];
+        const sql = 'select * from users where userRole <> ?';
+        const params = ['Admin'];
         db.all(sql, params, (err, rows) => {
             if (err) {
                 response.status(400).json({ "error": err.message });

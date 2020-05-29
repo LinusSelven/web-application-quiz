@@ -6,6 +6,7 @@ import Register from '../components/register.vue'
 import CreateNewQuiz from '../components/CreateNewQuiz.vue'
 import AdminDashboard from '../components/AdminDashboard'
 
+
 Vue.use(VueRouter)
 
 const routes = [
