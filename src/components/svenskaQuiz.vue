@@ -2,18 +2,25 @@
     <div class="svenskaquiz">
         <h1>HELLO</h1>
         <div class="q-question">
+
+            <div class="q-words-board" id="board-1" @dragover.prevent @drop.prevent="drop">
+                <p id="answer1" :draggable="true" @dragstart="dragStart" @dragover.stop>Card 1</p>
+                <p id="answer2" :draggable="true" @dragstart="dragStart" @dragover.stop>Card 2</p>
+            </div>
+
             <div class="q-answer">
                 <div class="part"><p>{{svenskaQuiz[0].quizPart1}}</p></div>
-                <div class="empty">DRAG SPACE</div>
+                <div class="empty" id="board-2" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
                 <div class="part"><p>{{svenskaQuiz[0].quizPart2}}</p></div>
-                <div class="empty">DRAG SPACE</div>
+                <div class="empty" id="board-3" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
                 <div class="part"><p>{{svenskaQuiz[0].quizPart3}}</p></div>
-                <div class="empty">DRAG SPACE</div>
+                <div class="empty" id="board-4" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
                 <div class="part"><p>{{svenskaQuiz[0].quizEnd}}</p></div>
             </div>
         </div>
     </div>
 </template>
+
 
 <script>
     export default {
@@ -38,6 +45,20 @@
                 this.resultat = '';
                 this.key = '0';
                 this.questionNumber += 1;
+            },
+
+            drop: (ev, target) => {
+                ev.preventDefault();
+                console.log("drop function: " + ev.target.id + target.id)
+
+                /* const card = document.getElementById('answer');
+                card.style.display = "inline";
+                target.appendChild(card) */
+            },
+
+            dragStart: e => {
+                console.log("drag: " + e.target.id)
+                e.dataTransfer.setData('text', e.target.id);
             },
 
 
@@ -89,7 +110,7 @@
         cursor: pointer;
     }
 
-    .svenskaquiz{
+    .svenskaquiz {
         background: rgba(0, 0, 0, .7);
         border-radius: 10px;
         display: inline-block;
@@ -104,6 +125,7 @@
         border-right: none;
         box-sizing: border-box;
     }
+
     .q-question > .q-answer {
         display: table-row;
         background-color: green;
@@ -148,7 +170,6 @@
         color: black;
         cursor: pointer;
     }
-
 
 
     h2, h3 {
