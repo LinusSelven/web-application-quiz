@@ -14,6 +14,8 @@
 </template>
 
 <script>
+  import ApiServices from '../services/ApiServices'
+
   export default {
     name: 'DispoQuiz',
     data: function () {
@@ -26,11 +28,19 @@
       onChange (event) {
         this.value = event.target.value;
       },
-      getQuiz(){
-        if (this.value === 'geoQuiz'){
-          this.getGeoQuiz();
+      async getQuiz () {
+        if (this.value === 'geoQuiz') {
+          await this.getGeoQuiz();
           this.createQuizTable();
-        }
+        } else if (this.value === 'matteQuiz') {
+          await this.getMatteQuiz();
+          this.createQuizTable();
+        }else if (this.value ==='engelskaQuiz'){
+          await this.getEngQuiz();
+          this.createQuizTable();
+        }/*else if (this.value ==='svenskaQuiz'){
+
+        }*/
       },
       createQuizTable() {
         const table = document.createElement('table')
@@ -62,15 +72,18 @@
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
       },
-      getGeoQuiz() {
-        fetch('http://127.0.0.1:3000/api/geoQuiz/Levels')
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            this.levels = data.geoQuizLevel;
-          });
-      }
+      getGeoQuiz: async function () {
+        let response = await ApiServices.getGeoQuizLevel({});
+        this.levels = response.data.levels;
+      },
+      getMatteQuiz: async function () {
+        let response = await ApiServices.getMatteQuizLevel({});
+        this.levels = response.data.levels;
+      },
+      getEngQuiz: async function () {
+        let response = await ApiServices.getEngQuizLevel({});
+        this.levels = response.data.levels;
+      },
     },
 
   }

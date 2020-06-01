@@ -91,7 +91,7 @@ app.get("/api/geoQuiz/Levels", (req, res, next) => {
         }
         res.json({
             "message":"success",
-            "geoQuizLevel":rows
+            "levels":rows
         })
     });
 });
@@ -226,6 +226,20 @@ app.get("/api/matteQuiz/numberOfLevel", (req, res, next) => {
         })
     });
 });
+app.get("/api/matteQuiz/Levels", (req, res, next) => {
+    const sql = 'SELECT quizLevel AS "Matte Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM matteQuiz GROUP BY quizLevel';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "levels":rows
+        })
+    });
+});
 app.get("/api/matteQuiz/level/:id", (req, res, next) => {
     var sql = "select * from matteQuiz where quizLevel = ?";
     var params = [req.params.id]
@@ -339,6 +353,20 @@ app.get("/api/engQuiz/level", (req, res, next) => {
         res.json({
             "message":"success",
             "engQuiz":rows
+        })
+    });
+});
+app.get("/api/engQuiz/Levels", (req, res, next) => {
+    const sql = 'SELECT quizLevel AS "Engelska Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM engQuiz GROUP BY quizLevel';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "levels":rows
         })
     });
 });
