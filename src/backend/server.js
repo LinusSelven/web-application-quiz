@@ -440,7 +440,7 @@ app.get('/api/svenskaQuiz', (req, res, next) => {
     }
     res.json({
       message: 'success',
-      engQuiz: rows
+      svenskaQuiz: rows
     })
   })
 })
@@ -454,7 +454,7 @@ app.get('/api/svenskaQuiz/level', (req, res, next) => {
     }
     res.json({
       message: 'success',
-      engQuiz: rows
+      svenskaQuiz: rows
     })
   })
 })
@@ -482,7 +482,7 @@ app.get('/api/svenskaQuiz/level/:id', (req, res, next) => {
     }
     res.json({
       message: 'success',
-      engQuiz: rows
+      svenskaQuiz: rows
     })
   })
 })
@@ -496,7 +496,7 @@ app.get('/api/svenskaQuiz/:id', (req, res, next) => {
     }
     res.json({
       message: 'success',
-      engQuiz: row
+      svenskaQuiz: row
     })
   })
 })
@@ -524,7 +524,7 @@ app.post('/api/svenskaQuiz/', (req, res, next) => {
     }
     res.json({
       message: 'success',
-      geoQuiz: data,
+      svenskaQuiz: data,
       id: this.lastID
     })
   })
@@ -553,7 +553,7 @@ app.put('/api/svenskaQuiz/:id', (req, res, next) => {
     }
     res.json({
       message: 'success',
-      engQuiz: data,
+      svenskaQuiz: data,
       id: this.lastID
     })
   })
