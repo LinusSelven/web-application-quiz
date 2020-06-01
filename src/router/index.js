@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/category.vue'
-import Login from '../components/login.vue'
+import MySpace from '../components/MySpace.vue'
 import Register from '../components/register.vue'
 import CreateNewQuiz from '../components/CreateNewQuiz.vue'
-import AdminDashboard from '../components/AdminDashboard'
+import DispoUsers from '../components/DispoUsers'
+import DispoQuiz from '../components/DispoQuiz'
 
 
 Vue.use(VueRouter)
@@ -21,9 +22,14 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
     },
     {
-        path: '/AdminDashboard',
-        name: 'AdminDashboard',
-        component: AdminDashboard
+        path: '/DispoUsers',
+        name: 'DispoUsers',
+        component: DispoUsers
+    },
+    {
+        path: '/DispoQuiz',
+        name: 'DispoQuiz',
+        component: DispoQuiz
     },
     {
         path: '/results',
@@ -36,9 +42,9 @@ const routes = [
         component: Register
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: Login
+        path: '/MySpace',
+        name: 'MySpace',
+        component: MySpace
     }  ,
     {
         path: '/CreateNewQuiz',

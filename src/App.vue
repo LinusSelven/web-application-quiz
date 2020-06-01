@@ -19,8 +19,9 @@
               <div class="header">
                 <p>MINA SIDOR</p>
               </div>
-              <a><router-link to="/AdminDashboard">Manage Users</router-link></a>
-              <a><router-link to="/login">My Account</router-link></a>
+              <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
+              <a><router-link to="/DispoQuiz">Manage All Quiz</router-link></a>
+              <a><router-link to="/MySpace">My Account</router-link></a>
               <a><router-link to="/CreateNewQuiz">New Quiz</router-link></a>
             </div>
           </div>

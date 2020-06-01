@@ -4,7 +4,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from './router'
 import store from './store'
-import Login from './components/login'
+import Login from './components/MySpace'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 
