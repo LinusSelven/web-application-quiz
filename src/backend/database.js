@@ -458,7 +458,6 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             quizCorrectPos3 INTEGER
        )`, (err) => {
         if (err) {
-          console.log(err)
           // Table already created
         } else {
           // Table just created, creating some rows
