@@ -77,6 +77,13 @@
 </script>
 
 <style scoped>
+    .allQuiz {
+        display: table-cell;
+        text-align: center;
+        vertical-align: top;
+        padding: 5px;
+        background: rgba(0, 0, 0, 0.8);
+    }
     .showLevel{
         padding-top: 10px;
     }
@@ -125,13 +132,7 @@
 
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .allQuiz {
-            padding-top: 10px;
-            display: table-cell;
-            text-align: center;
-            vertical-align: top;
-            background: rgba(0, 0, 0, 0.7);
-        }
+
         input[type=submit], select{
             width: 300px;
         }
