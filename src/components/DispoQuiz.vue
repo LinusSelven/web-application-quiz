@@ -7,6 +7,7 @@
         <option value="svenskaQuiz">Svenska</option>
         <option value="engelskaQuiz">Engelska</option>
         </select><br>
+        <select id="byLevel" @change="onChangeLevel($event)" v-model="levelValue"></select><br>
         <input type="submit" value="GET" @click="getQuiz()">
         <div class="showLevel" id="showLevel"></div>
     </div>
@@ -15,27 +16,82 @@
 
 <script>
   import ApiServices from '../services/ApiServices'
+  //import axios from 'axios'
   export default {
     name: 'DispoQuiz',
     data: function () {
       return {
         value: 'default',
+        levelValue:0,
+        quizArray:[],
         levels:[],
+        byLevel:[],
       }
     },
     methods:{
-      onChange (event) {
+      async onChange (event) {
         this.value = event.target.value;
+        if (this.value === 'geoQuiz') {
+          this.levels=[];
+          this.removeAllOptions();
+          await this.getGeoQuiz();
+          this.byLevel=[];
+          this.getArrayLength();
+          this.createOptions();
+        } else if (this.value === 'matteQuiz') {
+          this.levels=[];
+          this.removeAllOptions();
+          await this.getMatteQuiz();
+          this.byLevel=[];
+          this.getArrayLength();
+          this.createOptions();
+        } else if (this.value === 'engelskaQuiz') {
+          this.levels=[];
+          this.removeAllOptions();
+          await this.getEngQuiz();
+          this.byLevel=[];
+          this.getArrayLength();
+          this.createOptions();
+        }
+        else if (this.value === 'svenskaQuiz') {
+          this.levels=[];
+          this.removeAllOptions();
+          //await this.getEngQuiz();
+          this.byLevel=[];
+          this.getArrayLength();
+          this.createOptions();
+        }
+      },
+      removeAllOptions: function(){
+        const select = document.getElementById('byLevel')
+        select.options.length = 0;
+      },
+      createOptions: function(){
+        const sel = document.getElementById('byLevel')
+        for(let i = 0; i < this.byLevel.length; i++) {
+          const opt = document.createElement('option')
+          opt.innerHTML = this.byLevel[i];
+          opt.value = this.byLevel[i];
+          sel.appendChild(opt);
+        }
+      },
+      getArrayLength(){
+        for (let i=0;i<this.levels.length;i++){
+          this.byLevel.push(i+1)
+        }
+      },
+      onChangeLevel (event) {
+        this.levelValue = event.target.value;
       },
       async getQuiz () {
         if (this.value === 'geoQuiz') {
-          await this.getGeoQuiz();
+          await this.getGeoQuizByLevel(this.levelValue);
           this.createQuizTable();
         } else if (this.value === 'matteQuiz') {
-          await this.getMatteQuiz();
+          await this.getMatteQuizByLevel(this.levelValue);
           this.createQuizTable();
-        }else if (this.value ==='engelskaQuiz'){
-          await this.getEngQuiz();
+        } else if (this.value === 'engelskaQuiz') {
+          await this. getEngQuizByLevel(this.levelValue);
           this.createQuizTable();
         }/*else if (this.value ==='svenskaQuiz'){
 
@@ -45,7 +101,7 @@
         const table = document.createElement('table')
         table.className = "userTable";
         let i,j;
-        const arrItems = this.levels
+        const arrItems = this.quizArray
         const col = []
         for (i = 0; i < arrItems.length; i++) {
           for (const key in arrItems[i]) {
@@ -54,6 +110,7 @@
             }
           }
         }
+        col.push('function');
         let tr = table.insertRow(-1)
         for (i = 0; i < col.length; i++) {
           const th = document.createElement('th')
@@ -63,25 +120,38 @@
         for (i = 0; i < arrItems.length; i++) {
           tr = table.insertRow(-1);
           for (j = 0; j < col.length; j++) {
-            const tabCell = tr.insertCell(-1)
+            var tabCell = tr.insertCell(-1)
             tabCell.innerHTML = arrItems[i][col[j]];
           }
+          tabCell.innerHTML = '<input type="submit" class="update" value="UPDATE"> <input type="submit" class="submit" value="DELETE" v-on:submit="delete()">';
         }
         const divContainer = document.getElementById('showLevel')
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
       },
       getGeoQuiz: async function () {
-        let response = await ApiServices.getGeoQuizLevel({});
+        let response = await ApiServices.getGeoQuizLevel();
         this.levels = response.data.levels;
+      },
+      async getGeoQuizByLevel (id) {
+        let response = await ApiServices.getGeoQuizByLevel(id);
+            this.quizArray = response.data.geoQuiz;
       },
       getMatteQuiz: async function () {
-        let response = await ApiServices.getMatteQuizLevel({});
+        let response = await ApiServices.getMatteQuizLevel();
         this.levels = response.data.levels;
       },
+      async getMatteQuizByLevel (id) {
+        let response = await ApiServices.getMatteQuizByLevel(id);
+        this.quizArray = response.data.matteQuiz;
+      },
       getEngQuiz: async function () {
-        let response = await ApiServices.getEngQuizLevel({});
+        let response = await ApiServices.getEngQuizLevel();
         this.levels = response.data.levels;
+      },
+      async getEngQuizByLevel (id) {
+        let response = await ApiServices.getEngQuizByLevel(id);
+        this.quizArray = response.data.engQuiz;
       },
     },
 
@@ -99,6 +169,7 @@
     .showLevel{
         padding-top: 10px;
     }
+
     select{
         padding: 10px;
         margin-top: 2px;
