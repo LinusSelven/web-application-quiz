@@ -127,7 +127,17 @@
         font-weight: bold;
         border: none;
         color: white;
-        width: 100px;
+        width: 70px;
+        height: 30px;
+        cursor: pointer;
+    }
+    .update {
+        background-color: #035af6;
+        font-family: Calibri, monospace;
+        font-weight: bold;
+        border: none;
+        color: white;
+        width: 70px;
         height: 30px;
         cursor: pointer;
     }
