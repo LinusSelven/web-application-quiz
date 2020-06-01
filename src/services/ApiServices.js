@@ -39,5 +39,14 @@ export default{
   },
   deleteUser(credentials){
     return Api().delete('users/:id', credentials)
+  },
+  getGeoQuizLevel(){
+    return Api().get('geoQuiz/Levels')
+  },
+  getMatteQuizLevel(){
+    return Api().get('matteQuiz/Levels')
+  },
+  getEngQuizLevel(){
+    return Api().get('engQuiz/Levels')
   }
 }

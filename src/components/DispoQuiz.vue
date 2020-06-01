@@ -14,6 +14,7 @@
 </template>
 
 <script>
+  import ApiServices from '../services/ApiServices'
   export default {
     name: 'DispoQuiz',
     data: function () {
@@ -26,11 +27,19 @@
       onChange (event) {
         this.value = event.target.value;
       },
-      getQuiz(){
-        if (this.value === 'geoQuiz'){
-          this.getGeoQuiz();
+      async getQuiz () {
+        if (this.value === 'geoQuiz') {
+          await this.getGeoQuiz();
           this.createQuizTable();
-        }
+        } else if (this.value === 'matteQuiz') {
+          await this.getMatteQuiz();
+          this.createQuizTable();
+        }else if (this.value ==='engelskaQuiz'){
+          await this.getEngQuiz();
+          this.createQuizTable();
+        }/*else if (this.value ==='svenskaQuiz'){
+
+        }*/
       },
       createQuizTable() {
         const table = document.createElement('table')
@@ -62,21 +71,31 @@
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
       },
-      getGeoQuiz() {
-        fetch('http://127.0.0.1:3000/api/geoQuiz/Levels')
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            this.levels = data.geoQuizLevel;
-          });
-      }
+      getGeoQuiz: async function () {
+        let response = await ApiServices.getGeoQuizLevel({});
+        this.levels = response.data.levels;
+      },
+      getMatteQuiz: async function () {
+        let response = await ApiServices.getMatteQuizLevel({});
+        this.levels = response.data.levels;
+      },
+      getEngQuiz: async function () {
+        let response = await ApiServices.getEngQuizLevel({});
+        this.levels = response.data.levels;
+      },
     },
 
   }
 </script>
 
 <style scoped>
+    .allQuiz {
+        display: table-cell;
+        text-align: center;
+        vertical-align: top;
+        padding: 5px;
+        background: rgba(0, 0, 0, 0.8);
+    }
     .showLevel{
         padding-top: 10px;
     }
@@ -125,13 +144,7 @@
 
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .allQuiz {
-            padding-top: 10px;
-            display: table-cell;
-            text-align: center;
-            vertical-align: top;
-            background: rgba(0, 0, 0, 0.7);
-        }
+
         input[type=submit], select{
             width: 300px;
         }
