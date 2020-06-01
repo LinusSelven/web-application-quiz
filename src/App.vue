@@ -11,13 +11,12 @@
           <a><router-link to="/aboutus">ABOUT US</router-link></a>
           <div class="dropdown">
             <button class="dropbtn">
-              MY PAGES      <i class="fa fa-caret-down"></i>
-
+              MY PAGES
               <img src="./assets/icon/down.png" alt="down">
             </button>
             <div class="dropdown-content">
               <div class="header">
-                <p>MINA SIDOR</p>
+
               </div>
               <a><router-link to="/MySpace">My Profile</router-link></a>
               <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
@@ -293,10 +292,10 @@ a:hover {
   background-color: inherit;
   font-family: inherit;
   margin: 16px;
-  width: 100px;
+  width: 148px;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover, .dropdown:hover, .dropbtn:hover {
   background-color: #ddd;
   color: black;
 }
