@@ -13,11 +13,16 @@
             <div class="q-answer">
 
          <!--       <p> {{engQuiz[questionNumber].quizAnswer1}}</p>   -->
-                <p></p>
-                <input value="" type="text"  placeholder="Skriv med små bokstäver "  id="answer"  >
-                <p></p>
-                <button class="q-btn" @click="userChoseAnswer() " :disabled="userHasGuessed" value="1">Check the answer
+                <input value="" type="text"  placeholder="Skriv här "  id="answer"  >
+
+                <button class="q-btn1" @click="showCorrectAnswer() " >Check the answer
                 </button>
+                <p></p>
+                <div  class="correct" v-show="correctAnswer">
+                    <p> The correct answer is :   {{engQuiz[questionNumber].quizCorrectAnswer}}</p>
+                    <button class="q-btn1" @click="userChoseAnswer() " :disabled="userHasGuessed" value="1">Next</button>
+                    <p></p>
+                </div>
 
 
             </div>
@@ -47,7 +52,8 @@
         finalScore:0,
         nextQuizMessage:'',
         numberOfLevel:0,
-        answer:""
+        answer:"",
+        correctAnswer:false,
       }
     },
 
@@ -56,9 +62,10 @@
         this.userHasGuessed = false;
       },
       userChoseAnswer: function () {
+        this.correctAnswer=false;
         this.userHasGuessed = true;
         this.answer = document.getElementById("answer").value;
-        if ((this.answer)==(this.engQuiz[this.questionNumber].quizCorrectAnswer)){
+        if ((this.answer.toLocaleLowerCase())===(this.engQuiz[this.questionNumber].quizCorrectAnswer)){
           this.countOfCorrectAnswers += 1;
 
         }
@@ -66,6 +73,9 @@
         this.nextQuestion();
         this.countQuestions();
         this.percentageScore();
+      },
+      showCorrectAnswer(){
+        this.correctAnswer=true;
       },
 
       countQuestions(){
@@ -139,11 +149,14 @@
 
 
 <style scoped>
-
+    p{
+        font-size: 22px;
+    }
     input {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
+        margin-right: 10px;
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
@@ -182,7 +195,21 @@
         margin-left: auto;
         margin-right: auto;
     }
-
+    .q-btn1 {
+        width: 170px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 50px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+    }
+    .q-btn1:hover {
+        background-color: #e9e608;
+        color: black;
+        cursor: pointer;
+    }
     .q-btn {
         width: 100%;
         margin-right: 5px;
