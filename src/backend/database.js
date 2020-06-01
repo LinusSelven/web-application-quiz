@@ -442,6 +442,43 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         })
 
 
+      //---------------
+
+      db.run(`CREATE TABLE svenskaQuiz (
+            quizId INTEGER PRIMARY KEY,
+            quizLevel INTEGER,
+            quizPart1 TEXT,
+            quizPart2 TEXT,
+            quizPart3 TEXT,
+            quizAnswer1 TEXT,
+            quizAnswer2 TEXT,
+            quizAnswer3 TEXT,
+            quizCorrectPos1 INTEGER,
+            quizCorrectPos2 INTEGER,
+            quizCorrectPos3 INTEGER
+       )`, (err) => {
+        if (err) {
+          console.log(err)
+          // Table already created
+        } else {
+          // Table just created, creating some rows
+          var insert1 = 'INSERT INTO svenskaQuiz (quizLevel, quizPart1, quizPart2, quizPart3, quizAnswer1, quizAnswer2, ' +
+            'quizAnswer3, quizCorrectPos1, quizCorrectPos2, quizCorrectPos3) VALUES (?,?,?,?,?,?,?,?,?,?)'
+          db.run(insert1, [
+            1,
+            'Jag ',
+            'ut, för att ',
+            'till min ',
+            'handla',
+            'gick',
+            'mormor',
+            2,
+            1,
+            3])
+        }
+      })
+
+
 
 
                 //---------------
