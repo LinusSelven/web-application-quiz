@@ -2,19 +2,29 @@
   <div id="app"  class="grid">
     <section class="item1">
       <div class="item1-body">
-        <ul class="topnav">
-          <li style="float:left">
-            <p class="logo-box">
+        <div class="navbar">
+            <div class="logo-box">
               <img src="./assets/logo.png" alt="Logo" class="logo-img">
-            </p>
-          </li>
-          <li style="float: right"><router-link to="/"> Quiz</router-link></li>
-          <li style="float: right" v-if="isLogged && user_Role==='Student'"><router-link to="/login">My page</router-link></li>
-          <li style="float: right" v-if="isLogged && user_Role==='Admin'"><router-link to="/AdminDashboard">Admin</router-link></li>
-          <li style="float: right" v-if="!isLogged"><router-link to="/register">Sign up</router-link></li>
-          <li style="float: right" v-if="isLogged && user_Role!=='Student'"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
-          <li style="float: right"><router-link to="/aboutus">About us</router-link></li>
-        </ul>
+            </div>
+          <a><router-link to="/"> QUIZ</router-link></a>
+          <a><router-link to="/register">REGISTER</router-link></a>
+          <a><router-link to="/aboutus">ABOUT US</router-link></a>
+          <div class="dropdown">
+            <button class="dropbtn">
+              MY PAGES      <i class="fa fa-caret-down"></i>
+
+              <img src="./assets/icon/down.png" alt="down">
+            </button>
+            <div class="dropdown-content">
+              <div class="header">
+                <p>MINA SIDOR</p>
+              </div>
+              <a><router-link to="/AdminDashboard">Manage Users</router-link></a>
+              <a><router-link to="/login">My Account</router-link></a>
+              <a><router-link to="/CreateNewQuiz">New Quiz</router-link></a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
     <section class="item2">
@@ -127,9 +137,9 @@
     grid-template-rows: repeat(4, auto);
     grid-template-areas:
             "header header header header"
-            "menu menu menu menu"
             "sidebar sidebar sidebar sidebar"
-            "footer footer footer footer";
+            "footer footer footer footer"
+            "menu menu menu menu";
     grid-auto-flow: dense;
     grid-gap: 5px;
   }
@@ -226,36 +236,22 @@ a:hover {
 
   .item1-body{
     width: 100%;
-    display: table;
+    //display: table;
+    border: 3px solid #ccc;
   }
   .logo-box{
-    display: table-cell;
-    color: #02b3b3;
-    font-family: Impact, monospace;
+    float: left;
+    overflow: hidden;
   }
   .logo-img{
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
+    max-width: 50%;
+    max-height: 50%;
+    //display: block;
   }
   .item4-body{
     border: 3px solid #ccc;
     display: inline-block;
     width: 100%;
-  }
-  .menuIcon{
-    max-width: 30%;
-    max-height: 30%;
-    display: inline-block;
-  }
-  .slag{
-    display: none;
-  }
-  #desktop-menu{
-    display: none;
-  }
-  #mobil-menu{
-    display: block;
   }
   button{
     margin-top: 5px;
@@ -268,34 +264,79 @@ a:hover {
   }
 
 /* Menu Mobile & Desktop*/
-ul.topnav {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+* {
+  box-sizing: border-box;
+}
+.navbar {
   overflow: hidden;
-  background-color: #44475C;
-  font-family: "Fira Code Retina", Arial, Helvetica, sans-serif;
-font-size: large;
+  background-color: #0f122d;
+  font-family: Calibri, monospace;
+  font-size: large;
 }
 
-ul.topnav li {
-  float: left;
-}
-
-ul.topnav li a {
-  display: block;
+.navbar a {
+  float: right;
+  font-size: 16px;
   color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
 }
 
-ul.topnav li a:hover:not(.active) {background-color: #111;}
+.dropdown {
+  float: right;
+  overflow: hidden;
+}
 
-ul.topnav li a.active {background-color: #4CAF50;}
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 16px;
+  width: 100px;
+}
 
-ul.topnav li.right {float: right;}
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #ddd;
+  color: black;
+}
 
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.header {
+  background: #0a7272;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* finish here */
 input[type=button] {
   background-color: #222222;
   font-family: "Times New Roman", monospace;
@@ -342,9 +383,6 @@ input[type=email], input[type=password] {
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
-    ul.topnav li.right, ul.topnav li {
-      float: none;
-    }
     .item3-body{
       background: url('./assets/qui.jpg') no-repeat;
       background-size: 100% 100%;
@@ -355,13 +393,17 @@ input[type=email], input[type=password] {
       display: inline-block;
       text-align: center;
       width: 60%;
-      padding-top: 5px;
+      margin-top: 5px;
     }
     .logo-box{
-      padding-left: 10px;
-      vertical-align: middle;
-      width: 100px;
-      height: 50px;
+      float: left;
+      overflow: hidden;
+    }
+    .logo-img{
+      padding-left: 5px;
+      max-width: 50%;
+      max-height: 150px;
+      display: block;
     }
     .item4-body{
       width: 60%;
