@@ -468,7 +468,7 @@ app.get('/api/svenskaQuiz/numberOfLevel', (req, res, next) => {
     }
     res.json({
       message: 'success',
-      engQuizLevel: rows
+      svenskaQuizLevel: rows
     })
   })
 })
