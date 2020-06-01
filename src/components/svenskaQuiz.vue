@@ -126,18 +126,27 @@
         box-sizing: border-box;
     }
 
+    .q-words-board[data-v-005fc852] {
+        padding: 1em;
+    }
+
     .q-words-board p {
+        background: red;
         display: inline;
-        padding: 5%;
-        margin: 1%;
-        justify-content: center;
-        align-content: center;
-        text-align: center;
+        padding: 1em;
+        margin: 1em;
+        /* justify-content: space-between; */
+        /* align-content: center; */
+        /* text-align: center; */
     }
 
     .q-question > .q-answer {
-        display: table-row;
+        display: inline-table;
+        /* justify-content: center; */
         background-color: green;
+        /* align-content: center; */
+        text-align: center;
+        width: 100%;
     }
 
     .q-question > .q-answer > .empty {
@@ -147,6 +156,9 @@
         text-align: center;
     }
 
+    .empty{
+        width: 10%;
+    }
 
     .q-img {
         margin: 0 auto;
