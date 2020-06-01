@@ -1,5 +1,5 @@
 <template>
-    <div class="myPage">
+    <div class="myPage" >
         <div class="showData" id="showData"></div>
         <input type="file" id="upload" name="upload" accept="image/*" placeholder="Select image">
         <input type="submit" value="Save" @click="saveProfileimg()">
@@ -27,18 +27,22 @@
         data: function () {
             return {}
         },
-        methods: {
-
-            saveProfileimg: function () {
-                /* kod för att spara en bild */
-            },
-            saveChanges: function () {
-
-            }
-
+        methods:{
+              async getUserData() {
+                let response = await AuthServices.userData({
+                  userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+                });
+                let jsonUser_serialized = JSON.stringify(response.data.user);
+                localStorage.setItem("userData", jsonUser_serialized);
+              },
+              saveProfileimg: function () {
+                  /* kod för att spara en bild */
+              },
+              saveChanges: function () {
+             }
         }
-    }
-    //import AuthServices from '../services/ApiServices';
+  }
+  import AuthServices from '../services/ApiServices';
 </script>
 
 <style scoped>

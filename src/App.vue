@@ -2,41 +2,33 @@
   <div id="app"  class="grid">
     <section class="item1">
       <div class="item1-body">
-        <div class="logo-table">
-          <div class="logo-box">
-            <img src="./assets/logo.png" alt="Logo" class="logo-img">
-            <span class="slag">DET SKA VARA KUL ATT PLUGGA!</span>
-          </div>
-          <div class="logout-box">
+        <div class="navbar">
+            <div class="logo-box">
+              <img src="./assets/logo.png" alt="Logo" class="logo-img">
+            </div>
+          <a><router-link to="/"> QUIZ</router-link></a>
+          <a><router-link to="/register">REGISTER</router-link></a>
+          <a><router-link to="/aboutus">ABOUT US</router-link></a>
+          <div class="dropdown">
+            <button class="dropbtn">
+              MY PAGES      <i class="fa fa-caret-down"></i>
+
+              <img src="./assets/icon/down.png" alt="down">
+            </button>
+            <div class="dropdown-content">
+              <div class="header">
+                <p>MINA SIDOR</p>
+              </div>
+              <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
+              <a><router-link to="/DispoQuiz">Manage All Quiz</router-link></a>
+              <a><router-link to="/MySpace">My Account</router-link></a>
+              <a><router-link to="/CreateNewQuiz">New Quiz</router-link></a>
+            </div>
           </div>
         </div>
       </div>
     </section>
-
     <section class="item2">
-      <div id="desktop-menu">
-        <ul class="menu">
-          <li><router-link to="/"> Quiz</router-link></li>
-          <li v-if="isLogged"><router-link to="/login">My page</router-link></li>
-          <li v-if="!isLogged"><router-link to="/register">Sign up</router-link></li>
-          <li v-if="isLogged && user_Role!=='Student'"><router-link to="/CreateNewQuiz">New Quiz</router-link></li>
-          <li><router-link to="/aboutus">About us</router-link></li>
-        </ul>
-      </div>
-      <div id="mobil-menu">
-        <div class="topNav">
-          <a class="active">Quiz</a>
-          <div id="links">
-            <a href="/register">Register</a>
-            <a href="#">About us</a>
-            <a href="#">Rate us</a>
-            <a href="#">Sign in</a>
-          </div>
-          <a href="javascript:void(0);" class="icon" @click="mobilMenu">
-            <img src="./assets/icons.png" alt="menu" class="menuIcon">
-          </a>
-        </div>
-      </div>
     </section>
     <section class="item3">
       <div class="item3-body">
@@ -47,7 +39,7 @@
                 <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
               </tr>
               <tr>
-                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm" value="login"></td>
+                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm()" value="login"></td>
               </tr>
               <tr>
                 <td v-if="!isLogged"><span>Har inget konto? </span><a><router-link to="/register">Registrera!</router-link></a></td>
@@ -146,9 +138,9 @@
     grid-template-rows: repeat(4, auto);
     grid-template-areas:
             "header header header header"
-            "menu menu menu menu"
             "sidebar sidebar sidebar sidebar"
-            "footer footer footer footer";
+            "footer footer footer footer"
+            "menu menu menu menu";
     grid-auto-flow: dense;
     grid-gap: 5px;
   }
@@ -217,14 +209,14 @@ a {
 a:hover {
   color: #02b3b3;
 }
-table {
+.center {
   width: 100%;
   font: inherit;
   border-collapse: collapse;
   color: rgba(6, 25, 45, 0.6);
 }
 
-table th {
+.center th {
   text-transform: uppercase;
   text-align: center;
   background: #44475C;
@@ -232,63 +224,35 @@ table th {
   padding-top: 5px;
 }
 
-table td {
+.center td {
   padding-top: 5px;
   text-align: center;
   border-right: 2px solid #7D82A8;
 }
-table td:last-child {
+.center td:last-child {
   border-right: none;
 }
-table tbody tr:nth-child(2n) td {
+.center tbody tr:nth-child(2n) td {
 }
+
   .item1-body{
-    border: 3px solid #ccc;
     width: 100%;
-    display: table;
-  }
-  .logo-table{
-    display: table-row;
+    //display: table;
+    border: 3px solid #ccc;
   }
   .logo-box{
-    display: table-cell;
-    width: 20%;
-    color: #02b3b3;
-    font-family: Impact, monospace;
+    float: left;
+    overflow: hidden;
   }
   .logo-img{
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-  }
-  .logout-box{
-    display: table-cell;
-    width: 80%;
-    color: #182423;
-    font-family: Calibri, monospace;
-  //font-size: medium;
-    text-align: right;
-    vertical-align: middle;
+    max-width: 50%;
+    max-height: 50%;
+    //display: block;
   }
   .item4-body{
     border: 3px solid #ccc;
-    border-radius: 10px;
     display: inline-block;
     width: 100%;
-  }
-  .menuIcon{
-    max-width: 30%;
-    max-height: 30%;
-    display: inline-block;
-  }
-  .slag{
-    display: none;
-  }
-  #desktop-menu{
-    display: none;
-  }
-  #mobil-menu{
-    display: block;
   }
   button{
     margin-top: 5px;
@@ -301,80 +265,79 @@ table tbody tr:nth-child(2n) td {
   }
 
 /* Menu Mobile & Desktop*/
-/* mobil*/
-.topNav {
+* {
+  box-sizing: border-box;
+}
+.navbar {
   overflow: hidden;
-  background-color: #333;
-  position: relative;
-  font-family: "Times New Roman", monospace;
-  font-weight: bold;
+  background-color: #0f122d;
+  font-family: Calibri, monospace;
+  font-size: large;
 }
 
-.topNav #links {
-
-  display: none;
-}
-
-.topNav a {
+.navbar a {
+  float: right;
+  font-size: 16px;
   color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.83);
-}
-
-.topNav a.icon {
-  background: dimgray;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.topNav a:hover {
-  background-color: rgba(250, 242, 82, 0.99);
-  color: dimgray;
-}
-
-.active {
-  background-color: #02b3b3;
-  color: whitesmoke;
-}
-/*desktop*/
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: dimgray;
-}
-li {
-  float: left;
-  font-family: "Times New Roman", monospace;
-  font-weight: bold;
-  width: 20%;
-}
-
-li a {
-  display: block;
-  color: wheat;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.83);
-  cursor: pointer;
 }
 
-li a:hover:not(.active) {
-  background-color: rgba(250, 242, 82, 0.99);
-  color: dimgray;
+.dropdown {
+  float: right;
+  overflow: hidden;
 }
 
-.active {
-  background-color: #02b3b3;
-  color: whitesmoke;
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 16px;
+  width: 100px;
 }
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #ddd;
+  color: black;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.header {
+  background: #0a7272;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+/* finish here */
 input[type=button] {
   background-color: #222222;
   font-family: "Times New Roman", monospace;
@@ -406,6 +369,9 @@ input[type=email], input[type=password] {
   cursor: pointer;
   width: 49%;
 }
+.md-toolbar + .md-toolbar {
+  margin-top: 16px;
+}
   /* Mobile */
   @media screen and (max-width: 400px) {
   }
@@ -414,14 +380,6 @@ input[type=email], input[type=password] {
     .item3 {
       grid-area: sidebar;
 
-    }
-    .logo-box{
-      width: 200px;
-      color: #02b3b3;
-      font-family: Impact, monospace;
-    }
-    .slag{
-      display: block;
     }
   }
   /* Desktop */
@@ -436,29 +394,21 @@ input[type=email], input[type=password] {
       display: inline-block;
       text-align: center;
       width: 60%;
+      margin-top: 5px;
     }
     .logo-box{
-      width: 25%;
+      float: left;
+      overflow: hidden;
     }
-    .logout-box{
-      width: 75%;
-      vertical-align: top;
-    }
-    .slag{
+    .logo-img{
+      padding-left: 5px;
+      max-width: 50%;
+      max-height: 150px;
       display: block;
-      color: #02b3b3;
-      font-family: Impact, monospace;
-      font-weight: normal;
-    }
-    #desktop-menu{
-      display: inline-block;
-      width: 60%;
-    }
-    #mobil-menu{
-      display: none;
     }
     .item4-body{
       width: 60%;
+      background-color: #f3f3f3;
     }
     input[type=button] {
       width: 50px;
