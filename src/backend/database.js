@@ -350,67 +350,68 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             } else {
                 // Table just created, creating some rows
                 var insert1 = 'INSERT INTO engQuiz (quizQuestion,quizLevel, quizAnswer1, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?)'
-                db.run(insert1, ["Vad heter häst? ",
-                    "1",
-                    "Häst",
-                    "horse",
-                    "horse.png"])
-                db.run(insert1, ["Vad heter hund?",
-                    "1",
-                    "Hund",
-                    "dog",
-                    "dog.png"])
-                db.run(insert1, ["Vad heter fågel?",
-                    "1",
-                    "fågel",
-                    "bird",
-                    "bird.png"])
-                db.run(insert1, ["Vad heter kanin?",
-                    "1",
-                    "kanin",
-                    "rabbit",
-                    "rabbit.png"])
-                db.run(insert1, ["Vad heter ko?",
-                    "1",
-                    "ko",
-                    "cow",
-                    "cow.png"])
-                db.run(insert1, ["Vad heter får?",
-                    "1",
-                    "får",
-                    "sheep",
-                    "sheep.png"])
-                db.run(insert1, ["Vad heter katt?",
-                    "1",
-                    "katt",
-                    "cat",
-                    "cat.png"])
 
-                db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                db.run(insert1, ["What color is it?",
+                    "1",
                     "blå",
                     "blue",
                     "blue.png"])
-                db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                db.run(insert1, ["What color is it?",
+                    "1",
                     "grön",
                     "green",
                     "green.png"])
-                db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                db.run(insert1, ["What color is it?",
+                    "1",
                     "röd",
                     "red",
                     "red.png"])
-                db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                db.run(insert1, ["What color is it?",
+                    "1",
                     "vit",
                     "white",
                     "white.png"])
-                db.run(insert1, ["Vilken färg är det?",
-                    "2",
+                db.run(insert1, ["What color is it?",
+                    "1",
                     "gul",
                     "yellow",
                     "yellow.png"])
+
+                db.run(insert1, ["What animal is it? ",
+                    "2",
+                    "Häst",
+                    "horse",
+                    "horse.png"])
+                db.run(insert1, ["What animal is it?",
+                    "2",
+                    "Hund",
+                    "dog",
+                    "dog.png"])
+                db.run(insert1, ["What animal is it?",
+                    "2",
+                    "fågel",
+                    "bird",
+                    "bird.png"])
+                db.run(insert1, ["What animal is it?",
+                    "2",
+                    "kanin",
+                    "rabbit",
+                    "rabbit.png"])
+                db.run(insert1, ["What animal is it?",
+                    "2",
+                    "ko",
+                    "cow",
+                    "cow.png"])
+                db.run(insert1, ["What animal is it?",
+                    "2",
+                    "får",
+                    "sheep",
+                    "sheep.png"])
+                db.run(insert1, ["What animal is it?",
+                    "2",
+                    "katt",
+                    "cat",
+                    "cat.png"])
 
                 db.run(insert1, ["Vad heter \"läsa\" på engelska?",
                     "3",
