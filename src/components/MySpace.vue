@@ -2,16 +2,16 @@
     <div class="myPage" >
         <table class="center">
             <tr>
-                <td><label class="labelName">User Role</label>&nbsp;<label id="userRole">{{user.userRole}}</label></td>
+                <td><label class="labelName">User Role</label>&nbsp;<label>{{user.userRole}}</label></td>
             </tr>
             <tr>
-                <td><label class="labelName">Full Name</label>&nbsp;<label id="fullName">{{user.fullName}}</label></td>
+                <td><label class="labelName">Full Name</label>&nbsp;<label>{{user.fullName}}</label></td>
             </tr>
             <tr>
-                <td><label class="labelName">Email</label>&nbsp;<label id="email">{{user.email}}</label></td>
+                <td><label class="labelName">Email</label>&nbsp;<label>{{user.email}}</label></td>
             </tr>
             <tr>
-                <td><label class="labelName">Phone</label>&nbsp;<label id="phoneNumber">{{user.phoneNumber}}</label></td>
+                <td><label class="labelName">Phone</label>&nbsp;<label>{{user.phoneNumber}}</label></td>
             </tr>
             <tr>
                 <td><h2>***</h2></td>
