@@ -15,7 +15,6 @@
 
 <script>
   import ApiServices from '../services/ApiServices'
-
   export default {
     name: 'DispoQuiz',
     data: function () {
