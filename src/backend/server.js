@@ -1,7 +1,7 @@
-var express = require("express")
-var app = express()
-var cors = require('cors')
-var db = require("./database.js")
+var express = require("express");
+var app = express();
+var cors = require('cors');
+var db = require("./database.js");
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var crypto = require('crypto');
@@ -12,6 +12,7 @@ app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 app.use(session({
     secret: 'secret',
     resave: true,
@@ -68,6 +69,20 @@ app.get("/api/geoQuiz/level", (req, res, next) => {
 });
 app.get("/api/geoQuiz/numberOfLevel", (req, res, next) => {
     const sql = 'select quizLevel from geoQuiz GROUP BY quizLevel';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "geoQuizLevel":rows
+        })
+    });
+});
+app.get("/api/geoQuiz/Levels", (req, res, next) => {
+    const sql = 'SELECT quizLevel AS "Geo Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM geoQuiz GROUP BY quizLevel';
     const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -572,15 +587,15 @@ app.delete('/api/svenskaQuiz/:id', (req, res, next) => {
 })
 
 /* Users Handling */
-app.get('/api/users', session_Status, (request, response, next) => {
-        const sql = 'select * from users';
-        const params = [];
+app.get('/api/users', (request, response, next) => {
+        const sql = 'select * from users where userRole <> ?';
+        const params = ['Admin'];
         db.all(sql, params, (err, rows) => {
             if (err) {
                 response.status(400).json({ "error": err.message });
                 return;
             }
-            response.json({
+            response.send({
                 "message": "success",
                 "users": rows
             })
@@ -705,7 +720,7 @@ app.put('/api/users/:id', session_Status, (request, response, next) => {
         })
     });
 })
-app.delete('/api/users/:id', session_Status, (request, response, next) => {
+app.delete('/api/users/:id', (request, response, next) => {
     db.run(
       'DELETE FROM users WHERE userId = ?',
       request.params.id,

@@ -500,6 +500,18 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                     "123456",
                     "0722000000",
                     "null"])
+                db.run(insert, ["Student",
+                    "Milo Milo",
+                    "milo@iths.se",
+                    "112233",
+                    "0766000999",
+                    "9"])
+                db.run(insert, ["Teacher",
+                    " Miko Miko",
+                    "miko@iths.se",
+                    "445566",
+                    "0788000111",
+                    "null"])
             }
         })
 

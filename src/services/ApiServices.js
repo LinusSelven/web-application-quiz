@@ -31,4 +31,13 @@ export default{
   newQuizSve(credentials){
     return Api().post('sveQuiz/', credentials)
   },
+  userData(credentials){
+    return Api().post('users/user/', credentials)
+  },
+  getAllUsers(){
+    return Api().get('users')
+  },
+  deleteUser(credentials){
+    return Api().delete('users/:id', credentials)
+  }
 }
