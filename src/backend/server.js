@@ -487,7 +487,7 @@ app.get('/api/users', (request, response, next) => {
             })
         });
 });
-app.get('/api/users/:id', session_Status, (request, response, next) => {
+app.get('/api/users/:id', (request, response, next) => {
     const sql = 'select * from users where userId = ?'
     const params = [request.params.id]
     db.get(sql, params, (err, row) => {
@@ -567,10 +567,9 @@ app.post('/api/users/', (req, res, next) => {
         email: req.body.email,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
-        schoolLevel: req.body.schoolLevel,
     }
-            const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
-            const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.schoolLevel];
+            const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?)';
+            const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber];
             db.run(sql, params, function (err, result) {
                 if (err) {
                     res.status(400).json({ "error": err.message })
@@ -583,17 +582,16 @@ app.post('/api/users/', (req, res, next) => {
                 })
             });
 })
-app.put('/api/users/:id', session_Status, (request, response, next) => {
+app.put('/api/users/:id', (request, response, next) => {
     const userData = {
         userRole: request.body.userRole,
         fullName: request.body.fullName,
         email: request.body.email,
         password: request.body.password,
         phoneNumber: request.body.phoneNumber,
-        schoolLevel: request.body.schoolLevel,
     }
-    var sql ='UPDATE users SET userRole = ?, fullName = ?, email = ?, password = ?, phoneNumber = ?, schoolLevel = ? WHERE userId = ?'
-    const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber, userData.schoolLevel , request.params.id];
+    var sql ='UPDATE users SET userRole = ?, fullName = ?, email = ?, password = ?, phoneNumber = ? WHERE userId = ?'
+    const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber , request.params.id];
     db.run(sql, params, function (err, result) {
         if (err){
             response.status(400).json({"error": err.message})

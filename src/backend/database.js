@@ -451,31 +451,27 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             fullName TEXT,
             email TEXT,
             password TEXT,
-            phoneNumber TEXT,
-            schoolLevel INTEGER
+            phoneNumber TEXT
             )`, (err) => {
             if (err) {
                 // Table already created
             } else {
-                const insert = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?,?)';
+                const insert = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber) VALUES (?,?,?,?,?)';
                 db.run(insert, ["Admin",
                     "Halim Halim",
                     "halim.halim@iths.se",
                     "123456",
-                    "0722000000",
-                    "null"])
+                    "0722000000"])
                 db.run(insert, ["Student",
                     "Milo Milo",
                     "milo@iths.se",
                     "112233",
-                    "0766000999",
-                    "9"])
+                    "0766000999"])
                 db.run(insert, ["Teacher",
                     " Miko Miko",
                     "miko@iths.se",
                     "445566",
-                    "0788000111",
-                    "null"])
+                    "0788000111"])
             }
         })
 

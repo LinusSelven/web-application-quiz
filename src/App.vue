@@ -19,10 +19,10 @@
               <div class="header">
                 <p>MINA SIDOR</p>
               </div>
+              <a><router-link to="/MySpace">My Profile</router-link></a>
               <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
               <a><router-link to="/DispoQuiz">Manage All Quiz</router-link></a>
-              <a><router-link to="/MySpace">My Account</router-link></a>
-              <a><router-link to="/CreateNewQuiz">New Quiz</router-link></a>
+              <a><router-link to="/CreateNewQuiz">Create New Quiz</router-link></a>
             </div>
           </div>
         </div>
@@ -227,13 +227,8 @@ a:hover {
 .center td {
   padding-top: 5px;
   text-align: center;
-  border-right: 2px solid #7D82A8;
 }
-.center td:last-child {
-  border-right: none;
-}
-.center tbody tr:nth-child(2n) td {
-}
+
 
   .item1-body{
     width: 100%;
