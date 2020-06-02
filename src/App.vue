@@ -11,18 +11,17 @@
           <a><router-link to="/aboutus">ABOUT US</router-link></a>
           <div class="dropdown">
             <button class="dropbtn">
-              MY PAGES      <i class="fa fa-caret-down"></i>
-
+              MY PAGES
               <img src="./assets/icon/down.png" alt="down">
             </button>
             <div class="dropdown-content">
               <div class="header">
-                <p>MINA SIDOR</p>
+
               </div>
+              <a><router-link to="/MySpace">My Profile</router-link></a>
               <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
               <a><router-link to="/DispoQuiz">Manage All Quiz</router-link></a>
-              <a><router-link to="/MySpace">My Account</router-link></a>
-              <a><router-link to="/CreateNewQuiz">New Quiz</router-link></a>
+              <a><router-link to="/CreateNewQuiz">Create New Quiz</router-link></a>
             </div>
           </div>
         </div>
@@ -102,6 +101,7 @@
             this.user_Role= JSON.parse(sessionStorage.getItem('userLogged')).userRole;
             this.email = '';
             this.password = '';
+            location.reload();
           }
           else {
             this.message='';
@@ -120,10 +120,16 @@
           this.user_Role= '';
           this.errorMessage ='';
           this.message = response.data.message;
-          //setTimeout(this.message, 3000);
+          location.reload();
         },
 
-      }
+      },
+    mounted(){
+        if (parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId) && parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)>=1){
+          this.isLogged = true;
+          this.message= JSON.parse(sessionStorage.getItem('userLogged')).message+", "+JSON.parse(sessionStorage.getItem('userLogged')).fullName+"!";
+        }
+    }
   }
 </script>
 
@@ -227,13 +233,8 @@ a:hover {
 .center td {
   padding-top: 5px;
   text-align: center;
-  border-right: 2px solid #7D82A8;
 }
-.center td:last-child {
-  border-right: none;
-}
-.center tbody tr:nth-child(2n) td {
-}
+
 
   .item1-body{
     width: 100%;
@@ -298,10 +299,10 @@ a:hover {
   background-color: inherit;
   font-family: inherit;
   margin: 16px;
-  width: 100px;
+  width: 148px;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover, .dropdown:hover, .dropbtn:hover {
   background-color: #ddd;
   color: black;
 }

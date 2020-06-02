@@ -22,7 +22,7 @@
     data: function () {
       return {
         value: 'default',
-        levelValue:0,
+        levelValue:1,
         quizArray:[],
         levels:[],
         byLevel:[],

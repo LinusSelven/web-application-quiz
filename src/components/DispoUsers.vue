@@ -54,11 +54,10 @@
                 divContainer.appendChild(table);
           },
           async delete () {
-            if (this.selectedId && this.selectedId>0){
               let response = await axios.delete('http://localhost:3000/api/users/'+this.selectedId);
               this.message = response.data.message
               await this.getUsers();
-            }
+
           },
           TD:onclick= function (e) {
                 e = e || window.event;
@@ -72,7 +71,7 @@
                 }
           },
           async getUsers () {
-            this.users.clear();
+            this.users=[];
             let response = await AuthServices.getAllUsers();
             this.users = response.data.users;
             this.createTable();

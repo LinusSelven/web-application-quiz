@@ -34,6 +34,12 @@ export default{
   userData(credentials){
     return Api().post('users/user/', credentials)
   },
+  getOneUser(param){
+    return Api().get('/users/'+param)
+  },
+  modifyUser(param, credentials){
+    return Api().put('/users/'+param, credentials)
+  },
   getAllUsers(){
     return Api().get('users')
   },
