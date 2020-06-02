@@ -32,6 +32,7 @@
 
 <script>
   import ApiServices from '../services/ApiServices'
+
   export default {
     name: "mattequiz",
     data: function () {
@@ -157,7 +158,7 @@
         const table = document.createElement('table')
         table.className = "userTable";
         let i,j;
-        const arrItems = this.matteScores
+        const arrItems = this.matteScores.sort(function(a, b){return b-a});
         const col = []
         for (i = 0; i < arrItems.length; i++) {
           for (const key in arrItems[i]) {
@@ -166,6 +167,7 @@
             }
           }
         }
+        col.push('rank');
         let tr = table.insertRow(-1)
         for (i = 0; i < col.length; i++) {
           const th = document.createElement('th')
@@ -175,9 +177,10 @@
         for (i = 0; i < arrItems.length; i++) {
           tr = table.insertRow(-1);
           for (j = 0; j < col.length; j++) {
-            const tabCell = tr.insertCell(-1)
+            var tabCell = tr.insertCell(-1)
             tabCell.innerHTML = arrItems[i][col[j]];
           }
+          tabCell.innerHTML =i + 1;
         }
         const divContainer = document.getElementById('showScoresMatte')
         divContainer.innerHTML = "";

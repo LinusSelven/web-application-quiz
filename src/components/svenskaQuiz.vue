@@ -32,19 +32,23 @@
             <h2>{{nextQuizMessage}}</h2>
             <img src="../assets/result1.png" alt="res" class="res">
             <h1 class="finalScore">{{finalScore}} %</h1>
+            <p class="showScoresSve" id="showScoresSve"></p>
         </div>
-        <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
+       <!-- VAD ÄR DEN => <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2> -->
     </div>
 </template>
 
 
 <script>
+    import ApiServices from '../services/ApiServices'
+
     export default {
         name: 'svenskaQuiz',
         data: function () {
             return {
                 svenskaQuiz: [],
                 quizLevel: [],
+                sveScores:[],
                 questionNumber: 0,
                 countOfCorrectAnswers: 0,
                 selectedLevel: 1, /* default */
@@ -114,9 +118,14 @@
                     startChild.setAttribute('draggable', 'true')
                 }
             },
-            countQuestions(){
-                this.questionNumber += 1;
-                this.isDone = (this.questionNumber) === this.svenskaQuiz.length;
+            async countQuestions () {
+              this.questionNumber += 1;
+              if (this.questionNumber === this.svenskaQuiz.length) {
+                this.isDone = true;
+                await this.addScores();
+                await this.getScores();
+                this.createGeoScoresTable();
+              }
             },
 
             nextLevelQuiz(){
@@ -158,6 +167,75 @@
                         this.svenskaQuiz = data.svenskaQuiz;
                     });
             },
+          async addScores() {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true ){
+              let checkScoreId = await ApiServices.checkScoresIfIsExist({
+                subject: 'Swedish',
+                subjectLevel: this.selectedLevel,
+                userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+              });
+              if (!checkScoreId.data.isExist){
+                await ApiServices.addScore({
+                  subject: 'Swedish',
+                  subjectLevel: this.selectedLevel,
+                  score: this.finalScore,
+                  userFullName: JSON.parse(sessionStorage.getItem('userLogged')).fullName,
+                  userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+                });
+              }else {
+                let checkScoreIsHigh = await ApiServices.checkScoresIfHigh({
+                  scoreId: checkScoreId.data.scoreId,
+                  score: this.finalScore
+                });
+                if (checkScoreIsHigh.data.isHigh){
+                  await ApiServices.updateScores(checkScoreId.data.scoreId, {
+                    score: this.finalScore
+                  });
+                }
+              }
+            }
+          },
+          async getScores() {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId){
+              let response = await ApiServices.getScore({
+                subject: 'Swedish',
+                subjectLevel: this.selectedLevel
+              });
+              this.sveScores= response.data.scores;
+            }
+          },
+          createGeoScoresTable() {
+            const table = document.createElement('table')
+            table.className = "userTable";
+            let i,j;
+            const arrItems = this.sveScores.sort(function(a, b){return b-a});
+            const col = []
+            for (i = 0; i < arrItems.length; i++) {
+              for (const key in arrItems[i]) {
+                if (col.indexOf(key) === -1) {
+                  col.push(key);
+                }
+              }
+            }
+            col.push('rank');
+            let tr = table.insertRow(-1)
+            for (i = 0; i < col.length; i++) {
+              const th = document.createElement('th')
+              th.innerHTML = col[i];
+              tr.appendChild(th);
+            }
+            for (i = 0; i < arrItems.length; i++) {
+              tr = table.insertRow(-1);
+              for (j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1)
+                tabCell.innerHTML = arrItems[i][col[j]];
+              }
+              tabCell.innerHTML =i + 1;
+            }
+            const divContainer = document.getElementById('showScoresSve')
+            divContainer.innerHTML = "";
+            divContainer.appendChild(table);
+          },
         },
 
         mounted() {
@@ -352,6 +430,9 @@
         .finalScore{
             padding: 13px;
             width: 100px;
+        }
+        .showScoresSve{
+            padding: 10px;
         }
         .q-result{
             margin: auto;

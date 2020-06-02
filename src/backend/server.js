@@ -931,7 +931,7 @@ app.post('/api/scores/level/', (request, response, next) => {
         subject: request.body.subject,
         subjectLevel: request.body.subjectLevel
     }
-    const sql = 'select  subject , subjectLevel, score, userFullName  from scores where subject = ? AND subjectLevel = ?'
+    const sql = 'select score, userFullName  from scores where subject = ? AND subjectLevel = ?'
     const params = [userData.subject, userData.subjectLevel]
     db.all(sql, params, (err, rows) => {
         if (err) {
