@@ -25,7 +25,7 @@
             <h2>{{nextQuizMessage}}</h2>
             <img src="../assets/result1.png" alt="res" class="res">
             <h1 class="finalScore">{{finalScore}} %</h1>
-            <p class="showScores" id="showScores"></p>
+            <p class="showScoresGeo" id="showScoresGeo"></p>
         </div>
     </div>
 </template>
@@ -39,7 +39,7 @@
             return {
               geoQuiz: [],
               quizLevel:[],
-              scores:[],
+              geoScores:[],
               questionNumber: 0,
               countOfCorrectAnswers: 0,
               userHasGuessed: false,
@@ -136,6 +136,7 @@
                     scoreId: checkScoreId.data.scoreId,
                     score: this.finalScore
                   });
+                  console.log(checkScoreId.data.scoreId);
                   if (checkScoreIsHigh.data.isHigh){
                     await ApiServices.updateScores(checkScoreId.data.scoreId, {
                       score: this.finalScore
@@ -150,14 +151,14 @@
                 subject: 'Geography',
                 subjectLevel: this.selectedLevel
               });
-              this.scores= response.data.scores;
+              this.geoScores= response.data.scores;
             }
           },
           createGeoScoresTable() {
             const table = document.createElement('table')
             table.className = "userTable";
             let i,j;
-            const arrItems = this.scores
+            const arrItems = this.geoScores
             const col = []
             for (i = 0; i < arrItems.length; i++) {
               for (const key in arrItems[i]) {
@@ -179,7 +180,7 @@
                 tabCell.innerHTML = arrItems[i][col[j]];
               }
             }
-            const divContainer = document.getElementById('showScores')
+            const divContainer = document.getElementById('showScoresGeo')
             divContainer.innerHTML = "";
             divContainer.appendChild(table);
           },
@@ -272,8 +273,8 @@
     }
     .res{
         margin: 0 auto;
-        width:20%;
-        height: 20%;
+        width:35%;
+        height: 35%;
         display: block;
     }
     /* Mobile */
@@ -302,7 +303,7 @@
             padding: 13px;
             width: 100px;
         }
-        .showScores{
+        .showScoresGeo{
             padding: 10px;
         }
         .q-result{

@@ -913,7 +913,7 @@ app.put('/api/scores/:id', (request, response, next) => {
     const userData = {
         score: request.body.score,
     }
-    const sql = 'UPDATE scores SET score = ? WHERE userId = ?'
+    const sql = 'UPDATE scores SET score = ? WHERE scoreId = ?'
     const params = [userData.score, request.params.id];
     db.run(sql, params, function (err, result) {
         if (err){
@@ -922,8 +922,7 @@ app.put('/api/scores/:id', (request, response, next) => {
         }
         response.json({
             "message": "The change was successful",
-            "user": userData,
-            "id" : this.lastID
+            "score": userData,
         })
     });
 })
