@@ -472,6 +472,148 @@ app.delete("/api/engQuiz/:id", (req, res, next) => {
       });
 })
 
+/* Svenska Quiz */
+app.get('/api/svenskaQuiz', (req, res, next) => {
+  var sql = 'select * from svenskaQuiz'
+  var params = []
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      svenskaQuiz: rows
+    })
+  })
+})
+app.get('/api/svenskaQuiz/level', (req, res, next) => {
+  var sql = 'select * from svenskaQuiz'
+  var params = []
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      svenskaQuiz: rows
+    })
+  })
+})
+app.get('/api/svenskaQuiz/numberOfLevel', (req, res, next) => {
+  const sql = 'select quizLevel from svenskaQuiz GROUP BY quizLevel'
+  const params = []
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      svenskaQuizLevel: rows
+    })
+  })
+})
+app.get('/api/svenskaQuiz/level/:id', (req, res, next) => {
+  var sql = 'select * from svenskaQuiz where quizLevel = ?'
+  var params = [req.params.id]
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      svenskaQuiz: rows
+    })
+  })
+})
+app.get('/api/svenskaQuiz/:id', (req, res, next) => {
+  var sql = 'select * from svenskaQuiz where quizId = ?'
+  var params = [req.params.id]
+  db.get(sql, params, (err, row) => {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      svenskaQuiz: row
+    })
+  })
+})
+app.post('/api/svenskaQuiz/', (req, res, next) => {
+  const data = {
+    quizLevel: req.body.quizLevel,
+    quizPart1: req.body.quizPart1,
+    quizPart2: req.body.quizPart2,
+    quizPart3: req.body.quizPart3,
+    quizAnswer1: req.body.quizAnswer1,
+    quizAnswer2: req.body.quizAnswer2,
+    quizAnswer3: req.body.quizAnswer3,
+    quizCorrectPos1: req.body.quizCorrectPos1,
+    quizCorrectPos2: req.body.quizCorrectPos2,
+    quizCorrectPos3: req.body.quizCorrectPos3
+  }
+  const sql = 'INSERT INTO svenskaQuiz (quizLevel, quizPart1, quizPart2, quizPart3, quizAnswer1, quizAnswer2, ' +
+    'quizAnswer3, quizCorrectPos1, quizCorrectPos2, quizCorrectPos3) VALUES (?,?,?,?,?,?,?,?,?,?)'
+  const params = [data.quizLevel, data.quizPart1, data.quizPart2, data.quizPart3, data.quizAnswer1, data.quizAnswer2,
+    data.quizAnswer3, data.quizCorrectPos1, data.quizCorrectPos2, data.quizCorrectPos3]
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      svenskaQuiz: data,
+      id: this.lastID
+    })
+  })
+})
+app.put('/api/svenskaQuiz/:id', (req, res, next) => {
+  var data = {
+    quizLevel: req.body.quizLevel,
+    quizPart1: req.body.quizPart1,
+    quizPart2: req.body.quizPart2,
+    quizPart3: req.body.quizPart3,
+    quizAnswer1: req.body.quizAnswer1,
+    quizAnswer2: req.body.quizAnswer2,
+    quizAnswer3: req.body.quizAnswer3,
+    quizCorrectPos1: req.body.quizCorrectPos1,
+    quizCorrectPos2: req.body.quizCorrectPos2,
+    quizCorrectPos3: req.body.quizCorrectPos3
+  }
+  var sql = 'UPDATE svenskaQuiz SET quizLevel = ?, quizPart1 = ?, quizPart2 = ?, quizPart3 = ?, quizAnswer1 = ?,' +
+    ' quizAnswer2 = ?, quizAnswer3 = ?, quizCorrectPos1 = ?, quizCorrectPos2 = ?, quizCorrectPos3 = ? WHERE quizId = ?'
+  var params = [data.quizLevel, data.quizPart1, data.quizPart2, data.quizPart3, data.quizAnswer1, data.quizAnswer2,
+    data.quizAnswer3, data.quizCorrectPos1, data.quizCorrectPos2, data.quizCorrectPos3]
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: err.message })
+      return
+    }
+    res.json({
+      message: 'success',
+      svenskaQuiz: data,
+      id: this.lastID
+    })
+  })
+})
+app.delete('/api/svenskaQuiz/:id', (req, res, next) => {
+  db.run(
+    'DELETE FROM svenskaQuiz WHERE quizId = ?',
+    req.params.id,
+    function (err, result) {
+      if (err) {
+        res.status(400).json({ error: res.message })
+        return
+      }
+      res.json({ message: 'deleted', rows: this.changes })
+    })
+})
+
 /* Users Handling */
 app.get('/api/users', (request, response, next) => {
         const sql = 'select * from users where userRole <> ?';

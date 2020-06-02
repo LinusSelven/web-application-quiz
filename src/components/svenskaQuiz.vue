@@ -5,22 +5,23 @@
 
             <div class="q-words-box" id="box-0" @dragover.prevent @drop.prevent="drop">
                 <p id="answer-1" :draggable="true" @dragstart="dragStart" @dragover.stop>
-                    {{svenskaQuiz[0].quizAnswer1}}</p>
+                    {{svenskaQuiz[questionNumber].quizAnswer1}}</p>
                 <p id="answer-2" :draggable="true" @dragstart="dragStart" @dragover.stop>
-                    {{svenskaQuiz[0].quizAnswer2}}</p>
+                    {{svenskaQuiz[questionNumber].quizAnswer2}}</p>
                 <p id="answer-3" :draggable="true" @dragstart="dragStart" @dragover.stop>
-                    {{svenskaQuiz[0].quizAnswer3}}</p>
+                    {{svenskaQuiz[questionNumber].quizAnswer3}}</p>
             </div>
 
             <div class="q-answer">
-                <div class="part"><p>{{svenskaQuiz[0].quizPart1}}</p></div>
+                <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart1}}</p></div>
                 <div class="empty" id="box-1" @dragover.prevent @drop.prevent="drop"></div>
-                <div class="part"><p>{{svenskaQuiz[0].quizPart2}}</p></div>
+                <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart2}}</p></div>
                 <div class="empty" id="box-2" @dragover.prevent @drop.prevent="drop"></div>
-                <div class="part"><p>{{svenskaQuiz[0].quizPart3}}</p></div>
+                <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart3}}</p></div>
                 <div class="empty" id="box-3" @dragover.prevent @drop.prevent="drop"></div>
-                <div class="part"><p>{{svenskaQuiz[0].quizEnd}}</p></div>
             </div>
+            <button class="q-btn" @click="nextQuestion()" >Nästa fråga
+            </button>
         </div>
         <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
     </div>
@@ -32,17 +33,10 @@
     name: 'svenskaQuiz',
     data: function () {
       return {
-        svenskaQuiz: [{
-          'quizId': 1, 'quizPart1': 'Jag ', 'quizPart2': 'ut, för att ', 'quizPart3': 'till min ',
-          'quizEnd': '.', 'quizAnswer1': 'handla', 'quizAnswer2': 'gick', 'quizAnswer3': 'mormor'
-        }],
-        correctPositions: [{
-          1: 2,
-          2: 1,
-          3: 3
-        }],
+        svenskaQuiz: [],
         questionNumber: 0,
         countOfCorrectAnswers: 0,
+        selectedLevel : 1, /* default */
         userHasGuessed: false,
         key: '0',
         resultat: ''
@@ -68,29 +62,39 @@
 
       dragStart: e => {
         e.dataTransfer.setData('text', e.target.id)
-
       },
 
       userChoseAnswer: function (box, answer) {
         let selectedBox = box.split('-')[1]
         let selectedAnswer = answer.split('-')[1]
         document.getElementById(answer).setAttribute('draggable', 'false')
-        this.correctPositions[0][selectedBox] == selectedAnswer ? this.countOfCorrectAnswers += 1 : this.return
-      },
-
-      getImgUrl: function (pic) {
-        return require('../assets/' + pic)
+        switch(selectedBox) {
+          case '1':
+            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos1)
+              this.countOfCorrectAnswers += 1;
+            break;
+          case '2':
+            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos2)
+              this.countOfCorrectAnswers += 1;
+            break;
+          case '3':
+            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos3)
+              this.countOfCorrectAnswers += 1;
+            break;
+            default:
+              break;
+        }
       }
     },
 
     mounted () {
-      fetch('http://127.0.0.1:3000/api/geoQuiz/')
+      fetch('http://127.0.0.1:3000/api/svenskaquiz/')
         .then((response) => {
           return response.json()
         })
         .then((data) => {
-          console.log(data.geoQuiz)
-          this.geoQuiz = data.geoQuiz
+          console.log(data.svenskaQuiz)
+          this.svenskaQuiz = data.svenskaQuiz
         })
     }
 
