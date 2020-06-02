@@ -1,6 +1,8 @@
 <template>
+
     <div class="svenskaquiz">
-        <h1>HELLO</h1>
+        <h2>Placera ordet i rätt plats</h2>
+
         <div class="q-question">
 
             <div class="q-words-box" id="box-0" @dragover.prevent @drop.prevent="drop">
@@ -124,21 +126,25 @@
         display: inline-block;
         text-align: center;
         width: 100%;
+        height: 100%;
     }
 
     .q-question {
+        margin: 0 auto;
         display: table;
-        width: 100%;
+        width:70%;
         border-right: none;
         box-sizing: border-box;
     }
 
     .q-words-box {
-        padding: 1em;
+        padding-top: 50px;
+        padding-bottom: 50px;
+
     }
 
     .q-words-box p {
-        background: red;
+        background: #f3f3f3;
         display: inline;
         padding: 1em;
         margin: 1em;
@@ -146,7 +152,7 @@
 
     .q-question > .q-answer {
         display: inline-table;
-        background-color: green;
+        background-color: #cccccc;
         text-align: center;
         width: 100%;
     }
@@ -175,7 +181,7 @@
     .q-btn {
         width: 100%;
         margin-right: 5px;
-        margin-top: 5px;
+        margin-top: 50px;
         background-color: #333333;
         font-family: "Times New Roman", monospace;
         font-size: 20px;
