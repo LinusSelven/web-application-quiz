@@ -122,7 +122,13 @@
           //setTimeout(this.message, 3000);
         },
 
-      }
+      },
+    mounted(){
+        if (parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId) && parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)>=1){
+          this.isLogged = true;
+          this.message= JSON.parse(sessionStorage.getItem('userLogged')).message+", "+JSON.parse(sessionStorage.getItem('userLogged')).fullName+"!";
+        }
+    }
   }
 </script>
 

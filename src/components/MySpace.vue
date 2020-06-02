@@ -14,7 +14,7 @@
                 <td><label class="labelName">Phone</label>&nbsp;<label>{{user.phoneNumber}}</label></td>
             </tr>
             <tr>
-                <td><h2>***</h2></td>
+                <td><h4>Change your password</h4></td>
             </tr>
             <tr>
                 <td><span class="errorMessage">{{validation}}</span></td>
@@ -23,13 +23,13 @@
                 <td><span class="confirmationMessage">{{confirmation}}</span></td>
             </tr>
             <tr>
-                <td><label class="labelName">Old PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="Old PassWord" v-model="oldPass"></td>
+                <td><label class="labelName">Old PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="oldPass"></td>
             </tr>
             <tr>
-                <td><label class="labelName">New PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="New PassWord" v-model="newPass" minlength="6"></td>
+                <td><label class="labelName">New PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="newPass" minlength="6"></td>
             </tr>
             <tr>
-                <td><label class="labelName">Confirm new passWord</label>&nbsp;<input class="passInput" type="password" placeholder="Confirm new PassWord" v-model="confirmNewPass"></td>
+                <td><label class="labelName">Confirm new passWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="confirmNewPass"></td>
             </tr>
 
             <tr>
@@ -105,7 +105,7 @@
         padding: 10px;
         background: rgba(0, 0, 0, 0.8);
     }
-    h2{
+    h4{
         font-family: "Calibri Light", monospace;
         font-weight: bold;
         color: wheat;
