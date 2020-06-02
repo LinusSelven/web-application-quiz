@@ -64,10 +64,11 @@ export default{
   getEngQuizByLevel(param){
     return Api().get('engQuiz/level/'+param)
   },
-  addGeoScore(credentials){
+
+  addScore(credentials){
     return Api().post('scores/', credentials)
   },
-  getGeoScore(credentials){
+  getScore(credentials){
     return Api().post('scores/level/', credentials)
   },
   checkScoresIfIsExist(credentials){

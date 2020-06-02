@@ -68,8 +68,8 @@
         this.questionNumber += 1;
         if (this.questionNumber === this.matteQuiz.length) {
           this.isDone = true;
-          await this.addGeoScore();
-          await this.getGeoScore();
+          await this.addScores();
+          await this.getScores();
           this.createGeoScoresTable();
         }
       },
@@ -116,7 +116,7 @@
             this.matteQuiz = data.matteQuiz;
           });
       },
-      async addGeoScore() {
+      async addScores() {
         if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true ){
           let checkScoreId = await ApiServices.checkScoresIfIsExist({
             subject: 'Mathematics',
@@ -124,7 +124,7 @@
             userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
           });
           if (!checkScoreId.data.isExist){
-            await ApiServices.addGeoScore({
+            await ApiServices.addScore({
               subject: 'Mathematics',
               subjectLevel: this.selectedLevel,
               score: this.finalScore,
@@ -144,9 +144,9 @@
           }
         }
       },
-      async getGeoScore() {
+      async getScores() {
         if (JSON.parse(sessionStorage.getItem('userLogged')).userId){
-          let response = await ApiServices.getGeoScore({
+          let response = await ApiServices.getScore({
             subject: 'Mathematics',
             subjectLevel: this.selectedLevel
           });

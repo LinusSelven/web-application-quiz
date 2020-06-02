@@ -69,8 +69,8 @@
             this.questionNumber += 1;
             if (this.questionNumber === this.geoQuiz.length) {
               this.isDone = true;
-              await this.addGeoScore();
-              await this.getGeoScore();
+              await this.addScores();
+              await this.getScores();
               this.createGeoScoresTable();
             }
           },
@@ -116,7 +116,7 @@
                 this.geoQuiz = data.geoQuiz;
               });
           },
-          async addGeoScore() {
+          async addScores() {
               if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true ){
                 let checkScoreId = await ApiServices.checkScoresIfIsExist({
                   subject: 'Geography',
@@ -124,7 +124,7 @@
                   userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
                 });
                 if (!checkScoreId.data.isExist){
-                  await ApiServices.addGeoScore({
+                  await ApiServices.addScore({
                     subject: 'Geography',
                     subjectLevel: this.selectedLevel,
                     score: this.finalScore,
@@ -145,9 +145,9 @@
                 }
               }
           },
-          async getGeoScore() {
+          async getScores() {
             if (JSON.parse(sessionStorage.getItem('userLogged')).userId){
-              let response = await ApiServices.getGeoScore({
+              let response = await ApiServices.getScore({
                 subject: 'Geography',
                 subjectLevel: this.selectedLevel
               });
