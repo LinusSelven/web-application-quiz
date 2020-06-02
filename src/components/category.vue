@@ -36,7 +36,7 @@
     border: 3px solid rgb(0, 10, 10);
     margin-bottom: 5px;
     width: 99%;
-    background-color: #384e4e;
+    background-color: #0f122d;
     font-family: "Impact", monospace;
     font-size: 20px;
     color: #02b3b3;

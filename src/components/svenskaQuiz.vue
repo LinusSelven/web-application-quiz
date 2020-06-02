@@ -3,93 +3,102 @@
         <h1>HELLO</h1>
         <div class="q-question">
 
-            <div class="q-words-board" id="board-1" @dragover.prevent @drop.prevent="drop">
-                <p id="answer1" :draggable="true" @dragstart="dragStart" @dragover.stop>Card 1</p>
-                <p id="answer2" :draggable="true" @dragstart="dragStart" @dragover.stop>Card 2</p>
+            <div class="q-words-box" id="box-0" @dragover.prevent @drop.prevent="drop">
+                <p id="answer-1" :draggable="true" @dragstart="dragStart" @dragover.stop>
+                    {{svenskaQuiz[questionNumber].quizAnswer1}}</p>
+                <p id="answer-2" :draggable="true" @dragstart="dragStart" @dragover.stop>
+                    {{svenskaQuiz[questionNumber].quizAnswer2}}</p>
+                <p id="answer-3" :draggable="true" @dragstart="dragStart" @dragover.stop>
+                    {{svenskaQuiz[questionNumber].quizAnswer3}}</p>
             </div>
 
             <div class="q-answer">
-                <div class="part"><p>{{svenskaQuiz[0].quizPart1}}</p></div>
-                <div class="empty" id="board-2" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
-                <div class="part"><p>{{svenskaQuiz[0].quizPart2}}</p></div>
-                <div class="empty" id="board-3" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
-                <div class="part"><p>{{svenskaQuiz[0].quizPart3}}</p></div>
-                <div class="empty" id="board-4" @dragover.prevent @drop.prevent="drop">DRAG SPACE</div>
-                <div class="part"><p>{{svenskaQuiz[0].quizEnd}}</p></div>
+                <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart1}}</p></div>
+                <div class="empty" id="box-1" @dragover.prevent @drop.prevent="drop"></div>
+                <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart2}}</p></div>
+                <div class="empty" id="box-2" @dragover.prevent @drop.prevent="drop"></div>
+                <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart3}}</p></div>
+                <div class="empty" id="box-3" @dragover.prevent @drop.prevent="drop"></div>
             </div>
+            <button class="q-btn" @click="nextQuestion()" >Nästa fråga
+            </button>
         </div>
+        <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
     </div>
 </template>
 
 
 <script>
-    export default {
-        name: "svenskaQuiz",
-        data: function () {
-            return {
-                svenskaQuiz: [{
-                    "quizId": 1, "quizPart1": "Jag ", "quizPart2": "ut, för att ", "quizPart3": "till min ",
-                    "quizEnd": ".", "quizAnswer1": "gick", "quizAnswer2": "handla", "quizAnswer3": "mormor"
-                }],
-                questionNumber: 0,
-                countOfCorrectAnswers: 0,
-                userHasGuessed: false,
-                key: '0',
-                resultat: '',
-            }
-        },
+  export default {
+    name: 'svenskaQuiz',
+    data: function () {
+      return {
+        svenskaQuiz: [],
+        questionNumber: 0,
+        countOfCorrectAnswers: 0,
+        selectedLevel : 1, /* default */
+        userHasGuessed: false,
+        key: '0',
+        resultat: ''
+      }
+    },
 
-        methods: {
-            nextQuestion: function () {
-                this.userHasGuessed = false;
-                this.resultat = '';
-                this.key = '0';
-                this.questionNumber += 1;
-            },
+    methods: {
+      nextQuestion: function () {
+        this.userHasGuessed = false
+        this.resultat = ''
+        this.key = '0'
+        this.questionNumber += 1
+      },
 
-            drop: (ev, target) => {
-                ev.preventDefault();
-                console.log("drop function: " + ev.target.id + target.id)
-
-                /* const card = document.getElementById('answer');
-                card.style.display = "inline";
-                target.appendChild(card) */
-            },
-
-            dragStart: e => {
-                console.log("drag: " + e.target.id)
-                e.dataTransfer.setData('text', e.target.id);
-            },
-
-
-            userChoseAnswer: function (event) {
-                this.userHasGuessed = true;
-                if (event.target.value == this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
-                    this.countOfCorrectAnswers += 1;
-                    return this.resultat = 'Rätt svar!';
-                } else {
-                    return this.resultat = 'Fel svar!';
-                }
-            },
-
-
-            getImgUrl: function (pic) {
-                return require('../assets/' + pic)
-            }
-        },
-
-        mounted() {
-            fetch('http://127.0.0.1:3000/api/geoQuiz/')
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    console.log(data.geoQuiz);
-                    this.geoQuiz = data.geoQuiz;
-                });
+      drop: function (e) {
+        const card_id = e.dataTransfer.getData('text')
+        if (e.target.childNodes.length < 1 || e.target.id == 'box-0') {
+          e.target.appendChild(document.getElementById(card_id))
+          this.userChoseAnswer(e.target.id, card_id)
         }
 
+      },
+
+      dragStart: e => {
+        e.dataTransfer.setData('text', e.target.id)
+      },
+
+      userChoseAnswer: function (box, answer) {
+        let selectedBox = box.split('-')[1]
+        let selectedAnswer = answer.split('-')[1]
+        document.getElementById(answer).setAttribute('draggable', 'false')
+        switch(selectedBox) {
+          case '1':
+            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos1)
+              this.countOfCorrectAnswers += 1;
+            break;
+          case '2':
+            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos2)
+              this.countOfCorrectAnswers += 1;
+            break;
+          case '3':
+            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos3)
+              this.countOfCorrectAnswers += 1;
+            break;
+            default:
+              break;
+        }
+      }
+    },
+
+    mounted () {
+      fetch('http://127.0.0.1:3000/api/svenskaquiz/')
+        .then((response) => {
+          return response.json()
+        })
+        .then((data) => {
+          console.log(data.svenskaQuiz)
+          this.svenskaQuiz = data.svenskaQuiz
+        })
     }
+
+  }
 </script>
 
 
@@ -110,9 +119,8 @@
         cursor: pointer;
     }
 
-    .svenskaquiz {
+    .svenskaquiz[data-v-005fc852] {
         background: rgba(0, 0, 0, .7);
-        border-radius: 10px;
         display: inline-block;
         text-align: center;
         width: 100%;
@@ -121,23 +129,35 @@
     .q-question {
         display: table;
         width: 100%;
-        border: 1px solid black;
         border-right: none;
         box-sizing: border-box;
     }
 
+    .q-words-box {
+        padding: 1em;
+    }
+
+    .q-words-box p {
+        background: red;
+        display: inline;
+        padding: 1em;
+        margin: 1em;
+    }
+
     .q-question > .q-answer {
-        display: table-row;
+        display: inline-table;
         background-color: green;
+        text-align: center;
+        width: 100%;
     }
 
     .q-question > .q-answer > .empty {
         background: white;
-        border-right: 1px solid black;
+        border: 1px solid black;
         display: table-cell;
         text-align: center;
+        width: 10%;
     }
-
 
     .q-img {
         margin: 0 auto;

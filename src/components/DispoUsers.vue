@@ -1,0 +1,152 @@
+<template>
+    <div class="showData" id="showData">
+    </div>
+</template>
+<script>
+  import AuthServices from '../services/ApiServices'
+  import axios from 'axios'
+  export default {
+    name: 'AdminDashboard',
+    data: function () {
+      return {
+        message:'',
+        selectedId:0,
+        users:[],
+      }
+    },
+    async mounted () {
+      let response = await AuthServices.getAllUsers();
+      this.users = response.data.users;
+      this.createTable();
+    },
+    methods:{
+          createTable() {
+                const table = document.createElement('table')
+                table.className = "userTable";
+                let i,j;
+                const arrItems = this.users
+                const titles = ['ID', 'ROLE', 'FULL NAME', 'EMAIL', 'PASSWORD', 'PHONE', 'LEVEL', 'FUNCTION']
+                const col = []
+                for (i = 0; i < arrItems.length; i++) {
+                  for (var key in arrItems[i]) {
+                    if (col.indexOf(key) === -1) {
+                      col.push(key);
+                    }
+                  }
+                }
+                col.push('function');
+                let tr = table.insertRow(-1)
+                for (i = 0; i < titles.length; i++) {
+                  const th = document.createElement('th')
+                  th.innerHTML = titles[i];
+                    tr.appendChild(th);
+                }
+                for (i = 0; i < arrItems.length; i++) {
+                  tr = table.insertRow(-1);
+                  for (j = 0; j < col.length; j++) {
+                    var tabCell = tr.insertCell(-1)
+                    tabCell.innerHTML = arrItems[i][col[j]];
+                  }
+                  tabCell.innerHTML = '<input type="submit" class="submit" value="DELETE" v-on:submit="delete()">';
+                }
+                const divContainer = document.getElementById('showData')
+                divContainer.innerHTML = "";
+                divContainer.appendChild(table);
+          },
+          async delete () {
+              let response = await axios.delete('http://localhost:3000/api/users/'+this.selectedId);
+              this.message = response.data.message
+              await this.getUsers();
+
+          },
+          TD:onclick= function (e) {
+                e = e || window.event;
+                let target = e.srcElement || e.target
+                while (target && target.nodeName !== "TR") {
+                  target = target.parentNode;
+                }
+                if (target) {
+                  const cells = target.getElementsByTagName('td')
+                    this.selectedId = (cells[0].innerHTML);
+                }
+          },
+          async getUsers () {
+            this.users=[];
+            let response = await AuthServices.getAllUsers();
+            this.users = response.data.users;
+            this.createTable();
+          }
+    },
+  }
+</script>
+
+<style>
+    .showData {
+        display: table-cell;
+        text-align: center;
+        vertical-align: top;
+        padding: 5px;
+        background: rgba(0, 0, 0, 0.8);
+        //background: #f1f1f1;
+    }
+    .userTable {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        width: 100%;
+        border-collapse: collapse;
+        color: rgba(6, 25, 45, 0.6);
+        background: rgba(250, 250, 252, 0.55);
+        //background: rgba(0, 0, 0, 0.9);
+
+    }
+    .userTable th {
+        padding-left: 4px;
+        text-transform: uppercase;
+        text-align: center;
+        background: #44475C;
+        color: #ccc;
+        height: 45px
+    }
+
+    .userTable td {
+        padding-left: 4px;
+        vertical-align: middle;
+        text-align: center;
+        color: navajowhite;
+        height: 35px;
+    }
+    .userTable td:last-child {
+    }
+    .userTable tbody tr:nth-child(2n) td {
+        background-color: rgba(61, 140, 181, 0.42);
+        //background: rgba(0, 0, 0, 0.5);
+    }
+    .submit {
+        background-color: #d61515;
+        font-family: Calibri, monospace;
+        font-weight: bold;
+        border: none;
+        color: white;
+        width: 70px;
+        height: 30px;
+        cursor: pointer;
+    }
+    .update {
+        background-color: #035af6;
+        font-family: Calibri, monospace;
+        font-weight: bold;
+        border: none;
+        color: white;
+        width: 70px;
+        height: 30px;
+        cursor: pointer;
+    }
+    /* Mobile */
+    @media screen and (max-width: 400px) {
+    }
+    /* Tablet */
+    @media screen and (min-width: 768px) and (max-width: 1024px) {
+    }
+    /* Desktop */
+    @media screen and (min-width: 1025px) {
+    }
+</style>

@@ -31,4 +31,37 @@ export default{
   newQuizSve(credentials){
     return Api().post('sveQuiz/', credentials)
   },
+  userData(credentials){
+    return Api().post('users/user/', credentials)
+  },
+  getOneUser(param){
+    return Api().get('/users/'+param)
+  },
+  modifyUser(param, credentials){
+    return Api().put('/users/'+param, credentials)
+  },
+  getAllUsers(){
+    return Api().get('users')
+  },
+  deleteUser(credentials){
+    return Api().delete('users/:id', credentials)
+  },
+  getGeoQuizLevel(){
+    return Api().get('geoQuiz/Levels')
+  },
+  getGeoQuizByLevel(param){
+    return Api().get('geoQuiz/level/'+param)
+  },
+  getMatteQuizLevel(){
+    return Api().get('matteQuiz/Levels')
+  },
+  getMatteQuizByLevel(param){
+    return Api().get('matteQuiz/level/'+param)
+  },
+  getEngQuizLevel(){
+    return Api().get('engQuiz/Levels')
+  },
+  getEngQuizByLevel(param){
+    return Api().get('engQuiz/level/'+param)
+  }
 }
