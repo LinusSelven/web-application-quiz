@@ -740,7 +740,7 @@ app.put('/api/users/:id', (request, response, next) => {
             return;
         }
         response.json({
-            "message": "success",
+            "message": "The change was successful",
             "user": userData,
             "id" : this.lastID
         })
@@ -852,7 +852,7 @@ app.get('/api/scores', (request, response, next) => {
             return;
         }
         response.send({
-            "message": "success",
+            "message": "Success",
             "scores": rows
         })
     });
@@ -866,10 +866,83 @@ app.get('/api/scores/:id', (request, response, next) => {
             return;
         }
         response.json({
-            "message":"success",
+            "message":"Success",
             "score":row
         })
-
+    });
+});
+app.post('/api/scores/isExist/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel,
+        userId: request.body.userId
+    }
+    db.get('select * from scores where subject = ? AND subjectLevel = ? AND userId = ?', [userData.subject, userData.subjectLevel, userData.userId], function(error, row) {
+        if (row) {
+            response.send({
+                scoreId:row.scoreId,
+                isExist: true
+            });
+        } else {
+            response.send({
+                isExist:  false
+            });
+        }
+        response.end();
+    });
+});
+app.post('/api/scores/isHigh/', (request, response, next) => {
+    const userData = {
+        scoreId: request.body.scoreId,
+        score: request.body.score
+    }
+    db.get('select score from scores where scoreId = ?', [userData.scoreId], function(error, row) {
+        if (userData.score > row.score) {
+            response.send({
+                isHigh: true
+            });
+        } else {
+            response.send({
+                isHigh:  false
+            });
+        }
+        response.end();
+    });
+});
+app.put('/api/scores/:id', (request, response, next) => {
+    const userData = {
+        score: request.body.score,
+    }
+    const sql = 'UPDATE scores SET score = ? WHERE userId = ?'
+    const params = [userData.score, request.params.id];
+    db.run(sql, params, function (err, result) {
+        if (err){
+            response.status(400).json({"error": err.message})
+            return;
+        }
+        response.json({
+            "message": "The change was successful",
+            "user": userData,
+            "id" : this.lastID
+        })
+    });
+})
+app.post('/api/scores/level/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel
+    }
+    const sql = 'select  subject , subjectLevel, score, userFullName  from scores where subject = ? AND subjectLevel = ?'
+    const params = [userData.subject, userData.subjectLevel]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
     });
 });
 app.post('/api/scores/', (req, res, next) => {
@@ -877,17 +950,18 @@ app.post('/api/scores/', (req, res, next) => {
         subject: req.body.subject,
         subjectLevel: req.body.subjectLevel,
         score: req.body.score,
+        userFullName: req.body.userFullName,
         userId: req.body.userId
     }
-    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userId) VALUES (?,?,?,?)';
-    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userId];
+    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userFullName, userId) VALUES (?,?,?,?,?)';
+    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userFullName, userData.userId];
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
             return;
         }
         res.json({
-            "message": "Success",
+            "message": "Added successfully!",
             "users": userData,
             "id": this.lastID
         })

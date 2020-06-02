@@ -63,5 +63,20 @@ export default{
   },
   getEngQuizByLevel(param){
     return Api().get('engQuiz/level/'+param)
-  }
+  },
+  addGeoScore(credentials){
+    return Api().post('scores/', credentials)
+  },
+  getGeoScore(credentials){
+    return Api().post('scores/level/', credentials)
+  },
+  checkScoresIfIsExist(credentials){
+    return Api().post('scores/isExist/', credentials)
+  },
+  checkScoresIfHigh(credentials){
+    return Api().post('scores/isHigh/', credentials)
+  },
+  updateScores(param, credentials){
+    return Api().put('scores/'+param, credentials)
+  },
 }

@@ -19,23 +19,27 @@
                 </button>
             </div>
         </div>
-        <div v-if="isDone" class="q-question">
-            <img src="../assets/result1.png" alt="res" class="res">
-            <h1>{{finalScore}} %</h1>
+        <div v-if="isDone" class="q-result">
             <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
             <button class="q-btn" @click="redoQuiz">Last Quiz</button>
             <h2>{{nextQuizMessage}}</h2>
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h1 class="finalScore">{{finalScore}} %</h1>
+            <p class="showScores" id="showScores"></p>
         </div>
     </div>
 </template>
 
 <script>
+    import ApiServices from '../services/ApiServices'
+
     export default {
         name: "geographyquiz",
         data: function () {
             return {
               geoQuiz: [],
               quizLevel:[],
+              scores:[],
               questionNumber: 0,
               countOfCorrectAnswers: 0,
               userHasGuessed: false,
@@ -61,9 +65,14 @@
                 this.percentageScore();
             },
 
-          countQuestions(){
+          async countQuestions () {
             this.questionNumber += 1;
-            this.isDone = this.questionNumber === this.geoQuiz.length;
+            if (this.questionNumber === this.geoQuiz.length) {
+              this.isDone = true;
+              await this.addGeoScore();
+              await this.getGeoScore();
+              this.createGeoScoresTable();
+            }
           },
           nextLevelQuiz(){
                 if(this.finalScore >= 50){
@@ -107,6 +116,74 @@
                 this.geoQuiz = data.geoQuiz;
               });
           },
+          async addGeoScore() {
+              if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true ){
+                let checkScoreId = await ApiServices.checkScoresIfIsExist({
+                  subject: 'Geography',
+                  subjectLevel: this.selectedLevel,
+                  userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+                });
+                if (!checkScoreId.data.isExist){
+                  await ApiServices.addGeoScore({
+                    subject: 'Geography',
+                    subjectLevel: this.selectedLevel,
+                    score: this.finalScore,
+                    userFullName: JSON.parse(sessionStorage.getItem('userLogged')).fullName,
+                    userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+                  });
+                }else {
+                  let checkScoreIsHigh = await ApiServices.checkScoresIfHigh({
+                    scoreId: checkScoreId.data.scoreId,
+                    score: this.finalScore
+                  });
+                  if (checkScoreIsHigh.data.isHigh){
+                    await ApiServices.updateScores(checkScoreId.data.scoreId, {
+                      score: this.finalScore
+                    });
+                  }
+                }
+              }
+          },
+          async getGeoScore() {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId){
+              let response = await ApiServices.getGeoScore({
+                subject: 'Geography',
+                subjectLevel: this.selectedLevel
+              });
+              this.scores= response.data.scores;
+            }
+          },
+          createGeoScoresTable() {
+            const table = document.createElement('table')
+            table.className = "userTable";
+            let i,j;
+            const arrItems = this.scores
+            const col = []
+            for (i = 0; i < arrItems.length; i++) {
+              for (const key in arrItems[i]) {
+                if (col.indexOf(key) === -1) {
+                  col.push(key);
+                }
+              }
+            }
+            let tr = table.insertRow(-1)
+            for (i = 0; i < col.length; i++) {
+              const th = document.createElement('th')
+              th.innerHTML = col[i];
+              tr.appendChild(th);
+            }
+            for (i = 0; i < arrItems.length; i++) {
+              tr = table.insertRow(-1);
+              for (j = 0; j < col.length; j++) {
+                const tabCell = tr.insertCell(-1)
+                tabCell.innerHTML = arrItems[i][col[j]];
+              }
+            }
+            const divContainer = document.getElementById('showScores')
+            divContainer.innerHTML = "";
+            divContainer.appendChild(table);
+          },
+
         },
         mounted() {
           fetch('http://127.0.0.1:3000/api/geoQuiz/numberOfLevel')
@@ -123,7 +200,9 @@
             .then((data) => {
               this.geoQuiz = data.geoQuiz;
             });
-        }
+        },
+      computed:{
+      }
     }
 </script>
 
@@ -131,6 +210,11 @@
 <style scoped>
     .q-question {
         color: #02b3b3;
+        text-align: center;
+    }
+    .q-result{
+        color: #02b3b3;
+        text-align: center;
     }
 
     .q-img {
@@ -149,7 +233,7 @@
         font-size: x-large;
         color: wheat;
         border-bottom: 1px solid black;
-        margin: 0;
+        margin:auto;
     }
 
     .q-answer {
@@ -177,7 +261,7 @@
     }
     .about{
         background: rgba(0, 0, 0, .7);
-        display: inline-block;
+        display: table-cell;
         text-align: center;
         width: 100%;
     }
@@ -188,9 +272,9 @@
     }
     .res{
         margin: 0 auto;
-        width: 300px;
-        height: 220px;
-        display: flow;
+        width:20%;
+        height: 20%;
+        display: block;
     }
     /* Mobile */
     @media screen and (max-width: 400px) {
@@ -212,7 +296,18 @@
             height: 50px;
         }
         h1{
-          padding: 13px;
+            padding: 13px;
+        }
+        .finalScore{
+            padding: 13px;
+            width: 100px;
+        }
+        .showScores{
+            padding: 10px;
+        }
+        .q-result{
+            margin: auto;
+            width: 60%;
         }
     }
 
