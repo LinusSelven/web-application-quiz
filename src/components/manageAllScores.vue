@@ -1,181 +1,114 @@
 <template>
-    <div class="allQuiz">
-        <h1>ALL QUIZZES</h1>
+    <div class="allScores">
+        <h1>ALL SCORES</h1>
         <select id="subject" name="subject" @change="onChange($event)" v-model="value">
-        <option value="default">Select The Subject</option>
-        <option value="geoQuiz">Geografi</option>
-        <option value="matteQuiz">Matematik</option>
-        <option value="svenskaQuiz">Svenska</option>
-        <option value="engelskaQuiz">Engelska</option>
+            <option value="default">Select The Subject</option>
+            <option value="geoQuiz">Geografi</option>
+            <option value="matteQuiz">Matematik</option>
+            <option value="svenskaQuiz">Svenska</option>
+            <option value="engelskaQuiz">Engelska</option>
         </select><br>
-        <select id="byLevel" @change="onChangeLevel($event)" v-model="levelValue"></select><br>
+        <select id="byQuizLevel" @change="onChangeLevel($event)" v-model="levelValue"></select><br>
         <input type="submit" value="GET" @click="getQuiz()">
-        <div class="showLevel" id="showLevel"></div>
+        <div class="showAllScores" id="showAllScores"></div>
     </div>
-
 </template>
 
 <script>
   import ApiServices from '../services/ApiServices'
-  //import axios from 'axios'
+
   export default {
-    name: 'DispoQuiz',
+    name: 'manageAllScores',
     data: function () {
       return {
         value: 'default',
         levelValue:1,
         quizArray:[],
         levels:[],
-        byLevel:[],
       }
     },
-    methods:{
+    methods: {
       async onChange (event) {
         this.value = event.target.value;
         if (this.value === 'geoQuiz') {
-          this.levels=[];
+          this.levels = [];
           this.removeAllOptions();
           await this.getGeoQuiz();
-          this.byLevel=[];
+          this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
         } else if (this.value === 'matteQuiz') {
-          this.levels=[];
+          this.levels = [];
           this.removeAllOptions();
           await this.getMatteQuiz();
-          this.byLevel=[];
+          this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
         } else if (this.value === 'engelskaQuiz') {
-          this.levels=[];
+          this.levels = [];
           this.removeAllOptions();
           await this.getEngQuiz();
-          this.byLevel=[];
+          this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
-        }
-        else if (this.value === 'svenskaQuiz') {
-          this.levels=[];
+        } else if (this.value === 'svenskaQuiz') {
+          this.levels = [];
           this.removeAllOptions();
           await this.getSvenQuiz();
-          this.byLevel=[];
+          this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
         }
       },
-      removeAllOptions: function(){
-        const select = document.getElementById('byLevel')
+      removeAllOptions: function () {
+        const select = document.getElementById('byQuizLevel')
         select.options.length = 0;
       },
-      createOptions: function(){
-        const sel = document.getElementById('byLevel')
-        for(let i = 0; i < this.byLevel.length; i++) {
+      createOptions: function () {
+        const sel = document.getElementById('byQuizLevel')
+        for (let i = 0; i < this.byLevel.length; i++) {
           const opt = document.createElement('option')
           opt.innerHTML = this.byLevel[i];
           opt.value = this.byLevel[i];
           sel.appendChild(opt);
         }
       },
-      getArrayLength(){
-        for (let i=0;i<this.levels.length;i++){
-          this.byLevel.push(i+1)
+      getArrayLength () {
+        for (let i = 0; i < this.levels.length; i++) {
+          this.byLevel.push(i + 1)
         }
       },
       onChangeLevel (event) {
         this.levelValue = event.target.value;
       },
-      async getQuiz () {
-        if (this.value === 'geoQuiz') {
-          await this.getGeoQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        } else if (this.value === 'matteQuiz') {
-          await this.getMatteQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        } else if (this.value === 'engelskaQuiz') {
-          await this. getEngQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        }else if (this.value ==='svenskaQuiz'){
-          await this. getSvenQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        }
-      },
-      createQuizTable() {
-        const table = document.createElement('table')
-        table.className = "userTable";
-        let i,j;
-        const arrItems = this.quizArray
-        const col = []
-        for (i = 0; i < arrItems.length; i++) {
-          for (const key in arrItems[i]) {
-            if (col.indexOf(key) === -1) {
-              col.push(key);
-            }
-          }
-        }
-        col.push('function');
-        let tr = table.insertRow(-1)
-        for (i = 0; i < col.length; i++) {
-          const th = document.createElement('th')
-          th.innerHTML = col[i];
-          tr.appendChild(th);
-        }
-        for (i = 0; i < arrItems.length; i++) {
-          tr = table.insertRow(-1);
-          for (j = 0; j < col.length; j++) {
-            var tabCell = tr.insertCell(-1)
-            tabCell.innerHTML = arrItems[i][col[j]];
-          }
-          tabCell.innerHTML = '<input type="submit" class="update" value="UPDATE"> <input type="submit" class="submit" value="DELETE" v-on:submit="delete()">';
-        }
-        const divContainer = document.getElementById('showLevel')
-        divContainer.innerHTML = "";
-        divContainer.appendChild(table);
-      },
       getGeoQuiz: async function () {
         let response = await ApiServices.getGeoQuizLevel();
         this.levels = response.data.levels;
-      },
-      async getGeoQuizByLevel (id) {
-        let response = await ApiServices.getGeoQuizByLevel(id);
-            this.quizArray = response.data.geoQuiz;
       },
       getMatteQuiz: async function () {
         let response = await ApiServices.getMatteQuizLevel();
         this.levels = response.data.levels;
       },
-      async getMatteQuizByLevel (id) {
-        let response = await ApiServices.getMatteQuizByLevel(id);
-        this.quizArray = response.data.matteQuiz;
-      },
       getEngQuiz: async function () {
         let response = await ApiServices.getEngQuizLevel();
         this.levels = response.data.levels;
-      },
-      async getEngQuizByLevel (id) {
-        let response = await ApiServices.getEngQuizByLevel(id);
-        this.quizArray = response.data.engQuiz;
       },
       getSvenQuiz: async function () {
         let response = await ApiServices.getSveQuizLevel();
         this.levels = response.data.levels;
       },
-      async getSvenQuizByLevel (id) {
-        let response = await ApiServices.getSveQuizByLevel(id);
-        this.quizArray = response.data.svenskaQuiz;
-      },
-    },
-
+    }
   }
 </script>
 
 <style scoped>
-    .allQuiz {
+    .allScores {
         display: table-cell;
         text-align: center;
         vertical-align: top;
         background: rgba(0, 0, 0, 0.8);
     }
-    .showLevel{
+    .showAllScores{
         padding: 10px 5px 5px 5px;
     }
     h1{

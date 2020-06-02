@@ -515,6 +515,20 @@ app.get('/api/svenskaQuiz/numberOfLevel', (req, res, next) => {
     })
   })
 })
+app.get("/api/svenskaQuiz/Levels", (req, res, next) => {
+    const sql = 'SELECT quizLevel FROM svenskaQuiz GROUP BY quizLevel';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "levels":rows
+        })
+    });
+});
 app.get('/api/svenskaQuiz/level/:id', (req, res, next) => {
   var sql = 'select * from svenskaQuiz where quizLevel = ?'
   var params = [req.params.id]

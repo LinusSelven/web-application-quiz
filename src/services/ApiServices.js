@@ -64,6 +64,16 @@ export default{
   getEngQuizByLevel(param){
     return Api().get('engQuiz/level/'+param)
   },
+
+
+  getSveQuizLevel(){
+    return Api().get('svenskaQuiz/Levels')
+  },
+  getSveQuizByLevel(param){
+    return Api().get('svenskaQuiz/level/'+param)
+  },
+
+
   addScore(credentials){
     return Api().post('scores/', credentials)
   },
