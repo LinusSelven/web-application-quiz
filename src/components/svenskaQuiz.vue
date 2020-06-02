@@ -217,28 +217,55 @@
         padding-top: 50px;
         padding-bottom: 50px;
 
+
     }
 
     .q-words-box p {
-        background: #f3f3f3;
         display: inline;
         padding: 1em;
         margin: 1em;
+        margin-right: 5px;
+        margin-top: 50px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-question > .q-answer {
         display: inline-table;
-        background-color: #cccccc;
         text-align: center;
         width: 100%;
+        margin-right: 5px;
+        margin-top: 50px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-question > .q-answer > .empty {
-        background: white;
-        border: 1px solid black;
         display: table-cell;
         text-align: center;
-        width: 10%;
+        width: 13%;
+        margin-right: 5px;
+        margin-top: 50px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-img {
@@ -265,6 +292,7 @@
         height: 30px;
         border: 1px solid rgb(7, 172, 172);
         border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-btn:hover {
