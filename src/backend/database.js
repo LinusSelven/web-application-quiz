@@ -374,6 +374,16 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'gul',
           'yellow',
           'yellow.png'])
+        db.run(insert1, ['What color is it?',
+          '1',
+          'gul',
+          'yellow',
+          'yellow.png'])
+        db.run(insert1, ['What color is it?',
+          '1',
+          'gul',
+          'yellow',
+          'yellow.png'])
 
         db.run(insert1, ['What animal is it? ',
           '2',
@@ -436,6 +446,16 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'sova',
           'sleep',
           'sleep.png'])
+        db.run(insert1, ['Vad heter "skriva" på engelska?',
+          '3',
+          'skriva',
+          'write',
+          'write.png'])
+        db.run(insert1, ['Vad heter "skriva" på engelska?',
+          '3',
+          'skriva',
+          'write',
+          'write.png'])
       }
     })
 
@@ -461,10 +481,10 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         var insert1 = 'INSERT INTO svenskaQuiz (quizLevel, quizPart1, quizPart2, quizPart3, quizAnswer1, quizAnswer2, ' +
           'quizAnswer3, quizCorrectPos1, quizCorrectPos2, quizCorrectPos3) VALUES (?,?,?,?,?,?,?,?,?,?)'
         db.run(insert1, [
-          1,
-          'Jag ',
-          'ut, för att ',
-          'till min ',
+          '1',
+          'Jag',
+          'ut, för att',
+          'till min',
           'handla',
           'gick',
           'mormor',
@@ -472,17 +492,227 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           1,
           3])
         db.run(insert1, [
-          2,
-          'De ',
-          'till ',
-          'för att ',
+          '1',
+          'De',
+          'till',
+          'för att',
           'plugga',
           'cyklade',
           'skolan',
           2,
           3,
           1])
+        db.run(insert1, [
+          '1',
+          'Min',
+          'har köpt',
+          'leksak',
+          'en ny',
+          'mamma',
+          'till mig',
+          2,
+          1,
+          3])
+        db.run(insert1, [
+          '1',
+          'Linda',
+          'när',
+          'har skrivit färdigt sin',
+          'bok',
+          'blev glad',
+          'hon',
+          2,
+          3,
+          1])
+        db.run(insert1, [
+          '1',
+          'Jag',
+          'att bada',
+          'det är varmt i',
+          'gillar',
+          'vattnet',
+          'när',
+          1,
+          3,
+          2])
 
+        db.run(insert1, [
+          '1',
+          'Min',
+          'brukar',
+          'i mitt',
+          'rum',
+          'sova',
+          'hund',
+          3,
+          2,
+          1])
+        db.run(insert1, [
+          '1',
+          'Många i klassen',
+          'cykla',
+          'till',
+          'skolan',
+          'brukar',
+          'själv',
+          2,
+          3,
+          1])
+        db.run(insert1, [
+          '2',
+          'Min',
+          'är',
+          'och har',
+          'blå',
+          'mattebok',
+          'hundra sidor',
+          2,
+          1,
+          3])
+        db.run(insert1, [
+          '2',
+          'Sommar',
+          'den',
+          'tiden på',
+          'är',
+          'året',
+          'bästa',
+          1,
+          3,
+          2])
+        db.run(insert1, [
+          '2',
+          'Mitt',
+          'ämne i',
+          'är ',
+          'skolan',
+          'geografi',
+          'favorit',
+          3,
+          1,
+          2])
+        db.run(insert1, [
+          '2',
+          'Idag skall jag',
+          'till',
+          'och hälsa på min',
+          'mormor',
+          'landet',
+          'åka',
+          3,
+          2,
+          1])
+        db.run(insert1, [
+          '2',
+          'Jag',
+          'att',
+          'innan jag ska',
+          'läsa',
+          'gillar',
+          'sova',
+          2,
+          1,
+          3])
+        db.run(insert1, [
+          '2',
+          'Barnen',
+          'på',
+          'tills skolklockan',
+          'ringde',
+          'rasten',
+          'gungade',
+          3,
+          2,
+          1])
+        db.run(insert1, [
+          '2',
+          'Dem som',
+          'fick räcka upp',
+          'och',
+          'handen',
+          'vågade,',
+          'svara ja',
+          2,
+          1,
+          3])
+        db.run(insert1, [
+          '3',
+          'En',
+          'vägrade',
+          'till',
+          'pojke',
+          'skolan',
+          'komma',
+          1,
+          3,
+          2])
+        db.run(insert1, [
+          '3',
+          'Frida kan',
+          'långt,',
+          'simma',
+          'hon kan',
+          '1000 meter',
+          'simma',
+          3,
+          1,
+          2])
+        db.run(insert1, [
+          '3',
+          'Träden blir',
+          'på våren, och ',
+          'till',
+          'blir gula',
+          'gröna,',
+          'hösten',
+          2,
+          1,
+          3])
+        db.run(insert1, [
+          '3',
+          'Fröken',
+          'oss',
+          'varje',
+          'fredag',
+          'läxa',
+          'ger',
+          3,
+          2,
+          1])
+        db.run(insert1, [
+          '3',
+          'Det är',
+          'att spela',
+          'med',
+          'roligt',
+          'farfar',
+          'schack',
+          1,
+          3,
+          2])
+
+        db.run(insert1, [
+          '3',
+          'Att',
+          'är',
+          'för',
+          'miljön',
+          'bra',
+          'återvinna',
+          3,
+          2,
+          1])
+        db.run(insert1, [
+          '3',
+          'Jag',
+          'många',
+          'i',
+          'klassen',
+          'har',
+          'kompisar',
+          2,
+          3,
+          1])
       }
     })
 

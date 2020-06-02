@@ -1,9 +1,12 @@
 <template>
-    <div class="svenskaquiz">
-        <h1>HELLO</h1>
-        <div class="q-question">
 
-            <div class="q-words-box" id="box-0" @dragover.prevent @drop.prevent="drop">
+    <div class="svenskaquiz">
+
+        <div v-if="!isDone" class="q-question">
+            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{svenskaQuiz.length}}</h1>
+            <h2>Placera ordet i rätt plats</h2>
+
+            <div class="q-words-box" id="box-0">
                 <p id="answer-1" :draggable="true" @dragstart="dragStart" @dragover.stop>
                     {{svenskaQuiz[questionNumber].quizAnswer1}}</p>
                 <p id="answer-2" :draggable="true" @dragstart="dragStart" @dragover.stop>
@@ -20,8 +23,15 @@
                 <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart3}}</p></div>
                 <div class="empty" id="box-3" @dragover.prevent @drop.prevent="drop"></div>
             </div>
-            <button class="q-btn" @click="nextQuestion()" >Nästa fråga
+            <button class="q-btn" @click="nextQuestion()">Nästa fråga
             </button>
+        </div>
+        <div v-if="isDone" class="q-question">
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h1>{{finalScore}} %</h1>
+            <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
+            <button class="q-btn" @click="redoQuiz">Last Quiz</button>
+            <h2>{{nextQuizMessage}}</h2>
         </div>
         <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
     </div>
@@ -29,76 +39,144 @@
 
 
 <script>
-  export default {
-    name: 'svenskaQuiz',
-    data: function () {
-      return {
-        svenskaQuiz: [],
-        questionNumber: 0,
-        countOfCorrectAnswers: 0,
-        selectedLevel : 1, /* default */
-        userHasGuessed: false,
-        key: '0',
-        resultat: ''
-      }
-    },
+    export default {
+        name: 'svenskaQuiz',
+        data: function () {
+            return {
+                svenskaQuiz: [],
+                quizLevel: [],
+                questionNumber: 0,
+                countOfCorrectAnswers: 0,
+                selectedLevel: 1, /* default */
+                isDone: false,
+                finalScore : 0,
+                nextQuizMessage: '',
+                numberOfLevel: 0,
+            }
+        },
 
-    methods: {
-      nextQuestion: function () {
-        this.userHasGuessed = false
-        this.resultat = ''
-        this.key = '0'
-        this.questionNumber += 1
-      },
+        methods: {
+            nextQuestion: function () {
+                this.resultat = '';
+                this.key = '0';
+                this.resetAnswerPositions()
+                this.countQuestions();
+                this.percentageScore();
+            },
 
-      drop: function (e) {
-        const card_id = e.dataTransfer.getData('text')
-        if (e.target.childNodes.length < 1 || e.target.id == 'box-0') {
-          e.target.appendChild(document.getElementById(card_id))
-          this.userChoseAnswer(e.target.id, card_id)
+            drop: function (e) {
+                const card_id = e.dataTransfer.getData('text')
+                if (e.target.childNodes.length < 1 || e.target.id == 'box-0') {
+                    e.target.appendChild(document.getElementById(card_id))
+                    this.userChoseAnswer(e.target.id, card_id)
+                }
+
+            },
+
+            dragStart: e => {
+                e.dataTransfer.setData('text', e.target.id)
+            },
+
+            userChoseAnswer: function (box, answer) {
+                let selectedBox = box.split('-')[1]
+                let selectedAnswer = answer.split('-')[1]
+                document.getElementById(answer).setAttribute('draggable', 'false')
+                switch (selectedBox) {
+                    case '1':
+                        if (selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos1)
+                            this.countOfCorrectAnswers += 1;
+                        break;
+                    case '2':
+                        if (selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos2)
+                            this.countOfCorrectAnswers += 1;
+                        break;
+                    case '3':
+                        if (selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos3)
+                            this.countOfCorrectAnswers += 1;
+                        break;
+                    default:
+                        break;
+                }
+            },
+
+            resetAnswerPositions: function () {
+                const startPos = document.getElementById('box-0')
+                const box1 = document.getElementById('box-1');
+                const box2 = document.getElementById('box-2');
+                const box3 = document.getElementById('box-3');
+                while (box1.childNodes.length > 0 && box2.childNodes.length > 0 && box3.childNodes.length > 0) {
+                    startPos.appendChild(box1.childNodes[0])
+                    startPos.appendChild(box2.childNodes[0])
+                    startPos.appendChild(box3.childNodes[0])
+                }
+                const startChildren = startPos.children;
+                for (let startChild of startChildren) {
+                    startChild.setAttribute('draggable', 'true')
+                }
+            },
+            countQuestions(){
+                this.questionNumber += 1;
+                this.isDone = (this.questionNumber) === this.svenskaQuiz.length;
+            },
+
+            nextLevelQuiz(){
+                if(this.finalScore >= 50){
+                    if (this.selectedLevel<this.quizLevel.length ){
+                        this.selectedLevel +=1 ;
+                        this.fetchNextQuiz(this.selectedLevel);
+                        this.countOfCorrectAnswers=0;
+                        this.questionNumber= 0;
+                        this.isDone =false;
+                        this.nextQuizMessage='';
+                    }else{
+                        this.nextQuizMessage='Sorry! There is no next level for the moment.';
+                    }
+                }else {
+                    this.nextQuizMessage='You have to get at least 50 % correct';
+                }
+            },
+
+            redoQuiz(){
+                this.fetchNextQuiz(this.selectedLevel);
+                this.countOfCorrectAnswers=0;
+                this.questionNumber= 0;
+                this.isDone =false;
+                this.nextQuizMessage='';
+            },
+            percentageScore(){
+                let amount = this.svenskaQuiz.length;
+                let scorePerQuestion = 100/amount;
+                this.finalScore = Math.round((this.countOfCorrectAnswers * scorePerQuestion) / 3);
+            },
+
+            fetchNextQuiz(level){
+                fetch('http://127.0.0.1:3000/api/svenskaquiz/level/'+level)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        this.svenskaQuiz = data.svenskaQuiz;
+                    });
+            },
+        },
+
+        mounted() {
+            fetch('http://127.0.0.1:3000/api/svenskaquiz/numberOfLevel')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    this.quizLevel = data.svenskaQuizLevel;
+                });
+            fetch('http://127.0.0.1:3000/api/svenskaquiz/level/' + this.selectedLevel)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    this.svenskaQuiz = data.svenskaQuiz;
+                });
         }
-
-      },
-
-      dragStart: e => {
-        e.dataTransfer.setData('text', e.target.id)
-      },
-
-      userChoseAnswer: function (box, answer) {
-        let selectedBox = box.split('-')[1]
-        let selectedAnswer = answer.split('-')[1]
-        document.getElementById(answer).setAttribute('draggable', 'false')
-        switch(selectedBox) {
-          case '1':
-            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos1)
-              this.countOfCorrectAnswers += 1;
-            break;
-          case '2':
-            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos2)
-              this.countOfCorrectAnswers += 1;
-            break;
-          case '3':
-            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos3)
-              this.countOfCorrectAnswers += 1;
-            break;
-            default:
-              break;
-        }
-      }
-    },
-
-    mounted () {
-      fetch('http://127.0.0.1:3000/api/svenskaquiz/')
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
-          console.log(data.svenskaQuiz)
-          this.svenskaQuiz = data.svenskaQuiz
-        })
     }
-
-  }
 </script>
 
 
@@ -124,39 +202,70 @@
         display: inline-block;
         text-align: center;
         width: 100%;
+        height: 100%;
     }
 
     .q-question {
+        margin: 0 auto;
         display: table;
-        width: 100%;
+        width: 70%;
         border-right: none;
         box-sizing: border-box;
     }
 
     .q-words-box {
-        padding: 1em;
+        padding-top: 50px;
+        padding-bottom: 50px;
+
+
     }
 
     .q-words-box p {
-        background: red;
         display: inline;
         padding: 1em;
         margin: 1em;
+        margin-right: 5px;
+        margin-top: 50px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-question > .q-answer {
         display: inline-table;
-        background-color: green;
         text-align: center;
         width: 100%;
+        margin-right: 5px;
+        margin-top: 50px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-question > .q-answer > .empty {
-        background: white;
-        border: 1px solid black;
         display: table-cell;
         text-align: center;
-        width: 10%;
+        width: 13%;
+        margin-right: 5px;
+        margin-top: 50px;
+        background-color: #333333;
+        font-family: "Times New Roman", monospace;
+        font-size: 20px;
+        color: wheat;
+        height: 30px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-img {
@@ -175,7 +284,7 @@
     .q-btn {
         width: 100%;
         margin-right: 5px;
-        margin-top: 5px;
+        margin-top: 50px;
         background-color: #333333;
         font-family: "Times New Roman", monospace;
         font-size: 20px;
@@ -183,6 +292,7 @@
         height: 30px;
         border: 1px solid rgb(7, 172, 172);
         border-radius: 4px;
+        opacity: 90%;
     }
 
     .q-btn:hover {
