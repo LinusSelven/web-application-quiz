@@ -26,12 +26,12 @@
             <button class="q-btn" @click="nextQuestion()">Nästa fråga
             </button>
         </div>
-        <div v-if="isDone" class="q-question">
-            <img src="../assets/result1.png" alt="res" class="res">
-            <h1>{{finalScore}} %</h1>
+        <div v-if="isDone" class="q-result">
             <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
             <button class="q-btn" @click="redoQuiz">Last Quiz</button>
             <h2>{{nextQuizMessage}}</h2>
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h1 class="finalScore">{{finalScore}} %</h1>
         </div>
         <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
     </div>
@@ -199,10 +199,9 @@
 
     .svenskaquiz[data-v-005fc852] {
         background: rgba(0, 0, 0, .7);
-        display: inline-block;
+        display: table-cell;
         text-align: center;
         width: 100%;
-        height: 100%;
     }
 
     .q-question {
@@ -216,8 +215,6 @@
     .q-words-box {
         padding-top: 50px;
         padding-bottom: 50px;
-
-
     }
 
     .q-words-box p {
@@ -267,11 +264,22 @@
         border-radius: 4px;
         opacity: 90%;
     }
-
-    .q-img {
-        margin: 0 auto;
-        width: 200px;
-        height: 200px;
+    .q-result{
+        color: #02b3b3;
+        text-align: center;
+    }
+    img{
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+    }
+    h1{
+        background: rgba(0, 0, 0, 0.9);
+        font-family: "Nirmala UI Semilight", monospace;
+        font-size: x-large;
+        color: wheat;
+        border-bottom: 1px solid black;
+        margin:auto;
     }
 
     img {
@@ -310,6 +318,12 @@
     .right-answer {
         color: #06d4ee;
     }
+    .res{
+        margin: 0 auto;
+        width:35%;
+        height: 35%;
+        display: block;
+    }
 
     /* Mobile */
     @media screen and (max-width: 400px) {
@@ -321,16 +335,27 @@
 
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .about {
+        .svenskaquiz {
             display: table-cell;
             text-align: center;
-            vertical-align: middle;
+            vertical-align: top;
             background: rgba(0, 0, 0, 0.7);
         }
-
+        h1{
+            padding: 13px;
+        }
         .q-btn {
-            width: 30%;
+            margin-top: 20px;
+            width: 32%;
             height: 50px;
+        }
+        .finalScore{
+            padding: 13px;
+            width: 100px;
+        }
+        .q-result{
+            margin: auto;
+            width: 60%;
         }
     }
 
