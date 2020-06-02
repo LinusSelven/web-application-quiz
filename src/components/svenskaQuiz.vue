@@ -6,7 +6,7 @@
             <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{svenskaQuiz.length}}</h1>
             <h2>Placera ordet i rätt plats</h2>
 
-            <div class="q-words-box" id="box-0" @dragover.prevent @drop.prevent="drop">
+            <div class="q-words-box" id="box-0">
                 <p id="answer-1" :draggable="true" @dragstart="dragStart" @dragover.stop>
                     {{svenskaQuiz[questionNumber].quizAnswer1}}</p>
                 <p id="answer-2" :draggable="true" @dragstart="dragStart" @dragover.stop>
