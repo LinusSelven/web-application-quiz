@@ -13,7 +13,7 @@
             <div class="q-answer">
 
          <!--       <p> {{engQuiz[questionNumber].quizAnswer1}}</p>   -->
-                <input value="" type="text"  placeholder="Skriv här "  id="answer"  >
+                <input value="" type="text"  placeholder="Write here.. "  id="answer"  >
 
                 <button class="q-btn1" @click="showCorrectAnswer() " >Check the answer
                 </button>

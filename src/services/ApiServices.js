@@ -43,10 +43,19 @@ export default{
   getGeoQuizLevel(){
     return Api().get('geoQuiz/Levels')
   },
+  getGeoQuizByLevel(param){
+    return Api().get('geoQuiz/level/'+param)
+  },
   getMatteQuizLevel(){
     return Api().get('matteQuiz/Levels')
   },
+  getMatteQuizByLevel(param){
+    return Api().get('matteQuiz/level/'+param)
+  },
   getEngQuizLevel(){
     return Api().get('engQuiz/Levels')
+  },
+  getEngQuizByLevel(param){
+    return Api().get('engQuiz/level/'+param)
   }
 }
