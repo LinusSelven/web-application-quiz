@@ -158,9 +158,7 @@
             const table = document.createElement('table')
             table.className = "userTable";
             let i,j;
-            const arrItems = this.geoScores.sort(function(a, b) {
-              return parseFloat(b.score) - parseFloat(a.score);
-            });
+            const arrItems = this.geoScores.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
             const col = []
             for (i = 0; i < arrItems.length; i++) {
               for (const key in arrItems[i]) {
