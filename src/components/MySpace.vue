@@ -1,23 +1,45 @@
 <template>
     <div class="myPage" >
-        <div class="showData" id="showData"></div>
-        <input type="file" id="upload" name="upload" accept="image/*" placeholder="Select image">
-        <input type="submit" value="Save" @click="saveProfileimg()">
-        <div><p>Namn :</p> <input value="" type="" name="" placeholder="Anton">
-        </div>
-        <div><p>Email :</p> <input value="" type="" name="" placeholder="anton@gmail.com">
-        </div>
-        <div><p>Användare :</p>
-            <input type="radio" id="one" value="Teacher" v-model="userRole">
-            <label for="one"><span>&nbsp;Teacher </span></label>
-            <a class="vl"></a>
-            <input type="radio" id="two" value="Student" v-model="userRole">
-            <label for="two"><span>&nbsp;Student</span></label>
-        </div>
-        <div class="q-answer">
-            <button class="q-btn">Quiz Stats</button>
-            <button class="q-btn" @click="saveChanges()">Save changes</button>
-        </div>
+        <table class="center">
+            <tr>
+                <td><h4>My Profile</h4></td>
+            </tr>
+            <tr>
+                <td><label class="labelName">User Role</label>&nbsp;<label>{{user.userRole}}</label></td>
+            </tr>
+            <tr>
+                <td><label class="labelName">Full Name</label>&nbsp;<label>{{user.fullName}}</label></td>
+            </tr>
+            <tr>
+                <td><label class="labelName">Email</label>&nbsp;<label>{{user.email}}</label></td>
+            </tr>
+            <tr>
+                <td><label class="labelName">Phone</label>&nbsp;<label>{{user.phoneNumber}}</label></td>
+            </tr>
+            <tr>
+                <td><h4>Change your password</h4></td>
+            </tr>
+            <tr>
+                <td><span class="errorMessage">{{validation}}</span></td>
+            </tr>
+            <tr>
+                <td><span class="confirmationMessage">{{confirmation}}</span></td>
+            </tr>
+            <tr>
+                <td><label class="labelName">Old PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="oldPass"></td>
+            </tr>
+            <tr>
+                <td><label class="labelName">New PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="newPass" minlength="6"></td>
+            </tr>
+            <tr>
+                <td><label class="labelName">Confirm new passWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="confirmNewPass"></td>
+            </tr>
+
+            <tr>
+                <td><input type="button" value="Update" v-on:click="modifyPassword()"></td>
+            </tr>
+        </table>
+
     </div>
 </template>
 
@@ -25,211 +47,169 @@
     export default {
         name: "login",
         data: function () {
-            return {}
+            return {
+              user:[],
+              oldPass:'',
+              newPass: '',
+              confirmNewPass:'',
+              confirmation:'',
+              validation:'',
+            }
         },
         methods:{
-              async getUserData() {
-                let response = await AuthServices.userData({
-                  userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
-                });
-                let jsonUser_serialized = JSON.stringify(response.data.user);
-                localStorage.setItem("userData", jsonUser_serialized);
-              },
-              saveProfileimg: function () {
-                  /* kod för att spara en bild */
-              },
-              saveChanges: function () {
-             }
-        }
-  }
+                async modifyPassword() {
+                  if (this.oldPass && this.newPass && this.confirmNewPass){
+                    if (this.user.password === this.oldPass){
+                      this.confirmation='';
+                      this.validation='';
+                      const verifyPass = await AuthServices.verifyPasswords({
+                        password1: this.newPass,
+                        password2: this.confirmNewPass
+                      });
+                      if (!verifyPass.data.isIdentical) {
+                        this.validation = verifyPass.data.message;
+                        this.oldPass='';
+                        this.newPass='';
+                        this.confirmNewPass = '';
+                      }else {
+                        let response = await AuthServices.modifyUser(parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId), {
+                          userRole: this.user.userRole,
+                          fullName: this.user.fullName,
+                          email: this.user.email,
+                          password: this.confirmNewPass,
+                          phoneNumber: this.user.phoneNumber
+                        });
+                        this.confirmation = response.data.message;
+                        this.oldPass='';
+                        this.newPass='';
+                        this.confirmNewPass = '';
+                      }
+                    }else {
+                      this.validation = 'Old password is not correct';
+                      this.oldPass='';
+                      this.newPass='';
+                      this.confirmNewPass = '';
+                    }
+                  }else {
+                    this.validation = 'Please fill in all fields bellow!';
+                    this.oldPass='';
+                    this.newPass='';
+                    this.confirmNewPass = '';
+                  }
+
+                }
+        },
+      async mounted () {
+        let response = await AuthServices.getOneUser(parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId));
+        this.user = response.data.user;
+        console.log(this.user.length)
+      },
+    }
   import AuthServices from '../services/ApiServices';
 </script>
 
 <style scoped>
-    .center {
-        margin: 0 auto;
+    .myPage {
+        display: table-cell;
+        text-align: center;
+        vertical-align: top;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.8);
     }
-
-    .login a {
-        color: #02b3b3;
-        text-decoration: none;
+    h4{
+        font-family: "Calibri Light", monospace;
+        font-weight: bold;
+        color: wheat;
     }
+    .confirmationMessage{
+        font-family: "Calibri Light", monospace;
+        font-size: medium;
+        color: #0a7272;
+        background-color: black;
 
-    .login a:hover {
-        color: #0b5b5b;
     }
+    .errorMessage{
+        font-family: "Calibri Light", monospace;
+        font-size: medium;
+        color: darkred;
+        background-color: black;
 
-    #errorMsg {
-        font-family: Calibri, monospace;
-        font-weight: normal;
-        color: #fa7c8b;
     }
-
-    input[type=email], input[type=password], input[type=checkbox] {
+    .passInput, label {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
-        border: 1px solid rgb(7, 172, 172);
-        border-radius: 4px;
+        border: 1px solid rgb(167, 193, 193);
         box-sizing: border-box;
         resize: vertical;
-        background: rgba(5, 5, 5, 0.9);
-        color: wheat;
+        background: rgba(0, 1, 9, 0.59);
+        color: #ccc;
         font-family: Calibri, monospace;
-        font-weight: bold;
+        font-size: small;
         width: 100%;
         height: 40px;
-        cursor: pointer;
+        border-radius: 0;
     }
-
-    label {
-        padding: 5px;
-        margin-top: 2px;
-        margin-bottom: 2px;
-        text-align: center;
-        width: 100%;
+    .labelName{
+        color: #ccc;
+        border: 1px solid rgb(167, 193, 193);
+        background: rgba(0, 1, 9, 0.59);
+        border-radius: 0;
+        width: 180px;
+        font-family: Calibri, monospace;
+        font-size: small;
+        text-align: left;
     }
-
-    .q-btn {
-        width: 100%;
-        margin-right: 5px;
-        margin-top: 5px;
-        background-color: #333333;
-        font-family: "Times New Roman", monospace;
-        font-size: 20px;
-        color: wheat;
-        height: 30px;
-        border: 1px solid rgb(7, 172, 172);
-        border-radius: 4px;
-    }
-    .q-answer {
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .q-btn:hover {
-        background-color: #e9e608;
-        color: black;
-        cursor: pointer;
-    }
-
-    .vl {
-        border-left: 2px solid dimgray;
-        height: 100%;
-    }
-
-    input[type=checkbox] {
-        height: auto;
-        width: auto;
-    }
-
     input[type=button] {
-        background-color: #222222;
-        font-family: "Times New Roman", monospace;
-        font-weight: bold;
+        background: rgba(0, 1, 9, 0.59);
+        font-family: Calibri, monospace;
+        font-size: small;
         color: #02b3b3;
+        border-radius: 0;
         border: 1px solid rgb(7, 172, 172);
-        border-radius: 4px;
         width: 100%;
         height: 40px;
         cursor: pointer;
     }
-
     input[type=button]:hover {
         background-color: #e9e608;
         color: black;
     }
-    p{
-        font-family: "Times New Roman", monospace;
-        font-size: 20px;
-        color: wheat;
-        height: 30px;
-
-    }
-
-    span {
-        font-family: Calibri, monospace;
-        font-weight: normal;
-        color: wheat;
-    }
-
-    .myPage {
-        display: inline-block;
-        width: 100%;
-    }
-
-    .myPage a {
-        color: #3d8cb5;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .myPage a:hover {
-        color: #e9e608;
-    }
-
-    table {
-        width: 100%;
-        font: inherit;
-        border-collapse: collapse;
-        color: rgba(6, 25, 45, 0.6);
-    }
-
-    table th {
-        text-transform: uppercase;
-        text-align: center;
-        background: #44475C;
-        color: #FFF;
-        padding-top: 5px;
-    }
-
-    table td {
-        padding-top: 5px;
-        text-align: center;
-        border-right: 2px solid #7D82A8;
-    }
-
-    table td:last-child {
-        border-right: none;
-    }
-
-    table tbody tr:nth-child(2n) td {
-    }
-
     ::-webkit-input-placeholder { /* Edge */
-        color: #fced62;
+        color: #ccc;
+        font-family: Calibri, monospace;
+        font-size: small;
     }
 
-    :-ms-input-placeholder { /* Internet Explorer */
-        color: #fced62;
+    ::-ms-input-placeholder { /* Internet Explorer */
+        color: #ccc;
+        font-family: Calibri, monospace;
+        font-size: small;
     }
 
     ::placeholder {
-        color: black;
+        font-family: Calibri, monospace;
+        font-size: small;
+        color: #ccc;
     }
 
     /* Mobile */
     @media screen and (max-width: 400px) {
     }
-
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
     }
-
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .myPage {
-            display: table-cell;
-            text-align: center;
-            vertical-align: middle;
-            background: rgba(0, 0, 0, 0.7);
+        .passInput, input[type=button], label {
+            width: 200px;
         }
-
-        table {
-            width: 50%;
+        p{
+            width: 100%;
         }
-
+        label{
+            display: inline-block;
+        }
 
     }
 
