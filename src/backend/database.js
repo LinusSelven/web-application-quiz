@@ -482,9 +482,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'quizAnswer3, quizCorrectPos1, quizCorrectPos2, quizCorrectPos3) VALUES (?,?,?,?,?,?,?,?,?,?)'
         db.run(insert1, [
           '1',
-          'Jag ',
-          'ut, för att ',
-          'till min ',
+          'Jag',
+          'ut, för att',
+          'till min',
           'handla',
           'gick',
           'mormor',
@@ -493,21 +493,21 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           3])
         db.run(insert1, [
           '1',
-          'De ',
-          'till ',
-          'för att ',
-          'skolan',
+          'De',
+          'till',
+          'för att',
           'plugga',
           'cyklade',
+          'skolan',
           2,
           3,
           1])
         db.run(insert1, [
           '1',
-          'Min ',
-          'har köpt ',
-          'leksak ',
-          'en ny ',
+          'Min',
+          'har köpt',
+          'leksak',
+          'en ny',
           'mamma',
           'till mig',
           2,
@@ -516,19 +516,19 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(insert1, [
           '1',
           'Linda',
-          'när ',
-          'har skrivit färdigt sin ',
-          'hon',
+          'när',
+          'har skrivit färdigt sin',
           'bok',
           'blev glad',
+          'hon',
           2,
           3,
           1])
         db.run(insert1, [
           '1',
-          'Jag ',
-          'att bada ',
-          'det är varmt i ',
+          'Jag',
+          'att bada',
+          'det är varmt i',
           'gillar',
           'vattnet',
           'när',
@@ -538,9 +538,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
         db.run(insert1, [
           '1',
-          'Min ',
-          'brukar ',
-          'i mitt ',
+          'Min',
+          'brukar',
+          'i mitt',
           'rum',
           'sova',
           'hund',
@@ -549,20 +549,20 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           1])
         db.run(insert1, [
           '1',
-          'Många i klassen ',
-          'cykla ',
-          'till ',
-          'själv',
+          'Många i klassen',
+          'cykla',
+          'till',
           'skolan',
           'brukar',
+          'själv',
           2,
           3,
           1])
         db.run(insert1, [
           '2',
-          'Min ',
-          'är ',
-          'och har ',
+          'Min',
+          'är',
+          'och har',
           'blå',
           'mattebok',
           'hundra sidor',
@@ -571,9 +571,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           3])
         db.run(insert1, [
           '2',
-          'Sommar ',
-          'den ',
-          'tiden på ',
+          'Sommar',
+          'den',
+          'tiden på',
           'är',
           'året',
           'bästa',
@@ -582,20 +582,20 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           2])
         db.run(insert1, [
           '2',
-          'Mitt ',
-          'ämne i ',
+          'Mitt',
+          'ämne i',
           'är ',
+          'skolan',
           'geografi',
           'favorit',
-          'skolan',
           3,
           1,
           2])
         db.run(insert1, [
           '2',
-          'Idag skall jag ',
-          'till ',
-          'och hälsa på min ',
+          'Idag skall jag',
+          'till',
+          'och hälsa på min',
           'mormor',
           'landet',
           'åka',
@@ -604,9 +604,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           1])
         db.run(insert1, [
           '2',
-          'Jag ',
-          'att ',
-          'innan jag ska ',
+          'Jag',
+          'att',
+          'innan jag ska',
           'läsa',
           'gillar',
           'sova',
@@ -615,9 +615,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           3])
         db.run(insert1, [
           '2',
-          'Barnen ',
-          'på ',
-          'tills skolklockan ',
+          'Barnen',
+          'på',
+          'tills skolklockan',
           'ringde',
           'rasten',
           'gungade',
@@ -626,9 +626,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           1])
         db.run(insert1, [
           '2',
-          'Dem som ',
-          'fick räcka upp ',
-          'och ',
+          'Dem som',
+          'fick räcka upp',
+          'och',
           'handen',
           'vågade,',
           'svara ja',
@@ -637,9 +637,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           3])
         db.run(insert1, [
           '3',
-          'En ',
-          'vägrade ',
-          'till ',
+          'En',
+          'vägrade',
+          'till',
           'pojke',
           'skolan',
           'komma',
@@ -648,20 +648,20 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           2])
         db.run(insert1, [
           '3',
-          'Frida kan ',
-          'långt, ',
-          'simma ',
-          '1000 meter',
-          'simma ',
+          'Frida kan',
+          'långt,',
+          'simma',
           'hon kan',
+          '1000 meter',
+          'simma',
           3,
           1,
           2])
         db.run(insert1, [
           '3',
-          'Träden blir ',
+          'Träden blir',
           'på våren, och ',
-          'till ',
+          'till',
           'blir gula',
           'gröna,',
           'hösten',
@@ -670,9 +670,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           3])
         db.run(insert1, [
           '3',
-          'Fröken ',
-          'oss ',
-          'varje ',
+          'Fröken',
+          'oss',
+          'varje',
           'fredag',
           'läxa',
           'ger',
@@ -681,9 +681,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           1])
         db.run(insert1, [
           '3',
-          'Det är ',
-          'att spela ',
-          'med ',
+          'Det är',
+          'att spela',
+          'med',
           'roligt',
           'farfar',
           'schack',
@@ -693,8 +693,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
         db.run(insert1, [
           '3',
-          'Att ',
-          'är ',
+          'Att',
+          'är',
           'för',
           'miljön',
           'bra',
@@ -704,12 +704,12 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           1])
         db.run(insert1, [
           '3',
-          'Jag ',
-          'många ',
-          'i ',
-          'kompisar',
+          'Jag',
+          'många',
+          'i',
           'klassen',
           'har',
+          'kompisar',
           2,
           3,
           1])
