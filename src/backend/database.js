@@ -374,6 +374,16 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'gul',
           'yellow',
           'yellow.png'])
+        db.run(insert1, ['What color is it?',
+          '1',
+          'gul',
+          'yellow',
+          'yellow.png'])
+        db.run(insert1, ['What color is it?',
+          '1',
+          'gul',
+          'yellow',
+          'yellow.png'])
 
         db.run(insert1, ['What animal is it? ',
           '2',
@@ -436,6 +446,16 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'sova',
           'sleep',
           'sleep.png'])
+        db.run(insert1, ['Vad heter "skriva" på engelska?',
+          '3',
+          'skriva',
+          'write',
+          'write.png'])
+        db.run(insert1, ['Vad heter "skriva" på engelska?',
+          '3',
+          'skriva',
+          'write',
+          'write.png'])
       }
     })
 
