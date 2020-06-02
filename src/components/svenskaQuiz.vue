@@ -1,9 +1,10 @@
 <template>
 
     <div class="svenskaquiz">
-        <h2>Placera ordet i rätt plats</h2>
 
-        <div class="q-question">
+        <div v-if="!isDone" class="q-question">
+            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{svenskaQuiz.length}}</h1>
+            <h2>Placera ordet i rätt plats</h2>
 
             <div class="q-words-box" id="box-0" @dragover.prevent @drop.prevent="drop">
                 <p id="answer-1" :draggable="true" @dragstart="dragStart" @dragover.stop>
@@ -25,6 +26,13 @@
             <button class="q-btn" @click="nextQuestion()">Nästa fråga
             </button>
         </div>
+        <div v-if="isDone" class="q-question">
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h1>{{finalScore}} %</h1>
+            <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
+            <button class="q-btn" @click="redoQuiz">Last Quiz</button>
+            <h2>{{nextQuizMessage}}</h2>
+        </div>
         <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
     </div>
 </template>
@@ -36,22 +44,24 @@
         data: function () {
             return {
                 svenskaQuiz: [],
+                quizLevel: [],
                 questionNumber: 0,
                 countOfCorrectAnswers: 0,
                 selectedLevel: 1, /* default */
-                userHasGuessed: false,
-                key: '0',
-                resultat: ''
+                isDone: false,
+                finalScore : 0,
+                nextQuizMessage: '',
+                numberOfLevel: 0,
             }
         },
 
         methods: {
             nextQuestion: function () {
-                this.userHasGuessed = false;
                 this.resultat = '';
                 this.key = '0';
-                this.questionNumber += 1;
                 this.resetAnswerPositions()
+                this.countQuestions();
+                this.percentageScore();
             },
 
             drop: function (e) {
@@ -89,7 +99,6 @@
                 }
             },
 
-
             resetAnswerPositions: function () {
                 const startPos = document.getElementById('box-0')
                 const box1 = document.getElementById('box-1');
@@ -104,22 +113,69 @@
                 for (let startChild of startChildren) {
                     startChild.setAttribute('draggable', 'true')
                 }
-            }
+            },
+            countQuestions(){
+                this.questionNumber += 1;
+                this.isDone = (this.questionNumber) === this.svenskaQuiz.length;
+            },
+
+            nextLevelQuiz(){
+                if(this.finalScore >= 50){
+                    if (this.selectedLevel<this.quizLevel.length ){
+                        this.selectedLevel +=1 ;
+                        this.fetchNextQuiz(this.selectedLevel);
+                        this.countOfCorrectAnswers=0;
+                        this.questionNumber= 0;
+                        this.isDone =false;
+                        this.nextQuizMessage='';
+                    }else{
+                        this.nextQuizMessage='Sorry! There is no next level for the moment.';
+                    }
+                }else {
+                    this.nextQuizMessage='You have to get at least 50 % correct';
+                }
+            },
+
+            redoQuiz(){
+                this.fetchNextQuiz(this.selectedLevel);
+                this.countOfCorrectAnswers=0;
+                this.questionNumber= 0;
+                this.isDone =false;
+                this.nextQuizMessage='';
+            },
+            percentageScore(){
+                let amount = this.svenskaQuiz.length;
+                let scorePerQuestion = 100/amount;
+                this.finalScore = Math.round((this.countOfCorrectAnswers * scorePerQuestion) / 3);
+            },
+
+            fetchNextQuiz(level){
+                fetch('http://127.0.0.1:3000/api/svenskaquiz/level/'+level)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        this.svenskaQuiz = data.svenskaQuiz;
+                    });
+            },
         },
 
-
-
         mounted() {
-            fetch('http://127.0.0.1:3000/api/svenskaquiz/')
+            fetch('http://127.0.0.1:3000/api/svenskaquiz/numberOfLevel')
                 .then((response) => {
-                    return response.json()
+                    return response.json();
                 })
                 .then((data) => {
-                    console.log(data.svenskaQuiz)
-                    this.svenskaQuiz = data.svenskaQuiz
+                    this.quizLevel = data.svenskaQuizLevel;
+                });
+            fetch('http://127.0.0.1:3000/api/svenskaquiz/level/' + this.selectedLevel)
+                .then((response) => {
+                    return response.json();
                 })
+                .then((data) => {
+                    this.svenskaQuiz = data.svenskaQuiz;
+                });
         }
-
     }
 </script>
 
