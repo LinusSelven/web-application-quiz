@@ -81,7 +81,7 @@
                           this.confirmNewPass = '';
                         }
                   }else {
-                    this.validation = 'The old password is not correct';
+                    this.validation = 'Old password is not correct';
                     this.oldPass='';
                     this.newPass='';
                     this.confirmNewPass = '';

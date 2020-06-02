@@ -101,6 +101,7 @@
             this.user_Role= JSON.parse(sessionStorage.getItem('userLogged')).userRole;
             this.email = '';
             this.password = '';
+            location.reload();
           }
           else {
             this.message='';
@@ -119,7 +120,7 @@
           this.user_Role= '';
           this.errorMessage ='';
           this.message = response.data.message;
-          //setTimeout(this.message, 3000);
+          location.reload();
         },
 
       },
