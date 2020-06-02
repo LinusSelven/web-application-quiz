@@ -22,7 +22,7 @@
                 <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart3}}</p></div>
                 <div class="empty" id="box-3" @dragover.prevent @drop.prevent="drop"></div>
             </div>
-            <button class="q-btn" @click="nextQuestion()" >Nästa fråga
+            <button class="q-btn" @click="nextQuestion()">Nästa fråga
             </button>
         </div>
         <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
@@ -31,76 +31,96 @@
 
 
 <script>
-  export default {
-    name: 'svenskaQuiz',
-    data: function () {
-      return {
-        svenskaQuiz: [],
-        questionNumber: 0,
-        countOfCorrectAnswers: 0,
-        selectedLevel : 1, /* default */
-        userHasGuessed: false,
-        key: '0',
-        resultat: ''
-      }
-    },
+    export default {
+        name: 'svenskaQuiz',
+        data: function () {
+            return {
+                svenskaQuiz: [],
+                questionNumber: 0,
+                countOfCorrectAnswers: 0,
+                selectedLevel: 1, /* default */
+                userHasGuessed: false,
+                key: '0',
+                resultat: ''
+            }
+        },
 
-    methods: {
-      nextQuestion: function () {
-        this.userHasGuessed = false
-        this.resultat = ''
-        this.key = '0'
-        this.questionNumber += 1
-      },
+        methods: {
+            nextQuestion: function () {
+                this.userHasGuessed = false;
+                this.resultat = '';
+                this.key = '0';
+                this.questionNumber += 1;
+                this.resetAnswerPositions()
+            },
 
-      drop: function (e) {
-        const card_id = e.dataTransfer.getData('text')
-        if (e.target.childNodes.length < 1 || e.target.id == 'box-0') {
-          e.target.appendChild(document.getElementById(card_id))
-          this.userChoseAnswer(e.target.id, card_id)
+            drop: function (e) {
+                const card_id = e.dataTransfer.getData('text')
+                if (e.target.childNodes.length < 1 || e.target.id == 'box-0') {
+                    e.target.appendChild(document.getElementById(card_id))
+                    this.userChoseAnswer(e.target.id, card_id)
+                }
+
+            },
+
+            dragStart: e => {
+                e.dataTransfer.setData('text', e.target.id)
+            },
+
+            userChoseAnswer: function (box, answer) {
+                let selectedBox = box.split('-')[1]
+                let selectedAnswer = answer.split('-')[1]
+                document.getElementById(answer).setAttribute('draggable', 'false')
+                switch (selectedBox) {
+                    case '1':
+                        if (selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos1)
+                            this.countOfCorrectAnswers += 1;
+                        break;
+                    case '2':
+                        if (selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos2)
+                            this.countOfCorrectAnswers += 1;
+                        break;
+                    case '3':
+                        if (selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos3)
+                            this.countOfCorrectAnswers += 1;
+                        break;
+                    default:
+                        break;
+                }
+            },
+
+
+            resetAnswerPositions: function () {
+                const startPos = document.getElementById('box-0')
+                const box1 = document.getElementById('box-1');
+                const box2 = document.getElementById('box-2');
+                const box3 = document.getElementById('box-3');
+                while (box1.childNodes.length > 0 && box2.childNodes.length > 0 && box3.childNodes.length > 0) {
+                    startPos.appendChild(box1.childNodes[0])
+                    startPos.appendChild(box2.childNodes[0])
+                    startPos.appendChild(box3.childNodes[0])
+                }
+                const startChildren = startPos.children;
+                for (let startChild of startChildren) {
+                    startChild.setAttribute('draggable', 'true')
+                }
+            }
+        },
+
+
+
+        mounted() {
+            fetch('http://127.0.0.1:3000/api/svenskaquiz/')
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log(data.svenskaQuiz)
+                    this.svenskaQuiz = data.svenskaQuiz
+                })
         }
 
-      },
-
-      dragStart: e => {
-        e.dataTransfer.setData('text', e.target.id)
-      },
-
-      userChoseAnswer: function (box, answer) {
-        let selectedBox = box.split('-')[1]
-        let selectedAnswer = answer.split('-')[1]
-        document.getElementById(answer).setAttribute('draggable', 'false')
-        switch(selectedBox) {
-          case '1':
-            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos1)
-              this.countOfCorrectAnswers += 1;
-            break;
-          case '2':
-            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos2)
-              this.countOfCorrectAnswers += 1;
-            break;
-          case '3':
-            if(selectedAnswer == this.svenskaQuiz[this.questionNumber].quizCorrectPos3)
-              this.countOfCorrectAnswers += 1;
-            break;
-            default:
-              break;
-        }
-      }
-    },
-
-    mounted () {
-      fetch('http://127.0.0.1:3000/api/svenskaquiz/')
-        .then((response) => {
-          return response.json()
-        })
-        .then((data) => {
-          console.log(data.svenskaQuiz)
-          this.svenskaQuiz = data.svenskaQuiz
-        })
     }
-
-  }
 </script>
 
 
@@ -132,7 +152,7 @@
     .q-question {
         margin: 0 auto;
         display: table;
-        width:70%;
+        width: 70%;
         border-right: none;
         box-sizing: border-box;
     }
