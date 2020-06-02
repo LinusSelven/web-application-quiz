@@ -2,6 +2,9 @@
     <div class="myPage" >
         <table class="center">
             <tr>
+                <td><h4>My Profile</h4></td>
+            </tr>
+            <tr>
                 <td><label class="labelName">User Role</label>&nbsp;<label>{{user.userRole}}</label></td>
             </tr>
             <tr>
@@ -55,37 +58,45 @@
         },
         methods:{
                 async modifyPassword() {
-                  if (this.user.password === this.oldPass){
-                        this.confirmation='';
-                        this.validation='';
-                        const verifyPass = await AuthServices.verifyPasswords({
-                          password1: this.newPass,
-                          password2: this.confirmNewPass
+                  if (this.oldPass && this.newPass && this.confirmNewPass){
+                    if (this.user.password === this.oldPass){
+                      this.confirmation='';
+                      this.validation='';
+                      const verifyPass = await AuthServices.verifyPasswords({
+                        password1: this.newPass,
+                        password2: this.confirmNewPass
+                      });
+                      if (!verifyPass.data.isIdentical) {
+                        this.validation = verifyPass.data.message;
+                        this.oldPass='';
+                        this.newPass='';
+                        this.confirmNewPass = '';
+                      }else {
+                        let response = await AuthServices.modifyUser(parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId), {
+                          userRole: this.user.userRole,
+                          fullName: this.user.fullName,
+                          email: this.user.email,
+                          password: this.confirmNewPass,
+                          phoneNumber: this.user.phoneNumber
                         });
-                        if (!verifyPass.data.isIdentical) {
-                          this.validation = verifyPass.data.message;
-                          this.oldPass='';
-                          this.newPass='';
-                          this.confirmNewPass = '';
-                        }else {
-                          let response = await AuthServices.modifyUser(parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId), {
-                            userRole: this.user.userRole,
-                            fullName: this.user.fullName,
-                            email: this.user.email,
-                            password: this.confirmNewPass,
-                            phoneNumber: this.user.phoneNumber
-                          });
-                          this.confirmation = response.data.message;
-                          this.oldPass='';
-                          this.newPass='';
-                          this.confirmNewPass = '';
-                        }
+                        this.confirmation = response.data.message;
+                        this.oldPass='';
+                        this.newPass='';
+                        this.confirmNewPass = '';
+                      }
+                    }else {
+                      this.validation = 'Old password is not correct';
+                      this.oldPass='';
+                      this.newPass='';
+                      this.confirmNewPass = '';
+                    }
                   }else {
-                    this.validation = 'Old password is not correct';
+                    this.validation = 'Please fill in all fields bellow!';
                     this.oldPass='';
                     this.newPass='';
                     this.confirmNewPass = '';
                   }
+
                 }
         },
       async mounted () {
