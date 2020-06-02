@@ -1,5 +1,6 @@
 <template>
     <div class="myScores">
+        <h1>MY SCORES</h1>
         <div class="showMyScores" id="showMyScores"></div>
     </div>
 
@@ -61,11 +62,17 @@
         display: table-cell;
         text-align: center;
         vertical-align: top;
-        padding: 5px;
         background: rgba(0, 0, 0, 0.8);
     }
     .showMyScores{
-        padding-top: 10px;
+        padding: 20px 10px 10px 10px;
+    }
+    h1{
+        font-family: Calibri, monospace;
+        color: wheat;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 5px;
+        margin: auto;
     }
 
     select{
