@@ -710,7 +710,7 @@ app.post('/api/users/', (req, res, next) => {
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
     }
-            const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?)';
+            const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber) VALUES (?,?,?,?,?)';
             const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber];
             db.run(sql, params, function (err, result) {
                 if (err) {
@@ -842,6 +842,58 @@ app.post('/api/logout', (req, res) => {
     }
 
 })
+/* Scores Handling */
+app.get('/api/scores', (request, response, next) => {
+    const sql = 'select * from scores';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({ "error": err.message });
+            return;
+        }
+        response.send({
+            "message": "success",
+            "scores": rows
+        })
+    });
+});
+app.get('/api/scores/:id', (request, response, next) => {
+    const sql = 'select * from scores where scoreId = ?'
+    const params = [request.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"success",
+            "score":row
+        })
+
+    });
+});
+app.post('/api/scores/', (req, res, next) => {
+    const userData = {
+        subject: req.body.subject,
+        subjectLevel: req.body.subjectLevel,
+        score: req.body.score,
+        userId: req.body.userId
+    }
+    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userId) VALUES (?,?,?,?)';
+    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userId];
+    db.run(sql, params, function (err, result) {
+        if (err) {
+            res.status(400).json({ "error": err.message })
+            return;
+        }
+        res.json({
+            "message": "Success",
+            "users": userData,
+            "id": this.lastID
+        })
+    });
+})
+
 app.get('/home', function(request, response) {
     if (request.session.loggedin) {
         response.send(`<h3>Welcome back: ` + request.session.username +`</h3><form method="post" action="/logout"><button>Logout</button></form>
