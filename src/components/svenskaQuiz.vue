@@ -20,6 +20,8 @@
                 <div class="part"><p>{{svenskaQuiz[questionNumber].quizPart3}}</p></div>
                 <div class="empty" id="box-3" @dragover.prevent @drop.prevent="drop"></div>
             </div>
+            <button class="q-btn" @click="nextQuestion()" >Nästa fråga
+            </button>
         </div>
         <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
     </div>
