@@ -9,14 +9,13 @@
             <option value="engelskaQuiz">Engelska</option>
         </select><br>
         <select id="byQuizLevel" @change="onChangeLevel($event)" v-model="levelValue"></select><br>
-        <input type="submit" value="GET" @click="getQuiz()">
+        <input type="submit" value="GET">
         <div class="showAllScores" id="showAllScores"></div>
     </div>
 </template>
 
 <script>
   import ApiServices from '../services/ApiServices'
-
   export default {
     name: 'manageAllScores',
     data: function () {
@@ -25,6 +24,7 @@
         levelValue:1,
         quizArray:[],
         levels:[],
+        byLevel:[],
       }
     },
     methods: {
