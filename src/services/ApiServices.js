@@ -64,7 +64,6 @@ export default{
   getEngQuizByLevel(param){
     return Api().get('engQuiz/level/'+param)
   },
-
   addScore(credentials){
     return Api().post('scores/', credentials)
   },
@@ -79,5 +78,9 @@ export default{
   },
   updateScores(param, credentials){
     return Api().put('scores/'+param, credentials)
+  },
+  getScoresByUsers(credentials){
+    return Api().post('scores/byUsers/', credentials)
+
   },
 }

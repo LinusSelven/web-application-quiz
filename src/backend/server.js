@@ -944,6 +944,23 @@ app.post('/api/scores/level/', (request, response, next) => {
         })
     });
 });
+app.post('/api/scores/byUsers/', (request, response, next) => {
+    const userData = {
+        userId: request.body.userId,
+    }
+    const sql = 'select subject, subjectLevel, score  from scores where userId = ?'
+    const params = [userData.userId]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
+});
 app.post('/api/scores/', (req, res, next) => {
     const userData = {
         subject: req.body.subject,

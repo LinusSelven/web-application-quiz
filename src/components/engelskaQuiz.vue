@@ -86,7 +86,7 @@
           this.isDone = true;
           await this.addScores();
           await this.getScores();
-          this.createGeoScoresTable();
+          this.createScoresTable();
         }
       },
       nextLevelQuiz(){
@@ -169,7 +169,7 @@
           this.engScores= response.data.scores;
         }
       },
-      createGeoScoresTable() {
+      createScoresTable() {
         const table = document.createElement('table')
         table.className = "userTable";
         let i,j;
