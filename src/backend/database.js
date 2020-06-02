@@ -496,9 +496,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'De ',
           'till ',
           'för att ',
+          'skolan',
           'plugga',
           'cyklade',
-          'skolan',
           2,
           3,
           1])
@@ -515,11 +515,11 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           3])
         db.run(insert1, [
           '1',
-          'Många i klassen ',
-          'cykla ',
-          'till ',
-          'själv',
-          'skolan',
+          'Fröken',
+          'ge oss ',
+          'på ',
+          'läxor',
+          'måndagar',
           'brukar',
           2,
           3,
