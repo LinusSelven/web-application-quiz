@@ -6,7 +6,6 @@
 </template>
 <script>
   import AuthServices from '../services/ApiServices'
-  import axios from 'axios'
   export default {
     name: 'AdminDashboard',
     data: function () {
@@ -49,17 +48,11 @@
                     var tabCell = tr.insertCell(-1)
                     tabCell.innerHTML = arrItems[i][col[j]];
                   }
-                  tabCell.innerHTML = '<input type="submit" class="submit" value="DELETE" v-on:submit="delete()">';
+                  tabCell.innerHTML = '<input type="submit" id="deleteButton" class="submit" value="DELETE" onsubmit="deleteUsers()">';
                 }
                 const divContainer = document.getElementById('showData')
                 divContainer.innerHTML = "";
                 divContainer.appendChild(table);
-          },
-          async delete () {
-              let response = await axios.delete('http://localhost:3000/api/users/'+this.selectedId);
-              this.message = response.data.message
-              await this.getUsers();
-
           },
           TD:onclick= function (e) {
                 e = e || window.event;
@@ -72,12 +65,17 @@
                     this.selectedId = (cells[0].innerHTML);
                 }
           },
+          async deleteUsers() {
+            /*let response = */await AuthServices.deleteUser(this.selectedId);
+            //this.message = response.data.message
+            await this.getUsers();
+          },
           async getUsers () {
             this.users=[];
             let response = await AuthServices.getAllUsers();
             this.users = response.data.users;
             this.createTable();
-          }
+          },
     },
   }
 </script>

@@ -43,8 +43,8 @@ export default{
   getAllUsers(){
     return Api().get('users')
   },
-  deleteUser(credentials){
-    return Api().delete('users/:id', credentials)
+  deleteUser(param){
+    return Api().delete('users/'+param)
   },
   getGeoQuizLevel(){
     return Api().get('geoQuiz/Levels')
@@ -64,16 +64,12 @@ export default{
   getEngQuizByLevel(param){
     return Api().get('engQuiz/level/'+param)
   },
-
-
   getSveQuizLevel(){
     return Api().get('svenskaQuiz/Levels')
   },
   getSveQuizByLevel(param){
     return Api().get('svenskaQuiz/level/'+param)
   },
-
-
   addScore(credentials){
     return Api().post('scores/', credentials)
   },
