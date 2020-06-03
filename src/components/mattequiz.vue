@@ -1,7 +1,7 @@
 <template>
     <div class="about">
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}}/{{matteQuiz.length}}</h1>
+            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{matteQuiz.length}}</h1>
             <div>
                 <h2>{{matteQuiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -187,15 +187,9 @@
         divContainer.appendChild(table);
       },
     },
-    mounted() {
-
-      fetch('http://127.0.0.1:3000/api/matteQuiz/numberOfLevel')
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          this.quizLevel = data.matteQuizLevel;
-        });
+    async mounted () {
+      let response = await ApiServices.getMatteQuizLevel();
+      this.quizLevel = response.data.levels;
       fetch('http://127.0.0.1:3000/api/matteQuiz/level/' + this.selectedLevel)
         .then((response) => {
           return response.json();

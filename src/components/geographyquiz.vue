@@ -188,14 +188,9 @@
           },
 
         },
-        mounted() {
-          fetch('http://127.0.0.1:3000/api/geoQuiz/numberOfLevel')
-            .then((response) => {
-              return response.json();
-            })
-            .then((data) => {
-              this.quizLevel = data.geoQuizLevel;
-            });
+        async mounted () {
+          let response = await ApiServices.getGeoQuizLevel();
+          this.quizLevel = response.data.levels;
           fetch('http://127.0.0.1:3000/api/geoQuiz/level/' + this.selectedLevel)
             .then((response) => {
               return response.json();

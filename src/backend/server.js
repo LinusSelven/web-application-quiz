@@ -67,20 +67,6 @@ app.get("/api/geoQuiz/level", (req, res, next) => {
         })
     });
 });
-app.get("/api/geoQuiz/numberOfLevel", (req, res, next) => {
-    const sql = 'select quizLevel from geoQuiz GROUP BY quizLevel';
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "geoQuizLevel":rows
-        })
-    });
-});
 app.get("/api/geoQuiz/Levels", (req, res, next) => {
     const sql = 'SELECT quizLevel FROM geoQuiz GROUP BY quizLevel';
     const params = [];
@@ -225,20 +211,6 @@ app.get("/api/matteQuiz/level", (req, res, next) => {
         res.json({
             "message":"success",
             "matteQuiz":rows
-        })
-    });
-});
-app.get("/api/matteQuiz/numberOfLevel", (req, res, next) => {
-    var sql = 'select quizLevel from matteQuiz GROUP BY quizLevel'
-    var params = []
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "matteQuizLevel":rows
         })
     });
 });
@@ -400,20 +372,6 @@ app.get("/api/engQuiz/Levels", (req, res, next) => {
         })
     });
 });
-app.get("/api/engQuiz/numberOfLevel", (req, res, next) => {
-    const sql = 'select quizLevel from engQuiz GROUP BY quizLevel';
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "engQuizLevel":rows
-        })
-    });
-});
 app.get("/api/engQuiz/level/:id", (req, res, next) => {
     var sql = "select * from engQuiz where quizLevel = ?";
     var params = [req.params.id]
@@ -542,20 +500,6 @@ app.get('/api/svenskaQuiz/level', (req, res, next) => {
     res.json({
       message: 'success',
       svenskaQuiz: rows
-    })
-  })
-})
-app.get('/api/svenskaQuiz/numberOfLevel', (req, res, next) => {
-  const sql = 'select quizLevel from svenskaQuiz GROUP BY quizLevel'
-  const params = []
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      res.status(400).json({ error: err.message })
-      return
-    }
-    res.json({
-      message: 'success',
-      svenskaQuizLevel: rows
     })
   })
 })

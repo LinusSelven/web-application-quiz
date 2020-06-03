@@ -238,21 +238,16 @@
           },
         },
 
-        mounted() {
-            fetch('http://127.0.0.1:3000/api/svenskaquiz/numberOfLevel')
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    this.quizLevel = data.svenskaQuizLevel;
-                });
-            fetch('http://127.0.0.1:3000/api/svenskaquiz/level/' + this.selectedLevel)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    this.svenskaQuiz = data.svenskaQuiz;
-                });
+        async mounted () {
+          let response = await ApiServices.getSveQuizLevel();
+          this.quizLevel = response.data.levels;
+          fetch('http://127.0.0.1:3000/api/svenskaquiz/level/' + this.selectedLevel)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.svenskaQuiz = data.svenskaQuiz;
+            });
         }
     }
 </script>

@@ -1,6 +1,7 @@
 import Api from '../services/Api'
-
 export default{
+
+  // LOGIN LOGOUT REGISTER, AND CHECK IF AN EMAIL EXIST ETC...
   login(credentials){
     return Api().post('auth', credentials)
   },
@@ -19,6 +20,8 @@ export default{
   verifyPasswords(credentials){
     return Api().post('passwords', credentials)
   },
+
+  //ADD NEW QUIZ
   newQuizGeo(credentials){
     return Api().post('geoQuiz/', credentials)
   },
@@ -31,6 +34,8 @@ export default{
   newQuizSve(credentials){
     return Api().post('sveQuiz/', credentials)
   },
+
+  //MANAGE USERS
   userData(credentials){
     return Api().post('users/user/', credentials)
   },
@@ -43,35 +48,39 @@ export default{
   getAllUsers(){
     return Api().get('users')
   },
-
   deleteUser(id){
     return Api().delete('users/'+id)
   },
 
-  getGeoQuizLevel(){
-    return Api().get('geoQuiz/Levels')
-  },
+  //GET QUIZZES QUESTIONS BY LEVEL
   getGeoQuizByLevel(param){
     return Api().get('geoQuiz/level/level/'+param)
-  },
-  getMatteQuizLevel(){
-    return Api().get('matteQuiz/Levels')
   },
   getMatteQuizByLevel(param){
     return Api().get('matteQuiz/level/level/'+param)
   },
-  getEngQuizLevel(){
-    return Api().get('engQuiz/Levels')
-  },
   getEngQuizByLevel(param){
     return Api().get('engQuiz/level/level/'+param)
-  },
-  getSveQuizLevel(){
-    return Api().get('svenskaQuiz/Levels')
   },
   getSveQuizByLevel(param){
     return Api().get('svenskaQuiz/level/level/'+param)
   },
+
+  //GET EXACTLY LEVELS NUMBERS
+  getGeoQuizLevel(){
+    return Api().get('geoQuiz/Levels')
+  },
+  getMatteQuizLevel(){
+    return Api().get('matteQuiz/Levels')
+  },
+  getSveQuizLevel(){
+    return Api().get('svenskaQuiz/Levels')
+  },
+  getEngQuizLevel(){
+    return Api().get('engQuiz/Levels')
+  },
+
+  //MANAGE SCORES
   addScore(credentials){
     return Api().post('scores/', credentials)
   },
@@ -94,6 +103,7 @@ export default{
     return Api().post('scores/byUsers/', credentials)
   },
 
+  //DELETE QUIZZES QUESTIONS BY ID
   deleteGeoQuiz(param){
     return Api().delete('geoQuiz/'+param)
   },

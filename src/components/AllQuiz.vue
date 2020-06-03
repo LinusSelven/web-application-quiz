@@ -160,29 +160,30 @@
         let response = await ApiServices.getGeoQuizLevel();
         this.levels = response.data.levels;
       },
-      async getGeoQuizByLevel (id) {
-        let response = await ApiServices.getGeoQuizByLevel(id);
-            this.quizArray = response.data.geoQuiz;
-      },
       getMatteQuiz: async function () {
         let response = await ApiServices.getMatteQuizLevel();
         this.levels = response.data.levels;
-      },
-      async getMatteQuizByLevel (id) {
-        let response = await ApiServices.getMatteQuizByLevel(id);
-        this.quizArray = response.data.matteQuiz;
       },
       getEngQuiz: async function () {
         let response = await ApiServices.getEngQuizLevel();
         this.levels = response.data.levels;
       },
-      async getEngQuizByLevel (id) {
-        let response = await ApiServices.getEngQuizByLevel(id);
-        this.quizArray = response.data.engQuiz;
-      },
       getSvenQuiz: async function () {
         let response = await ApiServices.getSveQuizLevel();
         this.levels = response.data.levels;
+      },
+
+      async getGeoQuizByLevel (id) {
+        let response = await ApiServices.getGeoQuizByLevel(id);
+        this.quizArray = response.data.geoQuiz;
+      },
+      async getMatteQuizByLevel (id) {
+        let response = await ApiServices.getMatteQuizByLevel(id);
+        this.quizArray = response.data.matteQuiz;
+      },
+      async getEngQuizByLevel (id) {
+        let response = await ApiServices.getEngQuizByLevel(id);
+        this.quizArray = response.data.engQuiz;
       },
       async getSvenQuizByLevel (id) {
         let response = await ApiServices.getSveQuizByLevel(id);
