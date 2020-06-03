@@ -109,6 +109,20 @@ app.get("/api/geoQuiz/level/:id", (req, res, next) => {
         })
     });
 });
+app.get("/api/geoQuiz/level/level/:id", (req, res, next) => {
+    var sql = 'select quizId AS ID, quizLevel AS level, quizQuestion AS question, quizAnswer1 AS "Answer 1", quizAnswer2 AS "Answer 2", quizAnswer3 AS "Answer 3", quizCorrectAnswer AS Correct from geoQuiz where quizLevel = ?';
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "geoQuiz":rows
+        })
+    });
+});
 app.get("/api/geoQuiz/:id", (req, res, next) => {
     var sql = "select * from geoQuiz where quizId = ?"
     var params = [req.params.id]
@@ -244,6 +258,20 @@ app.get("/api/matteQuiz/Levels", (req, res, next) => {
 });
 app.get("/api/matteQuiz/level/:id", (req, res, next) => {
     var sql = "select * from matteQuiz where quizLevel = ?";
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "matteQuiz":rows
+        })
+    });
+});
+app.get("/api/matteQuiz/level/level/:id", (req, res, next) => {
+    var sql = 'select quizId AS ID, quizLevel AS level, quizQuestion AS question, quizAnswer1 AS "Answer 1", quizAnswer2 AS "Answer 2", quizAnswer3 AS "Answer 3", quizCorrectAnswer AS Correct from matteQuiz where quizLevel = ?';
     var params = [req.params.id]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -400,6 +428,20 @@ app.get("/api/engQuiz/level/:id", (req, res, next) => {
         })
     });
 });
+app.get("/api/engQuiz/level/level/:id", (req, res, next) => {
+    var sql = 'select quizId AS id,quizLevel AS LEVEL, quizQuestion AS QUESTION, quizAnswer1 AS ANSWER, quizCorrectAnswer AS "Correct Ans" from engQuiz where quizLevel = ?';
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "engQuiz":rows
+        })
+    });
+});
 app.get("/api/engQuiz/:id", (req, res, next) => {
     var sql = "select * from engQuiz where quizId = ?"
     var params = [req.params.id]
@@ -544,6 +586,20 @@ app.get('/api/svenskaQuiz/level/:id', (req, res, next) => {
       svenskaQuiz: rows
     })
   })
+})
+app.get('/api/svenskaQuiz/level/level/:id', (req, res, next) => {
+    var sql = 'select quizId AS ID, quizLevel AS LEVEL, quizPart1 AS PART1, quizPart2 AS PART2, quizPart3 AS PART3, quizAnswer1 AS Answer1, quizAnswer2 AS Answer2, quizAnswer3 AS Answer3, quizCorrectPos1 AS CorrectPos1, quizCorrectPos2 AS CorrectPos2, quizCorrectPos3 AS CorrectPos3 from svenskaQuiz where quizLevel = ?'
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ error: err.message })
+            return
+        }
+        res.json({
+            message: 'success',
+            svenskaQuiz: rows
+        })
+    })
 })
 app.get('/api/svenskaQuiz/:id', (req, res, next) => {
   var sql = 'select * from svenskaQuiz where quizId = ?'

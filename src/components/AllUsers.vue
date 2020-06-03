@@ -90,6 +90,7 @@
         margin: auto;
     }
     .userTable {
+        margin: auto;
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
         width: 100%;
         border-collapse: collapse;
@@ -158,5 +159,7 @@
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
+        .userTable {
+        }
     }
 </style>

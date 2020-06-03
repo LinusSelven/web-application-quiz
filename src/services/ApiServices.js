@@ -52,25 +52,25 @@ export default{
     return Api().get('geoQuiz/Levels')
   },
   getGeoQuizByLevel(param){
-    return Api().get('geoQuiz/level/'+param)
+    return Api().get('geoQuiz/level/level/'+param)
   },
   getMatteQuizLevel(){
     return Api().get('matteQuiz/Levels')
   },
   getMatteQuizByLevel(param){
-    return Api().get('matteQuiz/level/'+param)
+    return Api().get('matteQuiz/level/level/'+param)
   },
   getEngQuizLevel(){
     return Api().get('engQuiz/Levels')
   },
   getEngQuizByLevel(param){
-    return Api().get('engQuiz/level/'+param)
+    return Api().get('engQuiz/level/level/'+param)
   },
   getSveQuizLevel(){
     return Api().get('svenskaQuiz/Levels')
   },
   getSveQuizByLevel(param){
-    return Api().get('svenskaQuiz/level/'+param)
+    return Api().get('svenskaQuiz/level/level/'+param)
   },
   addScore(credentials){
     return Api().post('scores/', credentials)
