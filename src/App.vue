@@ -286,7 +286,7 @@ a:hover {
   font-weight: bold;
   color: white;
   text-align: center;
-  padding: 6px 0;
+  padding: 7px 0;
   text-decoration: none;
   width: 85px;
 }
@@ -302,10 +302,10 @@ a:hover {
   border: none;
   outline: none;
   color: white;
-  padding: 10px 0;
+  padding: 8px 0;
   background-color: inherit;
   font-family: inherit;
-  margin: 0;
+  margin-bottom: 2px;
   width: 85px;
 }
 
@@ -399,11 +399,11 @@ input[type=email], input[type=password] {
     .dropdown .dropbtn {
       padding: 14px 0;
       width: 110px;
-      margin: 0;
+      margin-bottom: 14px;
       font-size: 16px;
     }
     .navbar a {
-      padding: 8px 0;
+      padding: 10px 0;
       width: 110px;
       font-size: 16px;
     }
@@ -440,11 +440,13 @@ input[type=email], input[type=password] {
     .logo-box{
       float: left;
       overflow: hidden;
+      height: 100%;
+      width: 120px;
     }
     .logo-img{
-      padding-left: 5px;
-      max-width: 50%;
-      max-height: 150px;
+      padding: 4px;
+      max-width: 100%;
+      max-height: 100%;
       display: block;
     }
     .item4-body{
@@ -459,25 +461,27 @@ input[type=email], input[type=password] {
       width: 200px;
     }
     .dropdown .dropbtn {
-      padding: 14px 16px;
-      width: 139px;
-      margin: 12px;
+      padding: 18px 0;
+      width: 120px;
+      margin-bottom: 18px;
       font-size: 16px;
     }
     .navbar a {
-      padding: 14px 16px;
-      width: auto;
+      padding: 12px 0;
+      width: 120px;
       font-size: 16px;
     }
     .dropdown-content a {
       display: block;
-      padding: 6px 14px;
+      padding: 10px 0;
+      //font-weight: bold;
     }
     .dropdown-content {
-      min-width: 160px;
+      min-width: 120px;
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
     }
+
   }
 
 
