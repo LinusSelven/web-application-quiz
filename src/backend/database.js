@@ -716,7 +716,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       }
     })
 
-    //---------------
+    //--------- Users ------
     db.run(`CREATE TABLE users (
             userId INTEGER PRIMARY KEY,
             userRole TEXT,
@@ -749,7 +749,21 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 ])
             }
     })
-
+    //--------- Scores ------
+    db.run(`CREATE TABLE scores (
+            scoreId INTEGER PRIMARY KEY,
+            subject TEXT,
+            subjectLevel INTEGER,
+            score INTEGER,
+            userFullName TEXT,
+            userId INTEGER
+            )`, (err) => {
+      if (err) {
+        // Table already created
+      } else {
+        const insert = 'INSERT INTO scores (subject, subjectLevel, score, userFullName,  userId) VALUES (?,?,?,?,?)';
+      }
+    })
   }
 })
 

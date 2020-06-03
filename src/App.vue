@@ -19,8 +19,10 @@
 
               </div>
               <a><router-link to="/MySpace">My Profile</router-link></a>
+              <a><router-link to="/myScores">My Scores</router-link></a>
               <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
-              <a><router-link to="/DispoQuiz">Manage All Quiz</router-link></a>
+              <a><router-link to="/DispoQuiz">Manage All Quizzes</router-link></a>
+              <a><router-link to="//manageAllScores">All Scores</router-link></a>
               <a><router-link to="/CreateNewQuiz">Create New Quiz</router-link></a>
             </div>
           </div>

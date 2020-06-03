@@ -43,8 +43,8 @@ export default{
   getAllUsers(){
     return Api().get('users')
   },
-  deleteUser(credentials){
-    return Api().delete('users/:id', credentials)
+  deleteUser(param){
+    return Api().delete('users/'+param)
   },
   getGeoQuizLevel(){
     return Api().get('geoQuiz/Levels')
@@ -63,5 +63,30 @@ export default{
   },
   getEngQuizByLevel(param){
     return Api().get('engQuiz/level/'+param)
-  }
+  },
+  getSveQuizLevel(){
+    return Api().get('svenskaQuiz/Levels')
+  },
+  getSveQuizByLevel(param){
+    return Api().get('svenskaQuiz/level/'+param)
+  },
+  addScore(credentials){
+    return Api().post('scores/', credentials)
+  },
+  getScore(credentials){
+    return Api().post('scores/level/', credentials)
+  },
+  checkScoresIfIsExist(credentials){
+    return Api().post('scores/isExist/', credentials)
+  },
+  checkScoresIfHigh(credentials){
+    return Api().post('scores/isHigh/', credentials)
+  },
+  updateScores(param, credentials){
+    return Api().put('scores/'+param, credentials)
+  },
+  getScoresByUsers(credentials){
+    return Api().post('scores/byUsers/', credentials)
+
+  },
 }

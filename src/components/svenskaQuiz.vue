@@ -26,25 +26,29 @@
             <button class="q-btn" @click="nextQuestion()">Nästa fråga
             </button>
         </div>
-        <div v-if="isDone" class="q-question">
-            <img src="../assets/result1.png" alt="res" class="res">
-            <h1>{{finalScore}} %</h1>
+        <div v-if="isDone" class="q-result">
             <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
             <button class="q-btn" @click="redoQuiz">Last Quiz</button>
             <h2>{{nextQuizMessage}}</h2>
+            <img src="../assets/result1.png" alt="res" class="res">
+            <h1 class="finalScore">{{finalScore}} %</h1>
+            <p class="showScoresSve" id="showScoresSve"></p>
         </div>
-        <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2>
+       <!-- VAD ÄR DEN => <h2>{{countOfCorrectAnswers}} / {{svenskaQuiz.length * 3}}</h2> -->
     </div>
 </template>
 
 
 <script>
+    import ApiServices from '../services/ApiServices'
+
     export default {
         name: 'svenskaQuiz',
         data: function () {
             return {
                 svenskaQuiz: [],
                 quizLevel: [],
+                sveScores:[],
                 questionNumber: 0,
                 countOfCorrectAnswers: 0,
                 selectedLevel: 1, /* default */
@@ -114,9 +118,14 @@
                     startChild.setAttribute('draggable', 'true')
                 }
             },
-            countQuestions(){
-                this.questionNumber += 1;
-                this.isDone = (this.questionNumber) === this.svenskaQuiz.length;
+            async countQuestions () {
+              this.questionNumber += 1;
+              if (this.questionNumber === this.svenskaQuiz.length) {
+                this.isDone = true;
+                await this.addScores();
+                await this.getScores();
+                this.createScoresTable();
+              }
             },
 
             nextLevelQuiz(){
@@ -158,6 +167,75 @@
                         this.svenskaQuiz = data.svenskaQuiz;
                     });
             },
+          async addScores() {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true ){
+              let checkScoreId = await ApiServices.checkScoresIfIsExist({
+                subject: 'Swedish',
+                subjectLevel: this.selectedLevel,
+                userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+              });
+              if (!checkScoreId.data.isExist){
+                await ApiServices.addScore({
+                  subject: 'Swedish',
+                  subjectLevel: this.selectedLevel,
+                  score: this.finalScore,
+                  userFullName: JSON.parse(sessionStorage.getItem('userLogged')).fullName,
+                  userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+                });
+              }else {
+                let checkScoreIsHigh = await ApiServices.checkScoresIfHigh({
+                  scoreId: checkScoreId.data.scoreId,
+                  score: this.finalScore
+                });
+                if (checkScoreIsHigh.data.isHigh){
+                  await ApiServices.updateScores(checkScoreId.data.scoreId, {
+                    score: this.finalScore
+                  });
+                }
+              }
+            }
+          },
+          async getScores() {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId){
+              let response = await ApiServices.getScore({
+                subject: 'Swedish',
+                subjectLevel: this.selectedLevel
+              });
+              this.sveScores= response.data.scores;
+            }
+          },
+          createScoresTable() {
+            const table = document.createElement('table')
+            table.className = "userTable";
+            let i,j;
+            const arrItems = this.sveScores.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+            const col = []
+            for (i = 0; i < arrItems.length; i++) {
+              for (const key in arrItems[i]) {
+                if (col.indexOf(key) === -1) {
+                  col.push(key);
+                }
+              }
+            }
+            col.push('rank');
+            let tr = table.insertRow(-1)
+            for (i = 0; i < col.length; i++) {
+              const th = document.createElement('th')
+              th.innerHTML = col[i];
+              tr.appendChild(th);
+            }
+            for (i = 0; i < arrItems.length; i++) {
+              tr = table.insertRow(-1);
+              for (j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1)
+                tabCell.innerHTML = arrItems[i][col[j]];
+              }
+              tabCell.innerHTML =i + 1;
+            }
+            const divContainer = document.getElementById('showScoresSve')
+            divContainer.innerHTML = "";
+            divContainer.appendChild(table);
+          },
         },
 
         mounted() {
@@ -199,10 +277,9 @@
 
     .svenskaquiz[data-v-005fc852] {
         background: rgba(0, 0, 0, .7);
-        display: inline-block;
+        display: table-cell;
         text-align: center;
         width: 100%;
-        height: 100%;
     }
 
     .q-question {
@@ -216,8 +293,6 @@
     .q-words-box {
         padding-top: 50px;
         padding-bottom: 50px;
-
-
     }
 
     .q-words-box p {
@@ -267,11 +342,22 @@
         border-radius: 4px;
         opacity: 90%;
     }
-
-    .q-img {
-        margin: 0 auto;
-        width: 200px;
-        height: 200px;
+    .q-result{
+        color: #02b3b3;
+        text-align: center;
+    }
+    img{
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+    }
+    h1{
+        background: rgba(0, 0, 0, 0.9);
+        font-family: "Nirmala UI Semilight", monospace;
+        font-size: x-large;
+        color: wheat;
+        border-bottom: 1px solid black;
+        margin:auto;
     }
 
     img {
@@ -310,6 +396,12 @@
     .right-answer {
         color: #06d4ee;
     }
+    .res{
+        margin: 0 auto;
+        width:35%;
+        height: 35%;
+        display: block;
+    }
 
     /* Mobile */
     @media screen and (max-width: 400px) {
@@ -321,16 +413,30 @@
 
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .about {
+        .svenskaquiz {
             display: table-cell;
             text-align: center;
-            vertical-align: middle;
+            vertical-align: top;
             background: rgba(0, 0, 0, 0.7);
         }
-
+        h1{
+            padding: 13px;
+        }
         .q-btn {
-            width: 30%;
+            margin-top: 20px;
+            width: 32%;
             height: 50px;
+        }
+        .finalScore{
+            padding: 13px;
+            width: 100px;
+        }
+        .showScoresSve{
+            padding: 10px;
+        }
+        .q-result{
+            margin: auto;
+            width: 60%;
         }
     }
 

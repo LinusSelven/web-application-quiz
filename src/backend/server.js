@@ -515,6 +515,20 @@ app.get('/api/svenskaQuiz/numberOfLevel', (req, res, next) => {
     })
   })
 })
+app.get("/api/svenskaQuiz/Levels", (req, res, next) => {
+    const sql = 'SELECT quizLevel FROM svenskaQuiz GROUP BY quizLevel';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "levels":rows
+        })
+    });
+});
 app.get('/api/svenskaQuiz/level/:id', (req, res, next) => {
   var sql = 'select * from svenskaQuiz where quizLevel = ?'
   var params = [req.params.id]
@@ -710,7 +724,7 @@ app.post('/api/users/', (req, res, next) => {
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
     }
-            const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber, schoolLevel) VALUES (?,?,?,?,?)';
+            const sql = 'INSERT INTO users (userRole, fullName, email, password, phoneNumber) VALUES (?,?,?,?,?)';
             const params = [userData.userRole, userData.fullName, userData.email, userData.password, userData.phoneNumber];
             db.run(sql, params, function (err, result) {
                 if (err) {
@@ -740,7 +754,7 @@ app.put('/api/users/:id', (request, response, next) => {
             return;
         }
         response.json({
-            "message": "success",
+            "message": "The change was successful",
             "user": userData,
             "id" : this.lastID
         })
@@ -842,6 +856,148 @@ app.post('/api/logout', (req, res) => {
     }
 
 })
+/* Scores Handling */
+app.get('/api/scores', (request, response, next) => {
+    const sql = 'select * from scores';
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({ "error": err.message });
+            return;
+        }
+        response.send({
+            "message": "Success",
+            "scores": rows
+        })
+    });
+});
+app.get('/api/scores/:id', (request, response, next) => {
+    const sql = 'select * from scores where scoreId = ?'
+    const params = [request.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "score":row
+        })
+    });
+});
+app.post('/api/scores/isExist/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel,
+        userId: request.body.userId
+    }
+    db.get('select * from scores where subject = ? AND subjectLevel = ? AND userId = ?', [userData.subject, userData.subjectLevel, userData.userId], function(error, row) {
+        if (row) {
+            response.send({
+                scoreId:row.scoreId,
+                isExist: true
+            });
+        } else {
+            response.send({
+                isExist:  false
+            });
+        }
+        response.end();
+    });
+});
+app.post('/api/scores/isHigh/', (request, response, next) => {
+    const userData = {
+        scoreId: request.body.scoreId,
+        score: request.body.score
+    }
+    db.get('select score from scores where scoreId = ?', [userData.scoreId], function(error, row) {
+        if (userData.score > row.score) {
+            response.send({
+                isHigh: true
+            });
+        } else {
+            response.send({
+                isHigh:  false
+            });
+        }
+        response.end();
+    });
+});
+app.put('/api/scores/:id', (request, response, next) => {
+    const userData = {
+        score: request.body.score,
+    }
+    const sql = 'UPDATE scores SET score = ? WHERE scoreId = ?'
+    const params = [userData.score, request.params.id];
+    db.run(sql, params, function (err, result) {
+        if (err){
+            response.status(400).json({"error": err.message})
+            return;
+        }
+        response.json({
+            "message": "The change was successful",
+            "score": userData,
+        })
+    });
+})
+app.post('/api/scores/level/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel
+    }
+    const sql = 'select score, userFullName AS NAME  from scores where subject = ? AND subjectLevel = ?'
+    const params = [userData.subject, userData.subjectLevel]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
+});
+app.post('/api/scores/byUsers/', (request, response, next) => {
+    const userData = {
+        userId: request.body.userId,
+    }
+    const sql = 'select subject AS QUIZ, subjectLevel AS "QUIZ LEVEL", score  from scores where userId = ?'
+    const params = [userData.userId]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
+});
+app.post('/api/scores/', (req, res, next) => {
+    const userData = {
+        subject: req.body.subject,
+        subjectLevel: req.body.subjectLevel,
+        score: req.body.score,
+        userFullName: req.body.userFullName,
+        userId: req.body.userId
+    }
+    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userFullName, userId) VALUES (?,?,?,?,?)';
+    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userFullName, userData.userId];
+    db.run(sql, params, function (err, result) {
+        if (err) {
+            res.status(400).json({ "error": err.message })
+            return;
+        }
+        res.json({
+            "message": "Added successfully!",
+            "users": userData,
+            "id": this.lastID
+        })
+    });
+})
+
 app.get('/home', function(request, response) {
     if (request.session.loggedin) {
         response.send(`<h3>Welcome back: ` + request.session.username +`</h3><form method="post" action="/logout"><button>Logout</button></form>
