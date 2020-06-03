@@ -8,22 +8,20 @@
             </div>
           <a><router-link to="/"> QUIZ</router-link></a>
           <a><router-link to="/register">REGISTER</router-link></a>
-          <a><router-link to="/aboutus">ABOUT US</router-link></a>
+          <a><router-link to="/aboutUs">ABOUT US</router-link></a>
           <div class="dropdown">
             <button class="dropbtn">
               MY PAGES
               <img src="./assets/icon/down.png" alt="down">
             </button>
             <div class="dropdown-content">
-              <div class="header">
-
-              </div>
+              <div class="header"></div>
               <a><router-link to="/MySpace">My Profile</router-link></a>
               <a><router-link to="/myScores">My Scores</router-link></a>
-              <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
-              <a><router-link to="/DispoQuiz">Manage All Quizzes</router-link></a>
+              <a><router-link to="/AllUsers">Manage Users</router-link></a>
+              <a><router-link to="/AllQuiz">Manage Quizzes</router-link></a>
               <a><router-link to="/AllScores">All Scores</router-link></a>
-              <a><router-link to="/CreateNewQuiz">Create New Quiz</router-link></a>
+              <a><router-link to="/CreateNewQuiz">Create Quiz</router-link></a>
             </div>
           </div>
         </div>
@@ -301,7 +299,7 @@ a:hover {
   background-color: inherit;
   font-family: inherit;
   margin: 16px;
-  width: 148px;
+  width: 140px;
 }
 
 .navbar a:hover, .dropdown:hover, .dropbtn:hover {

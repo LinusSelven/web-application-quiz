@@ -92,6 +92,18 @@ export default{
   },
   getScoresByUsers(credentials){
     return Api().post('scores/byUsers/', credentials)
+  },
 
+  deleteGeoQuiz(param){
+    return Api().delete('geoQuiz/'+param)
+  },
+  deleteMatteQuiz(param){
+    return Api().delete('matteQuiz/'+param)
+  },
+  deleteEngQuiz(param){
+    return Api().delete('engQuiz/'+param)
+  },
+  deleteSveQuiz(param){
+    return Api().delete('svenskaQuiz/'+param)
   },
 }

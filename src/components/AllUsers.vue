@@ -120,7 +120,17 @@
         background-color: rgba(61, 140, 181, 0.42);
         //background: rgba(0, 0, 0, 0.5);
     }
-    .submit {
+    .deleteButton {
+        background-color: #d61515;
+        font-family: Calibri, monospace;
+        font-weight: bold;
+        border: none;
+        color: white;
+        width: 70px;
+        height: 30px;
+        cursor: pointer;
+    }
+    .deleteQuestion {
         background-color: #d61515;
         font-family: Calibri, monospace;
         font-weight: bold;

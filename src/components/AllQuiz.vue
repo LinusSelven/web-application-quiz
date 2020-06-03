@@ -17,7 +17,8 @@
 
 <script>
   import ApiServices from '../services/ApiServices'
-  //import axios from 'axios'
+  import AuthServices from '../services/ApiServices'
+  import $ from 'jquery'
   export default {
     name: 'DispoQuiz',
     data: function () {
@@ -84,21 +85,6 @@
       onChangeLevel (event) {
         this.levelValue = event.target.value;
       },
-      async getQuiz () {
-        if (this.value === 'geoQuiz') {
-          await this.getGeoQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        } else if (this.value === 'matteQuiz') {
-          await this.getMatteQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        } else if (this.value === 'engelskaQuiz') {
-          await this. getEngQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        }else if (this.value ==='svenskaQuiz'){
-          await this. getSvenQuizByLevel(this.levelValue);
-          this.createQuizTable();
-        }
-      },
       createQuizTable() {
         const table = document.createElement('table')
         table.className = "userTable";
@@ -125,11 +111,50 @@
             var tabCell = tr.insertCell(-1)
             tabCell.innerHTML = arrItems[i][col[j]];
           }
-          tabCell.innerHTML = '<input type="submit" class="update" value="UPDATE"> <input type="submit" class="submit" value="DELETE" v-on:submit="delete()">';
+          tabCell.innerHTML = '<input type="submit" class="update" value="UPDATE"><input type="submit" class="deleteQuestion" value="DELETE">';
         }
         const divContainer = document.getElementById('showLevel')
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
+        $(".deleteQuestion").click(this.deleteQuestion);
+      },
+      async deleteQuestion(e) {
+        e = e || window.event;
+        let target = e.srcElement || e.target
+        while (target && target.nodeName !== "TR") {
+          target = target.parentNode;
+        }
+        const cells = target.getElementsByTagName('td')
+        this.selectedId = (cells[0].innerHTML);
+
+        if (this.value === 'geoQuiz'){
+          await AuthServices.deleteGeoQuiz(this.selectedId);
+          await this.getQuiz();
+        }else if (this.value === 'matteQuiz') {
+          await AuthServices.deleteMatteQuiz(this.selectedId);
+          await this.getQuiz();
+        }else if (this.value === 'engelskaQuiz') {
+          await AuthServices.deleteEngQuiz(this.selectedId);
+          await this.getQuiz();
+        }else if (this.value ==='svenskaQuiz'){
+          await AuthServices.deleteSveQuiz(this.selectedId);
+          await this.getQuiz();
+        }
+      },
+      async getQuiz() {
+        if (this.value === 'geoQuiz') {
+          await this.getGeoQuizByLevel(this.levelValue);
+          this.createQuizTable();
+        } else if (this.value === 'matteQuiz') {
+          await this.getMatteQuizByLevel(this.levelValue);
+          this.createQuizTable();
+        } else if (this.value === 'engelskaQuiz') {
+          await this. getEngQuizByLevel(this.levelValue);
+          this.createQuizTable();
+        }else if (this.value ==='svenskaQuiz'){
+          await this. getSvenQuizByLevel(this.levelValue);
+          this.createQuizTable();
+        }
       },
       getGeoQuiz: async function () {
         let response = await ApiServices.getGeoQuizLevel();
@@ -223,7 +248,6 @@
     /* Mobile */
     @media screen and (max-width: 400px) {
     }
-
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
     }

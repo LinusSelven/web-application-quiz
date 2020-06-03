@@ -129,7 +129,7 @@
         for (i = 0; i < arrItems.length; i++) {
           tr = table.insertRow(-1);
           for (j = 0; j < col.length; j++) {
-            var tabCell = tr.insertCell(-1)
+            const tabCell = tr.insertCell(-1)
             tabCell.innerHTML = arrItems[i][col[j]];
           }
         }
