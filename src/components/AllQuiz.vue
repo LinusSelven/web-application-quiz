@@ -251,11 +251,13 @@
     }
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
+        input[type=submit], select{
+            width: 50%;
+        }
     }
 
     /* Desktop */
     @media screen and (min-width: 1025px) {
-
         input[type=submit], select{
             width: 300px;
         }

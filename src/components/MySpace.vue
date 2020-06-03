@@ -1,8 +1,9 @@
 <template>
     <div class="myPage" >
+        <h1>MY PROFILE</h1>
         <table class="center">
             <tr>
-                <td><h4>My Profile</h4></td>
+                <td></td>
             </tr>
             <tr>
                 <td><label class="labelName">User Role</label>&nbsp;<label>{{user.userRole}}</label></td>
@@ -17,7 +18,7 @@
                 <td><label class="labelName">Phone</label>&nbsp;<label>{{user.phoneNumber}}</label></td>
             </tr>
             <tr>
-                <td><h4>Change your password</h4></td>
+                <td><h1>Change your password</h1></td>
             </tr>
             <tr>
                 <td><span class="errorMessage">{{validation}}</span></td>
@@ -118,8 +119,14 @@
         display: table-cell;
         text-align: center;
         vertical-align: top;
-        padding: 10px;
         background: rgba(0, 0, 0, 0.8);
+    }
+    h1{
+        font-family: Calibri, monospace;
+        color: wheat;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 5px;
+        margin: auto;
     }
     h4{
         font-family: "Calibri Light", monospace;
@@ -206,6 +213,10 @@
     }
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .labelName{
+            background-color: rgba(245, 245, 245, 0.49);
+            color: black;
+        }
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {

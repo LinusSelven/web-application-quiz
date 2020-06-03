@@ -354,7 +354,7 @@ input[type=button] {
   color: #02b3b3;
   border: 1px solid rgb(7, 172, 172);
   border-radius: 4px;
-  width: 100%;
+  width: 10%;
   height: 30px;
   cursor: pointer;
 }
@@ -386,6 +386,17 @@ input[type=email], input[type=password] {
   }
   /* Tablet */
   @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .item3-body{
+      background: url('./assets/zoom.webp') no-repeat;
+      background-size: 100% 100%;
+    }
+    input[type=button] {
+      width: 6%;
+      height: 30px;
+    }
+    input[type=email], input[type=password] {
+      width: 45%;
+    }
     .logo-box{
       float: left;
       overflow: hidden;

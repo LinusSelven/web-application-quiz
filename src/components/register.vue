@@ -1,5 +1,6 @@
 <template>
     <div class="register" >
+        <h1>REGISTER</h1>
         <p>{{registrationStatus}}</p>
         <p id="validation">{{validation}}</p>
         <article v-show="isNotRegistered">
@@ -140,6 +141,13 @@
         font-weight: bolder;
         color: #1b9b52;
     }
+    h1{
+        font-family: Calibri, monospace;
+        color: wheat;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 5px;
+        margin: auto;
+    }
     #validation{
         font-family: Calibri, monospace;
         font-weight: normal;
@@ -173,8 +181,10 @@
     }
 
     .register {
-        display: inline-block;
-        width: 100%;
+        display: table-cell;
+        text-align: center;
+        vertical-align: top;
+        background: rgba(0, 0, 0, 0.7);
     }
     span{
         font-family: Calibri, monospace;
@@ -201,7 +211,7 @@
         .register {
             display: table-cell;
             text-align: center;
-            vertical-align: middle;
+            vertical-align: top;
             background: rgba(0, 0, 0, 0.7);
         }
         input[type=text], input[type=email], input[type=password], select, .label {
