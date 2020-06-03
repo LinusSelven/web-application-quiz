@@ -78,6 +78,9 @@ export default{
   getScore(credentials){
     return Api().post('scores/level/', credentials)
   },
+  getAllScores(credentials){
+    return Api().post('allScores/', credentials)
+  },
   checkScoresIfIsExist(credentials){
     return Api().post('scores/isExist/', credentials)
   },

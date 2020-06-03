@@ -7,7 +7,7 @@ import CreateNewQuiz from '../components/CreateNewQuiz.vue'
 import DispoUsers from '../components/DispoUsers'
 import DispoQuiz from '../components/DispoQuiz'
 import myScores from '../components/myScores'
-import manageAllScores from '../components/manageAllScores'
+import AllScores from '../components/AllScores'
 
 
 Vue.use(VueRouter)
@@ -29,9 +29,9 @@ const routes = [
         component: DispoUsers
     },
     {
-        path: '/manageAllScores',
-        name: 'manageAllScores',
-        component: manageAllScores
+        path: '/AllScores',
+        name: 'AllScores',
+        component: AllScores
     },
     {
         path: '/myScores',

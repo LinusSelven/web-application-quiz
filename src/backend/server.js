@@ -955,6 +955,24 @@ app.post('/api/scores/level/', (request, response, next) => {
         })
     });
 });
+app.post('/api/allScores/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel
+    }
+    const sql = 'select subject AS QUIZ, subjectLevel AS "QUIZ LEVEL", score, userFullName AS "STUDENT NAME"  from scores where subject = ? AND subjectLevel = ?'
+    const params = [userData.subject, userData.subjectLevel]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
+});
 app.post('/api/scores/byUsers/', (request, response, next) => {
     const userData = {
         userId: request.body.userId,

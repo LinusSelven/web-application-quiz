@@ -1,15 +1,15 @@
 <template>
     <div class="allScores">
         <h1>ALL SCORES</h1>
-        <select id="subject" name="subject" @change="onChange($event)" v-model="value">
+        <select id="subject" name="subject" @change="onChangeSubject($event)" v-model="value">
             <option value="default">Select The Subject</option>
-            <option value="geoQuiz">Geografi</option>
-            <option value="matteQuiz">Matematik</option>
-            <option value="svenskaQuiz">Svenska</option>
-            <option value="engelskaQuiz">Engelska</option>
+            <option value="Geography">Geografi</option>
+            <option value="Mathematics">Matematik</option>
+            <option value="Swedish">Svenska</option>
+            <option value="English">Engelska</option>
         </select><br>
-        <select id="byQuizLevel" @change="onChangeLevel($event)" v-model="levelValue"></select><br>
-        <input type="submit" value="GET">
+        <select id="byQuizLevel" @change="onChangeLevels($event)" v-model="levelValue"></select><br>
+        <input type="submit" value="GET" @click="getScores()">
         <div class="showAllScores" id="showAllScores"></div>
     </div>
 </template>
@@ -22,36 +22,36 @@
       return {
         value: 'default',
         levelValue:1,
-        quizArray:[],
+        scoreArray:[],
         levels:[],
         byLevel:[],
       }
     },
     methods: {
-      async onChange (event) {
+      async onChangeSubject(event) {
         this.value = event.target.value;
-        if (this.value === 'geoQuiz') {
+        if (this.value === 'Geography') {
           this.levels = [];
           this.removeAllOptions();
           await this.getGeoQuiz();
           this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
-        } else if (this.value === 'matteQuiz') {
+        } else if (this.value === 'Mathematics') {
           this.levels = [];
           this.removeAllOptions();
           await this.getMatteQuiz();
           this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
-        } else if (this.value === 'engelskaQuiz') {
+        } else if (this.value === 'English') {
           this.levels = [];
           this.removeAllOptions();
           await this.getEngQuiz();
           this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
-        } else if (this.value === 'svenskaQuiz') {
+        } else if (this.value === 'Swedish') {
           this.levels = [];
           this.removeAllOptions();
           await this.getSvenQuiz();
@@ -78,7 +78,7 @@
           this.byLevel.push(i + 1)
         }
       },
-      onChangeLevel (event) {
+      onChangeLevels (event) {
         this.levelValue = event.target.value;
       },
       getGeoQuiz: async function () {
@@ -96,6 +96,46 @@
       getSvenQuiz: async function () {
         let response = await ApiServices.getSveQuizLevel();
         this.levels = response.data.levels;
+      },
+      async getScores() {
+        if (this.value !== 'default'){
+          let response = await ApiServices.getAllScores({
+            subject: this.value,
+            subjectLevel: this.levelValue
+          });
+          this.scoreArray = response.data.scores;
+          this.createAllScoresTable();
+        }
+      },
+      createAllScoresTable() {
+        const table = document.createElement('table')
+        table.className = "userTable";
+        let i,j;
+        const arrItems = this.scoreArray.sort((a, b) => (b.QUIZ) - (a.QUIZ));
+        const col = []
+        for (i = 0; i < arrItems.length; i++) {
+          for (const key in arrItems[i]) {
+            if (col.indexOf(key) === -1) {
+              col.push(key);
+            }
+          }
+        }
+        let tr = table.insertRow(-1)
+        for (i = 0; i < col.length; i++) {
+          const th = document.createElement('th')
+          th.innerHTML = col[i];
+          tr.appendChild(th);
+        }
+        for (i = 0; i < arrItems.length; i++) {
+          tr = table.insertRow(-1);
+          for (j = 0; j < col.length; j++) {
+            var tabCell = tr.insertCell(-1)
+            tabCell.innerHTML = arrItems[i][col[j]];
+          }
+        }
+        const divContainer = document.getElementById('showAllScores')
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
       },
     }
   }
