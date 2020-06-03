@@ -28,24 +28,25 @@
       </div>
     </section>
     <section class="item2">
+      <div class="item2-body">
+        <div class="login-cell">
+          <table class="center">
+            <tr>
+              <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
+            </tr>
+            <tr>
+              <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm()" value="login"></td>
+            </tr>
+            <tr>
+              <td v-if="!isLogged"><span>Har inget konto? </span><a><router-link to="/register">Registrera!</router-link></a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </section>
     <section class="item3">
       <div class="item3-body">
-        <div class="body-login">
-          <div class="login-cell">
-            <table class="center">
-              <tr>
-                <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
-              </tr>
-              <tr>
-                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm()" value="login"></td>
-              </tr>
-              <tr>
-                <td v-if="!isLogged"><span>Har inget konto? </span><a><router-link to="/register">Registrera!</router-link></a></td>
-              </tr>
-            </table>
-          </div>
-        </div>
+
         <div class="body-routers">
           <router-view />
         </div>
@@ -144,9 +145,9 @@
     grid-template-rows: repeat(4, auto);
     grid-template-areas:
             "header header header header"
+            "menu menu menu menu"
             "sidebar sidebar sidebar sidebar"
-            "footer footer footer footer"
-            "menu menu menu menu";
+            "footer footer footer footer";
     grid-auto-flow: dense;
     grid-gap: 5px;
   }
@@ -191,18 +192,19 @@ span{
   font-weight: normal;
   color: wheat;
 }
-  .body-login{
-    display: table-row;
-    height: auto;
+  .item2-body{
+    border: 3px solid #cccc;
+    width: 100%;
+    display: table;
+    margin: auto;
   }
   .login-cell{
-    border-bottom: 3px solid #cccc;
     height: 50px;
     width: 100%;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
-    background: rgba(0, 0, 0, 0.9);
+    background: #0f122d;
   }
   .body-routers{
     display: table-row;
@@ -390,6 +392,10 @@ input[type=email], input[type=password] {
       background-size: 100% 100%;
       width: 60%;
       height: 500px;
+    }
+    .item2-body{
+      border: 3px solid #cccc;
+      width: 60%;
     }
     .item1-body{
       display: inline-block;

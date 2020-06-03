@@ -262,8 +262,8 @@
         display: block;
     }
     h1{
-        background: rgba(0, 0, 0, 0.9);
-        font-family: "Nirmala UI Semilight", monospace;
+        background: #0f122d;
+        font-family: Calibri, monospace;
         font-size: x-large;
         color: wheat;
         border-bottom: 1px solid black;

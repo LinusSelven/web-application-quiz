@@ -75,7 +75,7 @@
       },
       getArrayLength () {
         for (let i = 0; i < this.levels.length; i++) {
-          this.byLevel.push(i + 1)
+          this.byLevel.push(this.levels[i].quizLevel);
         }
       },
       onChangeLevels (event) {
