@@ -1,11 +1,12 @@
 <template>
     <div class="allUsers">
         <h1>MY USERS</h1>
-        <div class="showData" id="showData"></div>
+      <div class="showData" id="showData"></div>
     </div>
 </template>
 <script>
   import AuthServices from '../services/ApiServices'
+  import $ from 'jquery'
   export default {
     name: 'AdminDashboard',
     data: function () {
@@ -48,34 +49,25 @@
                     var tabCell = tr.insertCell(-1)
                     tabCell.innerHTML = arrItems[i][col[j]];
                   }
-                  tabCell.innerHTML = '<input type="submit" id="deleteButton" class="submit" value="DELETE" onsubmit="deleteUsers()">';
+                  tabCell.innerHTML = '<input type="submit" class="deleteButton" value="DELETE">';
                 }
                 const divContainer = document.getElementById('showData')
                 divContainer.innerHTML = "";
                 divContainer.appendChild(table);
+            $(".deleteButton").click(this.deleteUsers);
           },
-          TD:onclick= function (e) {
-                e = e || window.event;
-                let target = e.srcElement || e.target
-                while (target && target.nodeName !== "TR") {
-                  target = target.parentNode;
-                }
-                if (target) {
-                  const cells = target.getElementsByTagName('td')
-                    this.selectedId = (cells[0].innerHTML);
-                }
+          async deleteUsers(e) {
+            e = e || window.event;
+            let target = e.srcElement || e.target
+            while (target && target.nodeName !== "TR") {
+              target = target.parentNode;
+            }
+            const cells = target.getElementsByTagName('td')
+            this.selectedId = (cells[0].innerHTML);
+            await AuthServices.deleteUser(this.selectedId);
+            self.location.reload()
           },
-          async deleteUsers() {
-            /*let response = */await AuthServices.deleteUser(this.selectedId);
-            //this.message = response.data.message
-            await this.getUsers();
-          },
-          async getUsers () {
-            this.users=[];
-            let response = await AuthServices.getAllUsers();
-            this.users = response.data.users;
-            this.createTable();
-          },
+
     },
   }
 </script>

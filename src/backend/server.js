@@ -761,10 +761,7 @@ app.put('/api/users/:id', (request, response, next) => {
     });
 })
 app.delete('/api/users/:id', (request, response, next) => {
-    db.run(
-      'DELETE FROM users WHERE userId = ?',
-      request.params.id,
-      function (err, result) {
+    db.run('DELETE FROM users WHERE userId = ?', request.params.id, function (err, result) {
           if (err){
               response.status(400).json({
                   "error": response.message

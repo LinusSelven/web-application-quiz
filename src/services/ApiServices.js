@@ -43,9 +43,11 @@ export default{
   getAllUsers(){
     return Api().get('users')
   },
-  deleteUser(param){
-    return Api().delete('users/'+param)
+
+  deleteUser(id){
+    return Api().delete('users/'+id)
   },
+
   getGeoQuizLevel(){
     return Api().get('geoQuiz/Levels')
   },
