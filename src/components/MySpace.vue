@@ -109,6 +109,11 @@
 </script>
 
 <style scoped>
+    * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
     .myPage {
         display: table-cell;
         text-align: center;
@@ -137,8 +142,6 @@
     }
     .passInput, label {
         padding: 10px;
-        margin-top: 2px;
-        margin-bottom: 2px;
         border: 1px solid rgb(167, 193, 193);
         box-sizing: border-box;
         resize: vertical;
@@ -146,19 +149,24 @@
         color: #ccc;
         font-family: Calibri, monospace;
         font-size: small;
-        width: 100%;
+        width: 64%;
         height: 40px;
         border-radius: 0;
     }
+    label{
+        display: inline-block;
+        vertical-align: middle;
+    }
     .labelName{
+        margin: auto;
         color: #ccc;
         border: 1px solid rgb(167, 193, 193);
-        background: rgba(0, 1, 9, 0.59);
+        background: transparent;
         border-radius: 0;
-        width: 180px;
+        width: 35%;
         font-family: Calibri, monospace;
         font-size: small;
-        text-align: left;
+        text-align: center;
     }
     input[type=button] {
         background: rgba(0, 1, 9, 0.59);
@@ -202,13 +210,23 @@
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .passInput, input[type=button], label {
+            padding: 10px;
+            margin-top: 2px;
+            margin-bottom: 2px;
             width: 200px;
+
         }
         p{
             width: 100%;
         }
         label{
             display: inline-block;
+        }
+        .labelName{
+            border: 1px solid rgb(167, 193, 193);
+            background: rgba(0, 1, 9, 0.59);
+            text-align: left;
+            width: 180px;
         }
 
     }

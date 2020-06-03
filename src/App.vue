@@ -240,17 +240,18 @@ a:hover {
 
   .item1-body{
     width: 100%;
-    //display: table;
     border: 3px solid #ccc;
+    display: inline-block;
   }
   .logo-box{
     float: left;
     overflow: hidden;
   }
   .logo-img{
-    max-width: 50%;
-    max-height: 50%;
-    //display: block;
+    padding-left: 5px;
+    max-width: 100px;
+    max-height: 100px;
+    display: block;
   }
   .item4-body{
     border: 3px solid #ccc;
@@ -348,7 +349,7 @@ input[type=button] {
   color: #02b3b3;
   border: 1px solid rgb(7, 172, 172);
   border-radius: 4px;
-  width: 50%;
+  width: 100%;
   height: 30px;
   cursor: pointer;
 }
@@ -370,7 +371,7 @@ input[type=email], input[type=password] {
   font-weight: bold;
   height: 30px;
   cursor: pointer;
-  width: 49%;
+  width: 100%;
 }
 .md-toolbar + .md-toolbar {
   margin-top: 16px;
@@ -380,10 +381,6 @@ input[type=email], input[type=password] {
   }
   /* Tablet */
   @media screen and (min-width: 768px) and (max-width: 1024px) {
-    .item3 {
-      grid-area: sidebar;
-
-    }
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
