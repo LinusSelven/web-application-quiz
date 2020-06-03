@@ -1,7 +1,7 @@
 <template>
     <div class="about">
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{geoQuiz.length}}</h1>
+            <h1>Quiz: Geografi    |    Level: {{selectedLevel}}    |    Question: {{questionNumber+1}} / {{geoQuiz.length}}</h1>
             <div>
                 <h2>{{geoQuiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -39,6 +39,7 @@
             return {
               geoQuiz: [],
               quizLevel:[],
+              levelsNum:[],
               geoScores:[],
               questionNumber: 0,
               countOfCorrectAnswers: 0,
@@ -48,6 +49,7 @@
               finalScore:0,
               nextQuizMessage:'',
               numberOfLevel:0,
+              counter:1,
             }
         },
 
@@ -76,14 +78,15 @@
           },
           nextLevelQuiz(){
                 if(this.finalScore >= 50){
-                        if (this.selectedLevel<this.quizLevel.length ){
-                          this.selectedLevel +=1 ;
+                        if (this.counter<this.quizLevel.length ){
+                          this.selectedLevel = this.quizLevel[this.counter];
                           this.fetchNextQuiz(this.selectedLevel);
                           this.userHasGuessed = false;
                           this.countOfCorrectAnswers=0;
                           this.questionNumber= 0;
                           this.isDone =false;
                           this.nextQuizMessage='';
+                          this.counter +=1;
                         }else{
                           this.nextQuizMessage='Sorry! There is no next level for the moment.';
                         }
@@ -190,7 +193,12 @@
         },
         async mounted () {
           let response = await ApiServices.getGeoQuizLevel();
-          this.quizLevel = response.data.levels;
+          this.levelsNum = response.data.levels;
+          for (let i=0;i<this.levelsNum.length;i++){
+            this.quizLevel.push(this.levelsNum[i].quizLevel)
+          }
+          this.quizLevel.sort((a, b) => parseInt(a) - parseInt(b));
+          this.selectedLevel = this.quizLevel[0];
           fetch('http://127.0.0.1:3000/api/geoQuiz/level/' + this.selectedLevel)
             .then((response) => {
               return response.json();
