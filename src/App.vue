@@ -9,6 +9,7 @@
           <a><router-link to="/"> QUIZ</router-link></a>
           <a><router-link to="/register">REGISTER</router-link></a>
           <a><router-link to="/aboutus">ABOUT US</router-link></a>
+          <a><router-link to="/rate">RATE US</router-link></a>
           <div class="dropdown">
             <button class="dropbtn">
               MY PAGES
