@@ -166,7 +166,7 @@
         width: 35%;
         font-family: Calibri, monospace;
         font-size: small;
-        text-align: center;
+        text-align: left;
     }
     input[type=button] {
         background: rgba(0, 1, 9, 0.59);

@@ -11,7 +11,7 @@
           <a><router-link to="/aboutUs">ABOUT US</router-link></a>
           <div class="dropdown">
             <button class="dropbtn">
-              MY PAGES
+              MY PAGE
               <img src="./assets/icon/down.png" alt="down">
             </button>
             <div class="dropdown-content">
@@ -248,10 +248,11 @@ a:hover {
     overflow: hidden;
   }
   .logo-img{
-    padding-left: 5px;
-    max-width: 100px;
-    max-height: 100px;
-    display: block;
+    padding-left: 3px;
+    padding-top: 2px;
+    max-width: 90px;
+    max-height: 90px;
+    display: inline-block;
   }
   .item4-body{
     border: 3px solid #ccc;
@@ -281,11 +282,13 @@ a:hover {
 
 .navbar a {
   float: right;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: bold;
   color: white;
   text-align: center;
-  padding: 14px 16px;
+  padding: 6px 0;
   text-decoration: none;
+  width: 85px;
 }
 
 .dropdown {
@@ -294,15 +297,16 @@ a:hover {
 }
 
 .dropdown .dropbtn {
-  font-size: 16px;
+  font-weight: bold;
+  font-size: 14px;
   border: none;
   outline: none;
   color: white;
-  padding: 14px 16px;
+  padding: 10px 0;
   background-color: inherit;
   font-family: inherit;
-  margin: 16px;
-  width: 140px;
+  margin: 0;
+  width: 85px;
 }
 
 .navbar a:hover, .dropdown:hover, .dropbtn:hover {
@@ -314,15 +318,16 @@ a:hover {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 85px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 .dropdown-content a {
+  font-weight: normal;
   float: none;
   color: black;
-  padding: 12px 16px;
+  padding: 4px 0;
   text-decoration: none;
   display: block;
   text-align: left;
@@ -332,9 +337,9 @@ a:hover {
   background-color: #ddd;
 }
 .header {
-  background: #0a7272;
+  background: #0f122d;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 7px;
   color: white;
 }
 
@@ -381,6 +386,38 @@ input[type=email], input[type=password] {
   }
   /* Tablet */
   @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .logo-box{
+      float: left;
+      overflow: hidden;
+    }
+    .logo-img{
+      padding-left: 3px;
+      max-width: 110px;
+      max-height: 90px;
+      display: inline-block;
+    }
+    .dropdown .dropbtn {
+      padding: 14px 0;
+      width: 110px;
+      margin: 0;
+      font-size: 16px;
+    }
+    .navbar a {
+      padding: 8px 0;
+      width: 110px;
+      font-size: 16px;
+    }
+    .dropdown-content a {
+      text-align: left;
+      display: block;
+      padding: 6px 0;
+    }
+    .dropdown-content {
+      min-width: 110px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
@@ -420,6 +457,26 @@ input[type=email], input[type=password] {
     }
     input[type=email], input[type=password] {
       width: 200px;
+    }
+    .dropdown .dropbtn {
+      padding: 14px 16px;
+      width: 139px;
+      margin: 12px;
+      font-size: 16px;
+    }
+    .navbar a {
+      padding: 14px 16px;
+      width: auto;
+      font-size: 16px;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 6px 14px;
+    }
+    .dropdown-content {
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
     }
   }
 
