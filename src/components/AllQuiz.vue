@@ -78,8 +78,8 @@
         }
       },
       getArrayLength(){
-        for (let i=0;i<this.levels.length;i++){
-          this.byLevel.push(i+1)
+       for (let i=0;i<this.levels.length;i++){
+          this.byLevel.push(this.levels[i].quizLevel)
         }
       },
       onChangeLevel (event) {

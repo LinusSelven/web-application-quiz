@@ -82,7 +82,7 @@ app.get("/api/geoQuiz/numberOfLevel", (req, res, next) => {
     });
 });
 app.get("/api/geoQuiz/Levels", (req, res, next) => {
-    const sql = 'SELECT quizLevel AS "Geo Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM geoQuiz GROUP BY quizLevel';
+    const sql = 'SELECT quizLevel FROM geoQuiz GROUP BY quizLevel';
     const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -229,7 +229,7 @@ app.get("/api/matteQuiz/numberOfLevel", (req, res, next) => {
     });
 });
 app.get("/api/matteQuiz/Levels", (req, res, next) => {
-    const sql = 'SELECT quizLevel AS "Matte Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM matteQuiz GROUP BY quizLevel';
+    const sql = 'SELECT quizLevel FROM matteQuiz GROUP BY quizLevel';
     const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -359,7 +359,7 @@ app.get("/api/engQuiz/level", (req, res, next) => {
     });
 });
 app.get("/api/engQuiz/Levels", (req, res, next) => {
-    const sql = 'SELECT quizLevel AS "Engelska Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM engQuiz GROUP BY quizLevel';
+    const sql = 'SELECT quizLevel FROM engQuiz GROUP BY quizLevel';
     const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
