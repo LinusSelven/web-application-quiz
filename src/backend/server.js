@@ -273,6 +273,7 @@ app.get("/api/matteQuiz/:id", (req, res, next) => {
 app.post("/api/matteQuiz/", (req, res, next) => {
     const data = {
         quizQuestion: req.body.quizQuestion,
+        quizLevel: req.body.quizLevel,
         quizAnswer1: req.body.quizAnswer1,
         quizAnswer2: req.body.quizAnswer2,
         quizAnswer3: req.body.quizAnswer3,
@@ -419,8 +420,6 @@ app.post("/api/engQuiz/", (req, res, next) => {
         quizQuestion: req.body.quizQuestion,
         quizLevel: req.body.quizLevel,
         quizAnswer1: req.body.quizAnswer1,
-        quizAnswer2: req.body.quizAnswer2,
-        quizAnswer3: req.body.quizAnswer3,
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }

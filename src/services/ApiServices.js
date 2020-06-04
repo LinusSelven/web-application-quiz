@@ -32,7 +32,7 @@ export default{
     return Api().post('engQuiz/', credentials)
   },
   newQuizSve(credentials){
-    return Api().post('sveQuiz/', credentials)
+    return Api().post('svenskaQuiz/', credentials)
   },
 
   //MANAGE USERS
