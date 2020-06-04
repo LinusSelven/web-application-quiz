@@ -1,7 +1,7 @@
 <template>
   <div class="about">
-    <h1>ABOUT US</h1>
-    <img src="../assets/iths.png" alt="iths" class="iths">
+    <h1>ABOUT US</h1><br>
+    <img src="../assets/viral.gif" alt="iths" class="iths">
     <h3> Vi studerar till Java utvecklare i IT-HÖGSKOLA i Göteborg</h3>
     <p><b>SkolQuizzen</b> är en hemsida för elever i grundskola som kan studera Geografi, Matte, Svenska och  Engelska  hemifrån.
       <br/>
@@ -23,9 +23,9 @@
 <style scoped>
 
   img{
-    padding-top: 15px;
-    width: 169px;
-    height: 220px;
+    border-radius: 10px;
+    width: 500px;
+    height: 300px;
     display: flow;
   }
   h1{
@@ -42,13 +42,15 @@
     display: table-cell;
     text-align: center;
     vertical-align: top;
-    background: rgba(0, 0, 0, 0.8);
+    background: white;
     padding-bottom: 10px;
   }
   h2, h3{
     font-size: large;
     text-align: justify-all;
-    color: wheat;
+    //color: wheat;
+    color: #0f122d;
+
   }
   h1{
     font-family: Calibri, monospace;
@@ -58,7 +60,8 @@
     margin: auto;
   }
   p{
-    color: wheat;
+    color: #0f122d;
+    //color: wheat;
     text-align: justify-all;
     margin: auto;
 
@@ -75,7 +78,7 @@
       display: table-cell;
       text-align: center;
       vertical-align: top;
-      background: rgba(0, 0, 0, 0.89);
+      background: white;
     }
   }
   /* Desktop */
@@ -84,7 +87,7 @@
       display: table-cell;
       text-align: center;
       vertical-align: top;
-      background: rgba(0, 0, 0, 0.8);
+      background: white;
     }
     h1{
       padding: 13px;
