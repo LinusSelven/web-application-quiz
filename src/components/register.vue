@@ -17,18 +17,6 @@
             <input type="password" id="passWord" name="passWord" placeholder="Password*" v-model="password1" minlength="6" >
             <input type="password" id="passWordConfirmation" name="passWord" placeholder="Confirm Password*" v-model="password2">
             <input type="text" id="phone" name="phone" placeholder="Phone Number" v-model="phoneNumber">
-            <select id="destination" name="country" @change="onChange($event)" v-model="key">
-                <option value="0">Select your school level</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-            </select>
             <article class="label">
             <input type="checkbox" name="agree" v-model="agree"><span>I have read and agree with the terms and conditions.</span>
             </article>
@@ -49,7 +37,6 @@
                 phoneNumber:'',
                 password1:'',
                 password2:'',
-                key: '0',
                 agree: false,
                 errors: [],
                 registrationStatus:'',
@@ -57,9 +44,6 @@
             }
         },
         methods: {
-            onChange(event) {
-                this.key = event.target.value;
-            },
             emptyForm(){
                 this.userRole='';
                 this.fullName='';
@@ -104,7 +88,6 @@
                       email: this.email,
                       password: this.password2,
                       phoneNumber: this.phoneNumber,
-                      schoolLevel: this.key
                     });
                     this.validation ='';
                     this.registrationStatus = registerResponse.data.message+'! welcome :'+registerResponse.data.users.fullName+'.';
@@ -128,7 +111,7 @@
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: rgba(5, 5, 5, 0.9);
+        background: rgba(5, 5, 5, 0.5);
         color: wheat;
         font-family: Calibri, monospace;
         font-weight: bold;
@@ -176,15 +159,16 @@
     }
 
     input[type=submit]:hover {
-        background-color: #e9e608;
-        color: black;
+        border: 1px solid black;
+        background-color: darkblue;
+        color: white;
     }
 
     .register {
         display: table-cell;
         text-align: center;
         vertical-align: top;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(25, 26, 26, 0.92);
     }
     span{
         font-family: Calibri, monospace;
@@ -205,6 +189,12 @@
     }
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .register {
+            display: table-cell;
+            text-align: center;
+            vertical-align: top;
+            background: rgba(0, 0, 0, 0.7);
+        }
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
