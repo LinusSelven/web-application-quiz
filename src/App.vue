@@ -8,47 +8,46 @@
             </div>
           <a><router-link to="/"> QUIZ</router-link></a>
           <a><router-link to="/register">REGISTER</router-link></a>
-          <a><router-link to="/aboutus">ABOUT US</router-link></a>
+          <a><router-link to="/aboutUs">ABOUT US</router-link></a>
           <a><router-link to="/rate">RATE US</router-link></a>
           <div class="dropdown">
             <button class="dropbtn">
-              MY PAGES
+              MY PAGE
               <img src="./assets/icon/down.png" alt="down">
             </button>
             <div class="dropdown-content">
-              <div class="header">
-
-              </div>
+              <div class="header"></div>
               <a><router-link to="/MySpace">My Profile</router-link></a>
               <a><router-link to="/myScores">My Scores</router-link></a>
-              <a><router-link to="/DispoUsers">Manage All Users</router-link></a>
-              <a><router-link to="/DispoQuiz">Manage All Quizzes</router-link></a>
-              <a><router-link to="//manageAllScores">All Scores</router-link></a>
-              <a><router-link to="/CreateNewQuiz">Create New Quiz</router-link></a>
+              <a><router-link to="/AllUsers">Manage Users</router-link></a>
+              <a><router-link to="/AllQuiz">Manage Quizzes</router-link></a>
+              <a><router-link to="/AllScores">All Scores</router-link></a>
+              <a><router-link to="/CreateNewQuiz">Create Quiz</router-link></a>
             </div>
           </div>
         </div>
       </div>
     </section>
     <section class="item2">
+      <div class="item2-body">
+        <div class="login-cell">
+          <table class="center">
+            <tr>
+              <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input class="btn-logout" type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
+            </tr>
+            <tr>
+              <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input class="btn-login" type="button" @click="submitForm()" value="login"></td>
+            </tr>
+            <tr>
+              <td v-if="!isLogged"><span>Har inget konto? </span><a><router-link to="/register">Registrera!</router-link></a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </section>
     <section class="item3">
       <div class="item3-body">
-        <div class="body-login">
-          <div class="login-cell">
-            <table class="center">
-              <tr>
-                <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
-              </tr>
-              <tr>
-                <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm()" value="login"></td>
-              </tr>
-              <tr>
-                <td v-if="!isLogged"><span>Har inget konto? </span><a><router-link to="/register">Registrera!</router-link></a></td>
-              </tr>
-            </table>
-          </div>
-        </div>
+
         <div class="body-routers">
           <router-view />
         </div>
@@ -128,7 +127,7 @@
 
       },
     mounted(){
-        if (parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId) && parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)>=1){
+        if (JSON.parse(sessionStorage.getItem('userLogged')).userId && parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)>=1){
           this.isLogged = true;
           this.message= JSON.parse(sessionStorage.getItem('userLogged')).message+", "+JSON.parse(sessionStorage.getItem('userLogged')).fullName+"!";
         }
@@ -147,9 +146,9 @@
     grid-template-rows: repeat(4, auto);
     grid-template-areas:
             "header header header header"
+            "menu menu menu menu"
             "sidebar sidebar sidebar sidebar"
-            "footer footer footer footer"
-            "menu menu menu menu";
+            "footer footer footer footer";
     grid-auto-flow: dense;
     grid-gap: 5px;
   }
@@ -194,18 +193,19 @@ span{
   font-weight: normal;
   color: wheat;
 }
-  .body-login{
-    display: table-row;
-    height: auto;
+  .item2-body{
+    border: 3px solid #cccc;
+    width: 100%;
+    display: table;
+    margin: auto;
   }
   .login-cell{
-    border-bottom: 3px solid #cccc;
     height: 50px;
     width: 100%;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
-    background: rgba(0, 0, 0, 0.9);
+    background: #0f122d;
   }
   .body-routers{
     display: table-row;
@@ -241,17 +241,19 @@ a:hover {
 
   .item1-body{
     width: 100%;
-    //display: table;
     border: 3px solid #ccc;
+    display: inline-block;
   }
   .logo-box{
     float: left;
     overflow: hidden;
   }
   .logo-img{
-    max-width: 50%;
-    max-height: 50%;
-    //display: block;
+    padding-left: 3px;
+    padding-top: 2px;
+    max-width: 90px;
+    max-height: 90px;
+    display: inline-block;
   }
   .item4-body{
     border: 3px solid #ccc;
@@ -281,11 +283,13 @@ a:hover {
 
 .navbar a {
   float: right;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: bold;
   color: white;
   text-align: center;
-  padding: 14px 16px;
+  padding: 7px 0;
   text-decoration: none;
+  width: 85px;
 }
 
 .dropdown {
@@ -294,15 +298,16 @@ a:hover {
 }
 
 .dropdown .dropbtn {
-  font-size: 16px;
+  font-weight: bold;
+  font-size: 14px;
   border: none;
   outline: none;
   color: white;
-  padding: 14px 16px;
+  padding: 8px 0;
   background-color: inherit;
   font-family: inherit;
-  margin: 16px;
-  width: 148px;
+  margin-bottom: 2px;
+  width: 85px;
 }
 
 .navbar a:hover, .dropdown:hover, .dropbtn:hover {
@@ -314,15 +319,16 @@ a:hover {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 160px;
+  min-width: 85px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
 .dropdown-content a {
+  font-weight: normal;
   float: none;
   color: black;
-  padding: 12px 16px;
+  padding: 4px 0;
   text-decoration: none;
   display: block;
   text-align: left;
@@ -332,9 +338,9 @@ a:hover {
   background-color: #ddd;
 }
 .header {
-  background: #0a7272;
+  background: #0f122d;
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 7px;
   color: white;
 }
 
@@ -342,20 +348,26 @@ a:hover {
   display: block;
 }
 /* finish here */
-input[type=button] {
+.btn-login, .btn-logout {
   background-color: #222222;
   font-family: "Times New Roman", monospace;
   font-weight: bold;
   color: #02b3b3;
   border: 1px solid rgb(7, 172, 172);
   border-radius: 4px;
-  width: 50%;
+  width: 50px;
   height: 30px;
   cursor: pointer;
 }
-input[type=button]:hover {
-  background-color: #e9e608;
-  color: black;
+.btn-login:hover {
+  border: 1px solid black;
+  background-color: #0707bf;
+  color: white;
+}
+.btn-logout:hover {
+  border: 1px solid black;
+  background-color: #d40404;
+  color: white;
 }
 input[type=email], input[type=password] {
   padding: 10px;
@@ -371,7 +383,7 @@ input[type=email], input[type=password] {
   font-weight: bold;
   height: 30px;
   cursor: pointer;
-  width: 49%;
+  width: 100%;
 }
 .md-toolbar + .md-toolbar {
   margin-top: 16px;
@@ -381,10 +393,49 @@ input[type=email], input[type=password] {
   }
   /* Tablet */
   @media screen and (min-width: 768px) and (max-width: 1024px) {
-    .item3 {
-      grid-area: sidebar;
-
+    .item3-body{
+      background: url('./assets/zoom.webp') no-repeat;
+      background-size: 100% 100%;
     }
+    .btn-login, .btn-logout {
+      width: 50px;
+      height: 30px;
+    }
+    input[type=email], input[type=password] {
+      width: 45%;
+    }
+    .logo-box{
+      float: left;
+      overflow: hidden;
+    }
+    .logo-img{
+      padding-left: 3px;
+      max-width: 110px;
+      max-height: 90px;
+      display: inline-block;
+    }
+    .dropdown .dropbtn {
+      padding: 14px 0;
+      width: 110px;
+      margin-bottom: 14px;
+      font-size: 16px;
+    }
+    .navbar a {
+      padding: 10px 0;
+      width: 110px;
+      font-size: 16px;
+    }
+    .dropdown-content a {
+      text-align: left;
+      display: block;
+      padding: 6px 0;
+    }
+    .dropdown-content {
+      min-width: 110px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
   }
   /* Desktop */
   @media screen and (min-width: 1025px) {
@@ -393,6 +444,10 @@ input[type=email], input[type=password] {
       background-size: 100% 100%;
       width: 60%;
       height: 500px;
+    }
+    .item2-body{
+      border: 3px solid #cccc;
+      width: 60%;
     }
     .item1-body{
       display: inline-block;
@@ -403,24 +458,48 @@ input[type=email], input[type=password] {
     .logo-box{
       float: left;
       overflow: hidden;
+      height: 100%;
+      width: 120px;
     }
     .logo-img{
-      padding-left: 5px;
-      max-width: 50%;
-      max-height: 150px;
+      padding: 4px;
+      max-width: 100%;
+      max-height: 100%;
       display: block;
     }
     .item4-body{
       width: 60%;
       background-color: #f3f3f3;
     }
-    input[type=button] {
+    .btn-login, .btn-logout  {
       width: 50px;
       height: 30px;
     }
     input[type=email], input[type=password] {
       width: 200px;
     }
+    .dropdown .dropbtn {
+      padding: 18px 0;
+      width: 120px;
+      margin-bottom: 18px;
+      font-size: 16px;
+    }
+    .navbar a {
+      padding: 12px 0;
+      width: 120px;
+      font-size: 16px;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 10px 0;
+      //font-weight: bold;
+    }
+    .dropdown-content {
+      min-width: 120px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
   }
 
 

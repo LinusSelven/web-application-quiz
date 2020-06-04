@@ -1,8 +1,9 @@
 <template>
     <div class="myPage" >
+        <h1>MY PROFILE</h1>
         <table class="center">
             <tr>
-                <td><h4>My Profile</h4></td>
+                <td></td>
             </tr>
             <tr>
                 <td><label class="labelName">User Role</label>&nbsp;<label>{{user.userRole}}</label></td>
@@ -17,7 +18,7 @@
                 <td><label class="labelName">Phone</label>&nbsp;<label>{{user.phoneNumber}}</label></td>
             </tr>
             <tr>
-                <td><h4>Change your password</h4></td>
+                <td><h1>Change your password</h1></td>
             </tr>
             <tr>
                 <td><span class="errorMessage">{{validation}}</span></td>
@@ -109,12 +110,24 @@
 </script>
 
 <style scoped>
+    * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+    }
     .myPage {
         display: table-cell;
         text-align: center;
         vertical-align: top;
-        padding: 10px;
         background: rgba(0, 0, 0, 0.8);
+        padding-bottom: 10px;
+    }
+    h1{
+        font-family: Calibri, monospace;
+        color: wheat;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 5px;
+        margin: auto;
     }
     h4{
         font-family: "Calibri Light", monospace;
@@ -137,8 +150,6 @@
     }
     .passInput, label {
         padding: 10px;
-        margin-top: 2px;
-        margin-bottom: 2px;
         border: 1px solid rgb(167, 193, 193);
         box-sizing: border-box;
         resize: vertical;
@@ -146,16 +157,21 @@
         color: #ccc;
         font-family: Calibri, monospace;
         font-size: small;
-        width: 100%;
+        width: 64%;
         height: 40px;
         border-radius: 0;
     }
+    label{
+        display: inline-block;
+        vertical-align: middle;
+    }
     .labelName{
+        margin: auto;
         color: #ccc;
         border: 1px solid rgb(167, 193, 193);
-        background: rgba(0, 1, 9, 0.59);
+        background: transparent;
         border-radius: 0;
-        width: 180px;
+        width: 35%;
         font-family: Calibri, monospace;
         font-size: small;
         text-align: left;
@@ -172,8 +188,8 @@
         cursor: pointer;
     }
     input[type=button]:hover {
-        background-color: #e9e608;
-        color: black;
+        background-color: #035af6;
+        color: white;
     }
     ::-webkit-input-placeholder { /* Edge */
         color: #ccc;
@@ -198,17 +214,31 @@
     }
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .labelName{
+            background-color: rgba(245, 245, 245, 0.49);
+            color: black;
+        }
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
         .passInput, input[type=button], label {
+            padding: 10px;
+            margin-top: 2px;
+            margin-bottom: 2px;
             width: 200px;
+
         }
         p{
             width: 100%;
         }
         label{
             display: inline-block;
+        }
+        .labelName{
+            border: 1px solid rgb(167, 193, 193);
+            background: rgba(0, 1, 9, 0.59);
+            text-align: left;
+            width: 180px;
         }
 
     }

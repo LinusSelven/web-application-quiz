@@ -20,7 +20,8 @@
         const table = document.createElement('table')
         table.className = "userTable";
         let i,j;
-        const arrItems = this.myScores.sort((a, b) => parseFloat(b.subject) - parseFloat(a.subject));
+        const arrItems = this.myScores.sort((a,b) => (a.QUIZ > b.QUIZ) ? 1 : ((b.QUIZ > a.QUIZ) ? -1 : 0));
+          //this.myScores.sort((a, b) => (b.QUIZ-a.QUIZ));
         const col = []
         for (i = 0; i < arrItems.length; i++) {
           for (const key in arrItems[i]) {
