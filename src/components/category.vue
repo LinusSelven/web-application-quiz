@@ -109,7 +109,7 @@
 
   .btn:hover div{
     width: 200px;
-    padding: 4px 4px;
+    padding: 6px 6px;
     visibility: visible;
     opacity: 0.6;
   }

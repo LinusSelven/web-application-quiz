@@ -27,7 +27,7 @@
                 table.className = "userTable";
                 let i,j;
                 const arrItems = this.users
-                const titles = ['ID', 'ROLE', 'FULL NAME', 'EMAIL', 'PASSWORD', 'PHONE', 'FUNCTION']
+                const titles = ['ID', 'ROLE', 'NAME', 'EMAIL', 'PASSWORD', 'PHONE', '?']
                 const col = []
                 for (i = 0; i < arrItems.length; i++) {
                   for (var key in arrItems[i]) {

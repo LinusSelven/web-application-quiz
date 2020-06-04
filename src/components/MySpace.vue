@@ -120,6 +120,7 @@
         text-align: center;
         vertical-align: top;
         background: rgba(0, 0, 0, 0.8);
+        padding-bottom: 10px;
     }
     h1{
         font-family: Calibri, monospace;
@@ -187,8 +188,8 @@
         cursor: pointer;
     }
     input[type=button]:hover {
-        background-color: #e9e608;
-        color: black;
+        background-color: #035af6;
+        color: white;
     }
     ::-webkit-input-placeholder { /* Edge */
         color: #ccc;

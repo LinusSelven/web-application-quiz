@@ -32,10 +32,10 @@
         <div class="login-cell">
           <table class="center">
             <tr>
-              <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
+              <td><span>{{message}}</span><span class="error">{{errorMessage}}</span> &nbsp;<input class="btn-logout" type="button" @click="submitLogout" value="logout" v-if="isLogged"></td>
             </tr>
             <tr>
-              <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input type="button" @click="submitForm()" value="login"></td>
+              <td v-if="!isLogged"><input value="email" type="email" name="user-log" v-model="email" placeholder="Email" >&nbsp;<input value="password" type="password" name="user-log" v-model="password" placeholder="Password">&nbsp;<input class="btn-login" type="button" @click="submitForm()" value="login"></td>
             </tr>
             <tr>
               <td v-if="!isLogged"><span>Har inget konto? </span><a><router-link to="/register">Registrera!</router-link></a></td>
@@ -347,20 +347,26 @@ a:hover {
   display: block;
 }
 /* finish here */
-input[type=button] {
+.btn-login, .btn-logout {
   background-color: #222222;
   font-family: "Times New Roman", monospace;
   font-weight: bold;
   color: #02b3b3;
   border: 1px solid rgb(7, 172, 172);
   border-radius: 4px;
-  width: 10%;
+  width: 50px;
   height: 30px;
   cursor: pointer;
 }
-input[type=button]:hover {
-  background-color: #e9e608;
-  color: black;
+.btn-login:hover {
+  border: 1px solid black;
+  background-color: #0707bf;
+  color: white;
+}
+.btn-logout:hover {
+  border: 1px solid black;
+  background-color: #d40404;
+  color: white;
 }
 input[type=email], input[type=password] {
   padding: 10px;
@@ -390,8 +396,8 @@ input[type=email], input[type=password] {
       background: url('./assets/zoom.webp') no-repeat;
       background-size: 100% 100%;
     }
-    input[type=button] {
-      width: 6%;
+    .btn-login, .btn-logout {
+      width: 50px;
       height: 30px;
     }
     input[type=email], input[type=password] {
@@ -464,7 +470,7 @@ input[type=email], input[type=password] {
       width: 60%;
       background-color: #f3f3f3;
     }
-    input[type=button] {
+    .btn-login, .btn-logout  {
       width: 50px;
       height: 30px;
     }
