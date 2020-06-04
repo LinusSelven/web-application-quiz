@@ -1,10 +1,11 @@
 <template>
-    <div class="showData" id="showData">
+    <div class="allUsers">
+        <h1>MY USERS</h1>
+        <div class="showData" id="showData"></div>
     </div>
 </template>
 <script>
   import AuthServices from '../services/ApiServices'
-  import axios from 'axios'
   export default {
     name: 'AdminDashboard',
     data: function () {
@@ -25,7 +26,7 @@
                 table.className = "userTable";
                 let i,j;
                 const arrItems = this.users
-                const titles = ['ID', 'ROLE', 'FULL NAME', 'EMAIL', 'PASSWORD', 'PHONE', 'LEVEL', 'FUNCTION']
+                const titles = ['ID', 'ROLE', 'FULL NAME', 'EMAIL', 'PASSWORD', 'PHONE', 'FUNCTION']
                 const col = []
                 for (i = 0; i < arrItems.length; i++) {
                   for (var key in arrItems[i]) {
@@ -47,17 +48,11 @@
                     var tabCell = tr.insertCell(-1)
                     tabCell.innerHTML = arrItems[i][col[j]];
                   }
-                  tabCell.innerHTML = '<input type="submit" class="submit" value="DELETE" v-on:submit="delete()">';
+                  tabCell.innerHTML = '<input type="submit" id="deleteButton" class="submit" value="DELETE" onsubmit="deleteUsers()">';
                 }
                 const divContainer = document.getElementById('showData')
                 divContainer.innerHTML = "";
                 divContainer.appendChild(table);
-          },
-          async delete () {
-              let response = await axios.delete('http://localhost:3000/api/users/'+this.selectedId);
-              this.message = response.data.message
-              await this.getUsers();
-
           },
           TD:onclick= function (e) {
                 e = e || window.event;
@@ -70,24 +65,37 @@
                     this.selectedId = (cells[0].innerHTML);
                 }
           },
+          async deleteUsers() {
+            /*let response = */await AuthServices.deleteUser(this.selectedId);
+            //this.message = response.data.message
+            await this.getUsers();
+          },
           async getUsers () {
             this.users=[];
             let response = await AuthServices.getAllUsers();
             this.users = response.data.users;
             this.createTable();
-          }
+          },
     },
   }
 </script>
 
 <style>
-    .showData {
+    .allUsers {
         display: table-cell;
         text-align: center;
         vertical-align: top;
-        padding: 5px;
         background: rgba(0, 0, 0, 0.8);
-        //background: #f1f1f1;
+    }
+    .showData{
+        padding: 20px 10px 10px 10px;
+    }
+    h1{
+        font-family: Calibri, monospace;
+        color: wheat;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 5px;
+        margin: auto;
     }
     .userTable {
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;

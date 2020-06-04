@@ -1,5 +1,6 @@
 <template>
     <div class="allQuiz">
+        <h1>ALL QUIZZES</h1>
         <select id="subject" name="subject" @change="onChange($event)" v-model="value">
         <option value="default">Select The Subject</option>
         <option value="geoQuiz">Geografi</option>
@@ -56,7 +57,7 @@
         else if (this.value === 'svenskaQuiz') {
           this.levels=[];
           this.removeAllOptions();
-          //await this.getEngQuiz();
+          await this.getSvenQuiz();
           this.byLevel=[];
           this.getArrayLength();
           this.createOptions();
@@ -93,9 +94,10 @@
         } else if (this.value === 'engelskaQuiz') {
           await this. getEngQuizByLevel(this.levelValue);
           this.createQuizTable();
-        }/*else if (this.value ==='svenskaQuiz'){
-
-        }*/
+        }else if (this.value ==='svenskaQuiz'){
+          await this. getSvenQuizByLevel(this.levelValue);
+          this.createQuizTable();
+        }
       },
       createQuizTable() {
         const table = document.createElement('table')
@@ -153,6 +155,14 @@
         let response = await ApiServices.getEngQuizByLevel(id);
         this.quizArray = response.data.engQuiz;
       },
+      getSvenQuiz: async function () {
+        let response = await ApiServices.getSveQuizLevel();
+        this.levels = response.data.levels;
+      },
+      async getSvenQuizByLevel (id) {
+        let response = await ApiServices.getSveQuizByLevel(id);
+        this.quizArray = response.data.svenskaQuiz;
+      },
     },
 
   }
@@ -163,13 +173,18 @@
         display: table-cell;
         text-align: center;
         vertical-align: top;
-        padding: 5px;
         background: rgba(0, 0, 0, 0.8);
     }
     .showLevel{
-        padding-top: 10px;
+        padding: 10px 5px 5px 5px;
     }
-
+    h1{
+        font-family: Calibri, monospace;
+        color: wheat;
+        background-color: rgba(0, 0, 0, 0.9);
+        padding: 5px;
+        margin: auto;
+    }
     select{
         padding: 10px;
         margin-top: 2px;

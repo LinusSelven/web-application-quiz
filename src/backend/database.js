@@ -371,14 +371,14 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'white.png'])
         db.run(insert1, ['What color is it?',
           '1',
-          'gul',
-          'yellow',
-          'yellow.png'])
+          'orange',
+          'orange',
+          'orange.png'])
         db.run(insert1, ['What color is it?',
           '1',
-          'gul',
-          'yellow',
-          'yellow.png'])
+          'lila',
+          'purple',
+          'purple.png'])
         db.run(insert1, ['What color is it?',
           '1',
           'gul',
@@ -446,16 +446,16 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           'sova',
           'sleep',
           'sleep.png'])
-        db.run(insert1, ['Vad heter "skriva" på engelska?',
+        db.run(insert1, ['Vad heter "springa" på engelska?',
           '3',
-          'skriva',
-          'write',
-          'write.png'])
-        db.run(insert1, ['Vad heter "skriva" på engelska?',
+          'Springa',
+          'run',
+          'run.png'])
+        db.run(insert1, ['Vad heter "prata" på engelska?',
           '3',
-          'skriva',
-          'write',
-          'write.png'])
+          'prata',
+          'talk',
+          'talk.png'])
       }
     })
 
@@ -716,7 +716,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       }
     })
 
-    //---------------
+    //--------- Users ------
     db.run(`CREATE TABLE users (
             userId INTEGER PRIMARY KEY,
             userRole TEXT,
@@ -749,7 +749,21 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 ])
             }
     })
-
+    //--------- Scores ------
+    db.run(`CREATE TABLE scores (
+            scoreId INTEGER PRIMARY KEY,
+            subject TEXT,
+            subjectLevel INTEGER,
+            score INTEGER,
+            userFullName TEXT,
+            userId INTEGER
+            )`, (err) => {
+      if (err) {
+        // Table already created
+      } else {
+        const insert = 'INSERT INTO scores (subject, subjectLevel, score, userFullName,  userId) VALUES (?,?,?,?,?)';
+      }
+    })
   }
 })
 
