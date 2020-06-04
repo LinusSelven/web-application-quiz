@@ -2,6 +2,7 @@
     <div class="createQuiz">
         <h1>SELECT SUBJECT</h1>
         <div class="addQuiz">
+            <select id="byQuizLevel" @change="onChangeLevels($event)" v-model="levelValue"></select>
             <select id="subject" name="subject" @change="onChangeSubject($event)" v-model="value">
                 <option value="default">Select The Subject</option>
                 <option value="Geography">Geografi</option>
@@ -9,9 +10,6 @@
                 <option value="Swedish">Svenska</option>
                 <option value="English">Engelska</option>
             </select><br>
-        </div>
-        <div v-if="value !== 'default'" class="addQuiz">
-            <select id="byQuizLevel" @change="onChangeLevels($event)" v-model="levelValue"></select>
         </div>
         <h1 v-if="value !== 'default' ">ADD QUIZ</h1>
         <div v-if="value === 'Geography' || value === 'Mathematics'" class="addQuiz">
@@ -27,7 +25,7 @@
                 <option value="3">answer 3</option>
             </select><br>
             <input type="file" name="upload" accept="image/*" placeholder="Select image">
-            <input type="submit" value="Save" @click="postNewQuiz"><input type="submit" value="Back" @submit="goBack">
+            <input type="submit" class="btn-save" value="Save" @submit="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
         </div>
 
         <div v-if="value === 'English'" class="addQuiz">
@@ -36,7 +34,7 @@
             <input type="text" name="answer2" placeholder="answer 2*" v-model="quizAnswer1" required/>
             <input type="text" name="answer3" placeholder="The correct answer*" v-model="CorrectAnswer" required/>
             <input type="file" name="upload" accept="image/*" placeholder="Select image"/>
-            <input type="submit" value="Save" @click="postNewQuiz"><input type="submit" value="Back" @submit="goBack">
+            <input type="submit" class="btn-save" value="Save" @submit="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
         </div>
 
 
@@ -51,7 +49,7 @@
             <input type="number"  name="answer1" placeholder="Correct Position 1*" v-model="quizCorrectPos1" required min="1" max="3">
             <input type="number" name="answer2" placeholder="Correct Position 2*" v-model="quizCorrectPos2" required min="1" max="3">
             <input type="number" name="answer3" placeholder="Correct Position 3*" v-model="quizCorrectPos3" required min="1" max="3">
-            <input type="submit" value="Save" @click="postNewQuiz"><input type="submit" value="Back" @submit="goBack">
+            <input type="submit" class="btn-save" value="Save" @submit="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
         </div>
 
 
@@ -65,7 +63,7 @@
     name: 'CreateNewQuiz',
     data: function () {
       return{
-        quizLevel:0,
+        quizLevel:'',
         quizQuestion: '',
         quizAnswer1 :'',
         quizAnswer2 :'',
@@ -73,21 +71,14 @@
         CorrectAnswer:'',
         quizCorrectAnswer: 0,
         image: 'quizo.jpg',
-
         quizPart1:'',
         quizPart2:'',
         quizPart3:'',
         quizCorrectPos1:'',
         quizCorrectPos2:'',
         quizCorrectPos3:'',
-
-
-        quizLevels:[],
         level:0,
         value:'default',
-        amount:'Amount of question*',
-        validation:'',
-        count:1,
         levelValue:1,
         levels:[],
         byLevel:[],
@@ -97,7 +88,6 @@
     methods: {
       async onChangeSubject(event) {
         this.value = event.target.value;
-
         if (this.value === 'Geography') {
           this.levels = [];
           this.removeAllOptions();
@@ -126,6 +116,10 @@
           this.byLevel = [];
           this.getArrayLength();
           this.createOptions();
+        }else if (this.value === 'default') {
+          this.levels = [];
+          this.removeAllOptions();
+          this.byLevel = [];
         }
       },
       removeAllOptions: function () {
@@ -145,7 +139,6 @@
         for (let i = 0; i < this.levels.length; i++) {
           this.byLevel.push(this.levels[i].quizLevel);
         }
-        this.byLevel.sort();
       },
       onChangeLevels (event) {
         this.levelValue = event.target.value;
@@ -172,7 +165,7 @@
         this.quizCorrectAnswer = parseInt(event.target.value);
       },
       emptyFields(){
-        this.quizLevel=0;
+        this.quizLevel='';
         this.quizPart1='';
         this.quizPart2='';
         this.quizPart3='';
@@ -189,9 +182,12 @@
       goBack(){
         this.emptyFields();
         this.value= 'default';
+        this.levels = [];
+        this.removeAllOptions();
+        this.byLevel = [];
       },
       async postNewQuiz(){
-                    if (this.value ==='Geography' && this.quizQuestion !=='' && this.quizLevel !== 0 && this.quizAnswer1 !== ''&& this.quizAnswer2 !== ''&&  this.quizAnswer3 !== ''&& this.quizCorrectAnswer !==0){
+                    if (this.value ==='Geography' && this.quizQuestion !=='' && this.quizLevel !== 0 && this.quizLevel !== '' && this.quizAnswer1 !== ''&& this.quizAnswer2 !== ''&&  this.quizAnswer3 !== ''&& this.quizCorrectAnswer !==0 ){
                     await ApiServices.newQuizGeo({
                       quizQuestion: this.quizQuestion,
                       quizLevel: this.quizLevel,
@@ -202,7 +198,7 @@
                       quizImg: this.image
                     });
                       this.emptyFields();
-                    }else if (this.value ==='Mathematics' && this.quizQuestion !=='' && this.quizLevel !== 0 && this.quizAnswer1 !== ''&& this.quizAnswer2 !== ''&&  this.quizAnswer3 !== ''&& this.quizCorrectAnswer !==0){
+                    }else if (this.value ==='Mathematics' && this.quizQuestion !=='' && this.quizLevel !== 0 && this.quizLevel !== '' && this.quizAnswer1 !== ''&& this.quizAnswer2 !== ''&&  this.quizAnswer3 !== ''&& this.quizCorrectAnswer !==0){
                        await ApiServices.newQuizMat({
                          quizQuestion: this.quizQuestion,
                          quizLevel: this.quizLevel,
@@ -213,7 +209,7 @@
                          quizImg: this.image
                       });
                       this.emptyFields();
-                    }else if (this.value ==='English' && this.quizQuestion !=='' && this.quizLevel !== 0 && this.quizAnswer1 !== '' && this.CorrectAnswer !==''){
+                    }else if (this.value ==='English' && this.quizQuestion !=='' && this.quizLevel !== 0 && this.quizLevel !== '' && this.quizAnswer1 !== '' && this.CorrectAnswer !==''){
                        await ApiServices.newQuizEng({
                          quizQuestion: this.quizQuestion,
                          quizLevel: this.quizLevel,
@@ -222,7 +218,7 @@
                          quizImg: this.image
                       });
                       this.emptyFields();
-                    }else if (this.value ==='Swedish' && this.quizLevel !== 0 && this.quizPart1 !=='' && this.quizPart2 !=='' && this.quizPart3 !=='' && this.quizAnswer1 !== ''&& this.quizAnswer2 !== ''&&  this.quizAnswer3 !== ''&& this.quizCorrectPos1 !==''&& this.quizCorrectPos2 !==''&& this.quizCorrectPos3 !==''){
+                    }else if (this.value ==='Swedish' && this.quizLevel !== 0 && this.quizLevel !== '' && this.quizPart1 !=='' && this.quizPart2 !=='' && this.quizPart3 !=='' && this.quizAnswer1 !== ''&& this.quizAnswer2 !== ''&&  this.quizAnswer3 !== ''&& this.quizCorrectPos1 !==''&& this.quizCorrectPos2 !==''&& this.quizCorrectPos3 !==''){
                        await ApiServices.newQuizSve({
                          quizLevel: this.quizLevel,
                          quizPart1: this.quizPart1,
@@ -241,21 +237,12 @@
       },
 
     },
-    mounted() {
-      fetch('http://127.0.0.1:3000/api/geoQuiz/numberOfLevel')
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          this.quizLevels = data.geoQuizLevel;
-        });
-    }
 
   }
 </script>
 
 <style scoped>
-    input[type=text], input[type=email], input[type=password], input[type=checkbox], input[type=number],input[type=file], select,textarea, label {
+    input[type=text], input[type=number],input[type=file], select,textarea, label {
         padding: 10px;
         margin-top: 2px;
         margin-bottom: 2px;
@@ -263,11 +250,11 @@
         border-radius: 4px;
         box-sizing: border-box;
         resize: vertical;
-        background: rgba(5, 5, 5, 0.9);
+        background: rgba(62, 61, 61, 0.73);
         color: wheat;
         font-family: Calibri, monospace;
         font-weight: bold;
-        width: 100%;
+        width: 99%;
         height: 40px;
         cursor: pointer;
     }
@@ -276,11 +263,6 @@
         font-weight: bolder;
         color: #1b9b52;
     }
-    #validation{
-        font-family: Calibri, monospace;
-        font-weight: normal;
-        color: #f60334;
-    }
     h1{
         font-family: Calibri, monospace;
         color: wheat;
@@ -288,30 +270,37 @@
         padding: 5px;
         margin-bottom: 5px;
     }
-    .vl {
-        border-left: 2px solid dimgray;
-        height: 100%;
-    }
-    input[type=checkbox]{
-        height: auto;
-        width: auto;
-    }
-    input[type=submit] {
+    .btn-save{
         margin-top: 2px;
         margin-bottom: 2px;
-        background-color: #333333;
+        background-color: rgba(3, 90, 246, 0.72);
         font-family: Calibri, monospace;
         font-weight: bold;
-        color: #02b3b3;
-        border: 1px solid rgb(7, 172, 172);
-        border-radius: 4px;
-        width: 100%;
+        color: rgba(245, 222, 179, 0.64);
+        border: 1px solid black;
+        width: 49%;
         height: 40px;
         cursor: pointer;
     }
+    .btn-back{
+        background-color: rgba(139, 0, 0, 0.66);
+        margin-top: 2px;
+        margin-bottom: 2px;
+        font-family: Calibri, monospace;
+        font-weight: bold;
+        color: rgba(245, 222, 179, 0.64);
+        border: 1px solid black;
+        width: 49%;
+        height: 40px;
+        cursor: pointer;
+    }
+    .btn-back:hover{
+        background-color: darkred;
+        color: white;
+    }
 
-    input[type=submit]:hover {
-        background-color: #0471e5;
+    .btn-save:hover {
+        background-color: #035af6;
         color: white;
     }
 
@@ -343,7 +332,22 @@
     }
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .createQuiz {
+            padding-bottom: 10px;
+        }
+        input[type=text], input[type=number],input[type=file], select,textarea, label {
+            background: rgba(62, 61, 61, 0.73);
+            margin: 3px;
+        }
+        .addQuiz{
+            width: 99%;
+            margin: auto;
+            padding: 10px;
+        }
+        .btn-save, .btn-back{
+            width: 30%;
 
+        }
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
@@ -354,17 +358,14 @@
             background: rgba(0, 0, 0, 0.7);
             padding-bottom: 10px;
         }
-        input[type=text], input[type=email],input[type=submit], input[type=password],input[type=number], input[type=file],select, textarea, label {
+        input[type=text], input[type=number], input[type=file],select, textarea, label {
             background: rgba(5, 5, 5, 0.5);
             width: 90%;
             margin-top: 5px;
+
         }
-        input[type=submit]{
-            width: 30%;
-        }
-        label{
-            border: none;
-            background: none;
+        .btn-save, .btn-back{
+            width: 20%;
         }
         .addQuiz{
             width: 90%;
