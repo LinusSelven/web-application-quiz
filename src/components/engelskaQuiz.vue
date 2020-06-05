@@ -380,14 +380,6 @@
         border-bottom: 1px solid black;
         margin:auto;
     }
-
-    .q-answer {
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: 10px;
-        padding-top: 10px;
-    }
     .q-answer, .q-score, .q-rate {
         text-align: center;
         margin: auto;
