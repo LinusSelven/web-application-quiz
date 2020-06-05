@@ -445,17 +445,17 @@ h5{
     .item3-body{
       background: url('./assets/qui.jpg') no-repeat;
       background-size: 100% 100%;
-      width: 60%;
+      width: 70%;
       height: 500px;
     }
     .item2-body{
       border: 3px solid #cccc;
-      width: 60%;
+      width: 70%;
     }
     .item1-body{
       display: inline-block;
       text-align: center;
-      width: 60%;
+      width: 70%;
       margin-top: 5px;
     }
     .logo-box{
@@ -471,7 +471,7 @@ h5{
       display: block;
     }
     .item4-body{
-      width: 60%;
+      width: 70%;
       background-color: #0f122d;
         color: wheat;
         font-family: Calibri, monospace;

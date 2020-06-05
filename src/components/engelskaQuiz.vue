@@ -3,7 +3,9 @@
         <div v-if="!isDone" class="q-question">
             <h1>QUIZ: ENGELSKA    |    LEVEL: {{selectedLevel}}    |    QUESTION: {{questionNumber+1}} / {{engQuiz.length}}</h1>
             <div>
+                <br>
                 <h2>{{engQuiz[questionNumber].quizQuestion}}</h2>
+                <br>
             </div>
             <div class="q-img">
 
@@ -143,16 +145,16 @@
             this.selectedLevel = this.quizLevel[this.counter];
             this.fetchNextQuiz(this.selectedLevel);
             this.userHasGuessed = false;
-            this.countOfCorrectAnswers=0;
-            this.questionNumber= 0;
-            this.isDone =false;
-            this.nextQuizMessage='';
-            this.counter+=1;
-          }else{
-            this.nextQuizMessage='Sorry! There is no next level for the moment.';
+            this.countOfCorrectAnswers = 0;
+            this.questionNumber = 0;
+            this.isDone = false;
+            this.nextQuizMessage = '';
+            this.counter += 1;
+          } else {
+            this.nextQuizMessage = 'SORRY! THERE IS NO NEXT LEVEL FOR THE MOMENT.';
           }
-        }else {
-          this.nextQuizMessage='You have to get at least 50 % correct';
+        } else {
+          this.nextQuizMessage = 'YOU HAVE TO GET AT LEAST 50% CORRECT!';
         }
       },
       redoQuiz(){
