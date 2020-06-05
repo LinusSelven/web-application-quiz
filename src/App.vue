@@ -18,6 +18,7 @@
               <div class="header"></div>
               <a><router-link to="/MySpace">My Profile</router-link></a>
               <a><router-link to="/myScores">My Scores</router-link></a>
+              <a><router-link to="/myRates">My Rates</router-link></a>
               <a><router-link to="/AllUsers">Manage Users</router-link></a>
               <a><router-link to="/AllQuiz">Manage Quizzes</router-link></a>
               <a><router-link to="/AllScores">All Scores</router-link></a>
@@ -387,6 +388,9 @@ input[type=email], input[type=password] {
 .md-toolbar + .md-toolbar {
   margin-top: 16px;
 }
+h5{
+  margin: 0;
+}
   /* Mobile */
   @media screen and (max-width: 400px) {
   }
@@ -441,17 +445,17 @@ input[type=email], input[type=password] {
     .item3-body{
       background: url('./assets/qui.jpg') no-repeat;
       background-size: 100% 100%;
-      width: 60%;
+      width: 70%;
       height: 500px;
     }
     .item2-body{
       border: 3px solid #cccc;
-      width: 60%;
+      width: 70%;
     }
     .item1-body{
       display: inline-block;
       text-align: center;
-      width: 60%;
+      width: 70%;
       margin-top: 5px;
     }
     .logo-box{
@@ -467,7 +471,7 @@ input[type=email], input[type=password] {
       display: block;
     }
     .item4-body{
-      width: 60%;
+      width: 70%;
       background-color: #0f122d;
         color: wheat;
         font-family: Calibri, monospace;

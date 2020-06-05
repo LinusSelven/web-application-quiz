@@ -1,6 +1,6 @@
 <template>
     <div class="myScores">
-        <h1>MY RATE</h1>
+        <h1>MY RATES</h1>
         <div class="showMyScores" id="showMyScores"></div>
     </div>
 
@@ -12,7 +12,7 @@
     name: 'myRates',
     data: function () {
       return {
-        myScores:[],
+        myRates:[],
       }
     },
     methods:{
@@ -20,8 +20,7 @@
         const table = document.createElement('table')
         table.className = "userTable";
         let i,j;
-        const arrItems = this.myScores.sort((a,b) => (a.QUIZ > b.QUIZ) ? 1 : ((b.QUIZ > a.QUIZ) ? -1 : 0));
-        //this.myScores.sort((a, b) => (b.QUIZ-a.QUIZ));
+        const arrItems = this.myRates;
         const col = []
         for (i = 0; i < arrItems.length; i++) {
           for (const key in arrItems[i]) {
@@ -49,10 +48,10 @@
       },
     },
     async mounted () {
-      let response = await ApiServices.getScoresByUsers({
+      let response = await ApiServices.getRateById({
         userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
       });
-      this.myScores = response.data.scores;
+      this.myRates = response.data.rates;
       this.createMyScoresTable();
     }
   }
