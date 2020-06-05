@@ -3,7 +3,7 @@
     <div class="svenskaquiz">
 
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}} / {{svenskaQuiz.length}}</h1>
+            <h1>Quiz: Svenska    |    Level: {{selectedLevel}}    |    Question: {{questionNumber+1}} / {{svenskaQuiz.length}}</h1>
             <h2>Placera ordet i rätt plats</h2>
 
             <div class="q-words-box" id="box-0">
@@ -48,6 +48,7 @@
             return {
                 svenskaQuiz: [],
                 quizLevel: [],
+                levelsNum:[],
                 sveScores:[],
                 questionNumber: 0,
                 countOfCorrectAnswers: 0,
@@ -56,6 +57,7 @@
                 finalScore : 0,
                 nextQuizMessage: '',
                 numberOfLevel: 0,
+                counter:1,
             }
         },
 
@@ -130,13 +132,14 @@
 
             nextLevelQuiz(){
                 if(this.finalScore >= 50){
-                    if (this.selectedLevel<this.quizLevel.length ){
-                        this.selectedLevel +=1 ;
+                    if (this.counter<this.quizLevel.length ){
+                        this.selectedLevel = this.quizLevel[this.counter];
                         this.fetchNextQuiz(this.selectedLevel);
                         this.countOfCorrectAnswers=0;
                         this.questionNumber= 0;
                         this.isDone =false;
                         this.nextQuizMessage='';
+                        this.counter+=1;
                     }else{
                         this.nextQuizMessage='Sorry! There is no next level for the moment.';
                     }
@@ -238,21 +241,21 @@
           },
         },
 
-        mounted() {
-            fetch('http://127.0.0.1:3000/api/svenskaquiz/numberOfLevel')
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    this.quizLevel = data.svenskaQuizLevel;
-                });
-            fetch('http://127.0.0.1:3000/api/svenskaquiz/level/' + this.selectedLevel)
-                .then((response) => {
-                    return response.json();
-                })
-                .then((data) => {
-                    this.svenskaQuiz = data.svenskaQuiz;
-                });
+        async mounted () {
+          let response = await ApiServices.getSveQuizLevel();
+          this.levelsNum = response.data.levels;
+          for (let i=0;i<this.levelsNum.length;i++){
+            this.quizLevel.push(this.levelsNum[i].quizLevel)
+          }
+          this.quizLevel.sort((a, b) => parseInt(a) - parseInt(b));
+          this.selectedLevel = this.quizLevel[0];
+          fetch('http://127.0.0.1:3000/api/svenskaquiz/level/' + this.selectedLevel)
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              this.svenskaQuiz = data.svenskaQuiz;
+            });
         }
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="about">
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}}/{{matteQuiz.length}}</h1>
+            <h1>Quiz: Matematik   |    Level: {{selectedLevel}}   |    Question: {{questionNumber+1}} / {{matteQuiz.length}}</h1>
             <div>
                 <h2>{{matteQuiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -20,7 +20,7 @@
             </div>
         </div>
         <div v-if="isDone" class="q-result">
-            <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
+            <button class="q-btn" @click="nextLevel">Next Quiz</button>
             <button class="q-btn" @click="redoQuiz">Last Quiz</button>
             <h2>{{nextQuizMessage}}</h2>
             <img src="../assets/result1.png" alt="res" class="res">
@@ -38,16 +38,18 @@
     data: function () {
       return {
         matteQuiz: [],
+        levelsNum:[],
         quizLevel:[],
         matteScores:[],
         questionNumber: 0,
         countOfCorrectAnswers: 0,
         userHasGuessed: false,
-        selectedLevel : 1, /* default */
+        selectedLevel : 0,
         isDone:false,
         finalScore:0,
         nextQuizMessage:'',
         numberOfLevel:0,
+        counter:1,
       }
     },
 
@@ -74,16 +76,17 @@
           this.createScoresTable();
         }
       },
-      nextLevelQuiz(){
+      nextLevel(){
         if(this.finalScore >= 50){
-          if (this.selectedLevel<this.quizLevel.length ){
-            this.selectedLevel +=1 ;
+          if (this.counter<this.quizLevel.length ){
+            this.selectedLevel = this.quizLevel[this.counter];
             this.fetchNextQuiz(this.selectedLevel);
             this.userHasGuessed = false;
             this.countOfCorrectAnswers=0;
             this.questionNumber= 0;
             this.isDone =false;
             this.nextQuizMessage='';
+            this.counter +=1;
           }else{
             this.nextQuizMessage='Sorry! There is no next level for the moment.';
           }
@@ -187,15 +190,15 @@
         divContainer.appendChild(table);
       },
     },
-    mounted() {
-
-      fetch('http://127.0.0.1:3000/api/matteQuiz/numberOfLevel')
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          this.quizLevel = data.matteQuizLevel;
-        });
+    async mounted () {
+      let response = await ApiServices.getMatteQuizLevel();
+      this.levelsNum = response.data.levels;
+      for (let i=0;i<this.levelsNum.length;i++){
+        this.quizLevel.push(this.levelsNum[i].quizLevel)
+      }
+      this.quizLevel.sort((a, b) => parseInt(a) - parseInt(b));
+      this.selectedLevel = this.quizLevel[0];
+      console.log('the first level'+this.selectedLevel);
       fetch('http://127.0.0.1:3000/api/matteQuiz/level/' + this.selectedLevel)
         .then((response) => {
           return response.json();

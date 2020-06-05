@@ -67,22 +67,8 @@ app.get("/api/geoQuiz/level", (req, res, next) => {
         })
     });
 });
-app.get("/api/geoQuiz/numberOfLevel", (req, res, next) => {
-    const sql = 'select quizLevel from geoQuiz GROUP BY quizLevel';
-    const params = [];
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "geoQuizLevel":rows
-        })
-    });
-});
 app.get("/api/geoQuiz/Levels", (req, res, next) => {
-    const sql = 'SELECT quizLevel AS "Geo Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM geoQuiz GROUP BY quizLevel';
+    const sql = 'SELECT quizLevel FROM geoQuiz GROUP BY quizLevel';
     const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -97,6 +83,20 @@ app.get("/api/geoQuiz/Levels", (req, res, next) => {
 });
 app.get("/api/geoQuiz/level/:id", (req, res, next) => {
     var sql = "select * from geoQuiz where quizLevel = ?";
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "geoQuiz":rows
+        })
+    });
+});
+app.get("/api/geoQuiz/level/level/:id", (req, res, next) => {
+    var sql = 'select quizId AS ID, quizLevel AS level, quizQuestion AS question, quizAnswer1 AS "Answer 1", quizAnswer2 AS "Answer 2", quizAnswer3 AS "Answer 3", quizCorrectAnswer AS Correct from geoQuiz where quizLevel = ?';
     var params = [req.params.id]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -171,15 +171,17 @@ app.put("/api/geoQuiz/:id", (req, res, next) => {
     });
 })
 app.delete("/api/geoQuiz/:id", (req, res, next) => {
-    db.run(
-        'DELETE FROM geoQuiz WHERE quizId = ?',
-        req.params.id,
-        function (err, result) {
+    db.run('DELETE FROM geoQuiz WHERE quizId = ?', req.params.id, function (err, result) {
             if (err){
-                res.status(400).json({"error": res.message})
+                res.status(400).json({
+                    "error": res.message
+                })
                 return;
             }
-            res.json({"message":"deleted", rows: this.changes})
+            res.json({
+                "message":"deleted",
+                rows: this.changes
+            })
     });
 })
 
@@ -212,22 +214,8 @@ app.get("/api/matteQuiz/level", (req, res, next) => {
         })
     });
 });
-app.get("/api/matteQuiz/numberOfLevel", (req, res, next) => {
-    var sql = 'select quizLevel from matteQuiz GROUP BY quizLevel'
-    var params = []
-    db.all(sql, params, (err, rows) => {
-        if (err) {
-            res.status(400).json({"error":err.message});
-            return;
-        }
-        res.json({
-            "message":"success",
-            "matteQuizLevel":rows
-        })
-    });
-});
 app.get("/api/matteQuiz/Levels", (req, res, next) => {
-    const sql = 'SELECT quizLevel AS "Matte Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM matteQuiz GROUP BY quizLevel';
+    const sql = 'SELECT quizLevel FROM matteQuiz GROUP BY quizLevel';
     const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -242,6 +230,20 @@ app.get("/api/matteQuiz/Levels", (req, res, next) => {
 });
 app.get("/api/matteQuiz/level/:id", (req, res, next) => {
     var sql = "select * from matteQuiz where quizLevel = ?";
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({"error":err.message});
+            return;
+        }
+        res.json({
+            "message":"success",
+            "matteQuiz":rows
+        })
+    });
+});
+app.get("/api/matteQuiz/level/level/:id", (req, res, next) => {
+    var sql = 'select quizId AS ID, quizLevel AS level, quizQuestion AS question, quizAnswer1 AS "Answer 1", quizAnswer2 AS "Answer 2", quizAnswer3 AS "Answer 3", quizCorrectAnswer AS Correct from matteQuiz where quizLevel = ?';
     var params = [req.params.id]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -271,6 +273,7 @@ app.get("/api/matteQuiz/:id", (req, res, next) => {
 app.post("/api/matteQuiz/", (req, res, next) => {
     const data = {
         quizQuestion: req.body.quizQuestion,
+        quizLevel: req.body.quizLevel,
         quizAnswer1: req.body.quizAnswer1,
         quizAnswer2: req.body.quizAnswer2,
         quizAnswer3: req.body.quizAnswer3,
@@ -357,7 +360,7 @@ app.get("/api/engQuiz/level", (req, res, next) => {
     });
 });
 app.get("/api/engQuiz/Levels", (req, res, next) => {
-    const sql = 'SELECT quizLevel AS "Engelska Quiz Level", COUNT(quizQuestion) AS "Number of questios" FROM engQuiz GROUP BY quizLevel';
+    const sql = 'SELECT quizLevel FROM engQuiz GROUP BY quizLevel';
     const params = [];
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -370,9 +373,9 @@ app.get("/api/engQuiz/Levels", (req, res, next) => {
         })
     });
 });
-app.get("/api/engQuiz/numberOfLevel", (req, res, next) => {
-    const sql = 'select quizLevel from engQuiz GROUP BY quizLevel';
-    const params = [];
+app.get("/api/engQuiz/level/:id", (req, res, next) => {
+    var sql = "select * from engQuiz where quizLevel = ?";
+    var params = [req.params.id]
     db.all(sql, params, (err, rows) => {
         if (err) {
             res.status(400).json({"error":err.message});
@@ -380,12 +383,12 @@ app.get("/api/engQuiz/numberOfLevel", (req, res, next) => {
         }
         res.json({
             "message":"success",
-            "engQuizLevel":rows
+            "engQuiz":rows
         })
     });
 });
-app.get("/api/engQuiz/level/:id", (req, res, next) => {
-    var sql = "select * from engQuiz where quizLevel = ?";
+app.get("/api/engQuiz/level/level/:id", (req, res, next) => {
+    var sql = 'select quizId AS id,quizLevel AS LEVEL, quizQuestion AS QUESTION, quizAnswer1 AS ANSWER, quizCorrectAnswer AS "Correct Ans" from engQuiz where quizLevel = ?';
     var params = [req.params.id]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -417,8 +420,6 @@ app.post("/api/engQuiz/", (req, res, next) => {
         quizQuestion: req.body.quizQuestion,
         quizLevel: req.body.quizLevel,
         quizAnswer1: req.body.quizAnswer1,
-        quizAnswer2: req.body.quizAnswer2,
-        quizAnswer3: req.body.quizAnswer3,
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
@@ -501,20 +502,6 @@ app.get('/api/svenskaQuiz/level', (req, res, next) => {
     })
   })
 })
-app.get('/api/svenskaQuiz/numberOfLevel', (req, res, next) => {
-  const sql = 'select quizLevel from svenskaQuiz GROUP BY quizLevel'
-  const params = []
-  db.all(sql, params, (err, rows) => {
-    if (err) {
-      res.status(400).json({ error: err.message })
-      return
-    }
-    res.json({
-      message: 'success',
-      svenskaQuizLevel: rows
-    })
-  })
-})
 app.get("/api/svenskaQuiz/Levels", (req, res, next) => {
     const sql = 'SELECT quizLevel FROM svenskaQuiz GROUP BY quizLevel';
     const params = [];
@@ -542,6 +529,20 @@ app.get('/api/svenskaQuiz/level/:id', (req, res, next) => {
       svenskaQuiz: rows
     })
   })
+})
+app.get('/api/svenskaQuiz/level/level/:id', (req, res, next) => {
+    var sql = 'select quizId AS ID, quizLevel AS LEVEL, quizPart1 AS PART1, quizPart2 AS PART2, quizPart3 AS PART3, quizAnswer1 AS Answer1, quizAnswer2 AS Answer2, quizAnswer3 AS Answer3, quizCorrectPos1 AS CorrectPos1, quizCorrectPos2 AS CorrectPos2, quizCorrectPos3 AS CorrectPos3 from svenskaQuiz where quizLevel = ?'
+    var params = [req.params.id]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ error: err.message })
+            return
+        }
+        res.json({
+            message: 'success',
+            svenskaQuiz: rows
+        })
+    })
 })
 app.get('/api/svenskaQuiz/:id', (req, res, next) => {
   var sql = 'select * from svenskaQuiz where quizId = ?'
@@ -761,10 +762,7 @@ app.put('/api/users/:id', (request, response, next) => {
     });
 })
 app.delete('/api/users/:id', (request, response, next) => {
-    db.run(
-      'DELETE FROM users WHERE userId = ?',
-      request.params.id,
-      function (err, result) {
+    db.run('DELETE FROM users WHERE userId = ?', request.params.id, function (err, result) {
           if (err){
               response.status(400).json({
                   "error": response.message
@@ -946,6 +944,24 @@ app.post('/api/scores/level/', (request, response, next) => {
         subjectLevel: request.body.subjectLevel
     }
     const sql = 'select score, userFullName AS NAME  from scores where subject = ? AND subjectLevel = ?'
+    const params = [userData.subject, userData.subjectLevel]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
+});
+app.post('/api/allScores/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel
+    }
+    const sql = 'select subject AS QUIZ, subjectLevel AS "QUIZ LEVEL", score, userFullName AS "STUDENT NAME"  from scores where subject = ? AND subjectLevel = ?'
     const params = [userData.subject, userData.subjectLevel]
     db.all(sql, params, (err, rows) => {
         if (err) {

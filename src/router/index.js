@@ -4,10 +4,10 @@ import Home from '../components/category.vue'
 import MySpace from '../components/MySpace.vue'
 import Register from '../components/register.vue'
 import CreateNewQuiz from '../components/CreateNewQuiz.vue'
-import DispoUsers from '../components/DispoUsers'
-import DispoQuiz from '../components/DispoQuiz'
+import AllUsers from '../components/AllUsers'
+import AllQuiz from '../components/AllQuiz'
 import myScores from '../components/myScores'
-import manageAllScores from '../components/manageAllScores'
+import AllScores from '../components/AllScores'
 
 
 Vue.use(VueRouter)
@@ -19,19 +19,19 @@ const routes = [
         component: Home
     },
     {
-        path: '/aboutus',
+        path: '/aboutUs',
         name: 'About us',
         component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
     },
     {
-        path: '/DispoUsers',
-        name: 'DispoUsers',
-        component: DispoUsers
+        path: '/AllUsers',
+        name: 'AllUsers',
+        component: AllUsers
     },
     {
-        path: '/manageAllScores',
-        name: 'manageAllScores',
-        component: manageAllScores
+        path: '/AllScores',
+        name: 'AllScores',
+        component: AllScores
     },
     {
         path: '/myScores',
@@ -39,9 +39,9 @@ const routes = [
         component: myScores
     },
     {
-        path: '/DispoQuiz',
-        name: 'DispoQuiz',
-        component: DispoQuiz
+        path: '/AllQuiz',
+        name: 'AllQuiz',
+        component: AllQuiz
     },
     {
         path: '/results',

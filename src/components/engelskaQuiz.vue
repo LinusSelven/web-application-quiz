@@ -1,7 +1,7 @@
 <template>
     <div class="about">
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz Level: {{selectedLevel}} / {{quizLevel.length}}   |    Question: {{questionNumber+1}}/{{engQuiz.length}}</h1>
+            <h1>Quiz: Engelska    |    Level: {{selectedLevel}}    |    Question: {{questionNumber+1}} / {{engQuiz.length}}</h1>
             <div>
                 <h2>{{engQuiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -45,6 +45,7 @@
       return {
         engQuiz: [],
         quizLevel:[],
+        levelsNum:[],
         engScores:[],
         questionNumber: 0,
         countOfCorrectAnswers: 0,
@@ -56,6 +57,7 @@
         numberOfLevel:0,
         answer:"",
         correctAnswer:false,
+        counter:1,
       }
     },
 
@@ -91,14 +93,15 @@
       },
       nextLevelQuiz(){
         if(this.finalScore >= 50){
-          if (this.selectedLevel<this.quizLevel.length ){
-            this.selectedLevel +=1 ;
+          if (this.counter<this.quizLevel.length ){
+            this.selectedLevel = this.quizLevel[this.counter];
             this.fetchNextQuiz(this.selectedLevel);
             this.userHasGuessed = false;
             this.countOfCorrectAnswers=0;
             this.questionNumber= 0;
             this.isDone =false;
             this.nextQuizMessage='';
+            this.counter+=1;
           }else{
             this.nextQuizMessage='Sorry! There is no next level for the moment.';
           }
@@ -202,15 +205,14 @@
         divContainer.appendChild(table);
       },
     },
-    mounted() {
-
-      fetch('http://127.0.0.1:3000/api/engQuiz/numberOfLevel')
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          this.quizLevel = data.engQuizLevel;
-        });
+    async mounted () {
+      let response = await ApiServices.getEngQuizLevel();
+      this.levelsNum = response.data.levels;
+      for (let i=0;i<this.levelsNum.length;i++){
+        this.quizLevel.push(this.levelsNum[i].quizLevel)
+      }
+      this.quizLevel.sort((a, b) => parseInt(a) - parseInt(b));
+      this.selectedLevel = this.quizLevel[0];
       fetch('http://127.0.0.1:3000/api/engQuiz/level/' + this.selectedLevel)
         .then((response) => {
           return response.json();
@@ -260,8 +262,8 @@
         display: block;
     }
     h1{
-        background: rgba(0, 0, 0, 0.9);
-        font-family: "Nirmala UI Semilight", monospace;
+        background: #0f122d;
+        font-family: Calibri, monospace;
         font-size: x-large;
         color: wheat;
         border-bottom: 1px solid black;
