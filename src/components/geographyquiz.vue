@@ -1,14 +1,14 @@
 <template>
     <div class="about">
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz: Geografi    |    Level: {{selectedLevel}}    |    Question: {{questionNumber+1}} / {{geoQuiz.length}}</h1>
+            <h1>QUIZ: GEOGRAFI    |    LEVEL: {{selectedLevel}}    |    QUESTION: {{questionNumber+1}} / {{geoQuiz.length}}</h1>
             <div>
-                <h2>{{geoQuiz[questionNumber].quizQuestion}}</h2>
+                <h3>{{geoQuiz[questionNumber].quizQuestion}}</h3>
             </div>
             <div class="q-img">
-                <h2>
+                <h3>
                     <img :src="getImgUrl(geoQuiz[questionNumber].quizImg)" v-bind:alt="pic">
-                </h2>
+                </h3>
             </div>
             <div class="q-answer">
                 <button class="q-btn" @click="userChoseAnswer($event) " :disabled="userHasGuessed" value="1">{{geoQuiz[questionNumber].quizAnswer1}}
@@ -19,14 +19,44 @@
                 </button>
             </div>
         </div>
-        <div v-if="isDone" class="q-result">
-            <button class="q-btn" @click="nextLevelQuiz">Next Quiz</button>
-            <button class="q-btn" @click="redoQuiz">Last Quiz</button>
-            <h2>{{nextQuizMessage}}</h2>
+        <div v-if="isDone && !scoreShow && !rateShow" class="q-result">
+            <button class="q-btn-red" @click="redoQuiz">Last Quiz</button>
+            <button class="q-btn-black" @click="scoreShow=true" onclick="scoresTable()">Quiz Score</button>
+            <button class="q-btn-black" @click="rateShow=true">Rate Quiz</button>
+            <button class="q-btn-blue" @click="nextLevelQuiz">Next Quiz</button>
             <img src="../assets/result1.png" alt="res" class="res">
             <h1 class="finalScore">{{finalScore}} %</h1>
-            <p class="showScoresGeo" id="showScoresGeo"></p>
+            <br><br>
+            <h2>{{nextQuizMessage}}</h2>
         </div>
+        <div class="q-score" v-show="isDone && scoreShow">
+            <h1>HIGH SCORES : GEOGRAPHY  |  LEVEL : {{selectedLevel}}</h1>
+            <button class="q-btn-red" @click="scoreShow=false"><img class="btn-icon" src="../assets/icon/und.png" width="16" height="16" alt="back"></button>
+            <br><br>
+            <div class="q-result">
+                <table class="userTable" id="userTable"></table>
+            </div>
+        </div>
+        <div class="q-rate" v-show="isDone && rateShow">
+            <h1>RATE : GEOGRAPHY  |  LEVEL : {{selectedLevel}}</h1>
+                <button class="q-btn-red" @click="rateShow=false"><img class="btn-icon" src="../assets/icon/und.png" width="16" height="16" alt="back"></button>
+            <br><br>
+            <div class="q-result">
+                <form>
+                    <select id="stars" name="stars" @change="onChangeRate($event)" v-model="rateValue">
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                    <textarea placeholder="Your text here ..." v-model="textArea"></textarea>
+                    <button class="btn-rate" type="button">Rate</button>
+                </form>
+            </div>
+
+        </div>
+
     </div>
 </template>
 
@@ -50,22 +80,29 @@
               nextQuizMessage:'',
               numberOfLevel:0,
               counter:1,
+              rateValue:5,
+              textArea:'',
+              scoreShow:false,
+              rateShow:false,
             }
         },
 
         methods: {
-            nextQuestion() {
-                this.userHasGuessed = false;
-            },
-            userChoseAnswer: function (event) {
-                this.userHasGuessed = true;
-                if (parseInt(event.target.value) === this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
-                  this.countOfCorrectAnswers += 1;
-                }
-                this.nextQuestion();
-                this.countQuestions();
-                this.percentageScore();
-            },
+          onChangeRate (event) {
+            this.rateValue = parseInt(event.target.value);
+          },
+          nextQuestion () {
+            this.userHasGuessed = false;
+          },
+          userChoseAnswer: function (event) {
+            this.userHasGuessed = true;
+            if (parseInt(event.target.value) === this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
+              this.countOfCorrectAnswers += 1;
+            }
+            this.nextQuestion();
+            this.countQuestions();
+            this.percentageScore();
+          },
 
           async countQuestions () {
             this.questionNumber += 1;
@@ -73,45 +110,45 @@
               this.isDone = true;
               await this.addScores();
               await this.getScores();
-              this.createScoresTable();
+              this.scoresTable();
             }
           },
-          nextLevelQuiz(){
-                if(this.finalScore >= 50){
-                        if (this.counter<this.quizLevel.length ){
-                          this.selectedLevel = this.quizLevel[this.counter];
-                          this.fetchNextQuiz(this.selectedLevel);
-                          this.userHasGuessed = false;
-                          this.countOfCorrectAnswers=0;
-                          this.questionNumber= 0;
-                          this.isDone =false;
-                          this.nextQuizMessage='';
-                          this.counter +=1;
-                        }else{
-                          this.nextQuizMessage='Sorry! There is no next level for the moment.';
-                        }
-                }else {
-                      this.nextQuizMessage='You have to get at least 50 % correct';
-                }
+          nextLevelQuiz () {
+            if (this.finalScore >= 50) {
+              if (this.counter < this.quizLevel.length) {
+                this.selectedLevel = this.quizLevel[this.counter];
+                this.fetchNextQuiz(this.selectedLevel);
+                this.userHasGuessed = false;
+                this.countOfCorrectAnswers = 0;
+                this.questionNumber = 0;
+                this.isDone = false;
+                this.nextQuizMessage = '';
+                this.counter += 1;
+              } else {
+                this.nextQuizMessage = 'SORRY! THERE IS NO NEXT LEVEL FOR THE MOMENT.';
+              }
+            } else {
+              this.nextQuizMessage = 'YOU HAVE TO GET AT LEAST 50% CORRECT!';
+            }
           },
-          redoQuiz(){
+          redoQuiz () {
             this.fetchNextQuiz(this.selectedLevel);
             this.userHasGuessed = false;
-            this.countOfCorrectAnswers=0;
-            this.questionNumber= 0;
-            this.isDone =false;
-            this.nextQuizMessage='';
+            this.countOfCorrectAnswers = 0;
+            this.questionNumber = 0;
+            this.isDone = false;
+            this.nextQuizMessage = '';
           },
-          percentageScore(){
+          percentageScore () {
             let amount = this.geoQuiz.length;
-            let scorePerQuestion = 100/amount;
+            let scorePerQuestion = 100 / amount;
             this.finalScore = Math.round(this.countOfCorrectAnswers * scorePerQuestion);
           },
           getImgUrl: function (pic) {
-                return require('../assets/' + pic)
+            return require('../assets/' + pic)
           },
-          fetchNextQuiz(level){
-            fetch('http://127.0.0.1:3000/api/geoQuiz/level/'+level)
+          fetchNextQuiz (level) {
+            fetch('http://127.0.0.1:3000/api/geoQuiz/level/' + level)
               .then((response) => {
                 return response.json();
               })
@@ -119,49 +156,48 @@
                 this.geoQuiz = data.geoQuiz;
               });
           },
-          async addScores() {
-              if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true ){
-                let checkScoreId = await ApiServices.checkScoresIfIsExist({
+          async addScores () {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true) {
+              let checkScoreId = await ApiServices.checkScoresIfIsExist({
+                subject: 'Geography',
+                subjectLevel: this.selectedLevel,
+                userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+              });
+              if (!checkScoreId.data.isExist) {
+                await ApiServices.addScore({
                   subject: 'Geography',
                   subjectLevel: this.selectedLevel,
+                  score: this.finalScore,
+                  userFullName: JSON.parse(sessionStorage.getItem('userLogged')).fullName,
                   userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
                 });
-                if (!checkScoreId.data.isExist){
-                  await ApiServices.addScore({
-                    subject: 'Geography',
-                    subjectLevel: this.selectedLevel,
-                    score: this.finalScore,
-                    userFullName: JSON.parse(sessionStorage.getItem('userLogged')).fullName,
-                    userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
-                  });
-                }else {
-                  let checkScoreIsHigh = await ApiServices.checkScoresIfHigh({
-                    scoreId: checkScoreId.data.scoreId,
+              } else {
+                let checkScoreIsHigh = await ApiServices.checkScoresIfHigh({
+                  scoreId: checkScoreId.data.scoreId,
+                  score: this.finalScore
+                });
+                console.log(checkScoreId.data.scoreId);
+                if (checkScoreIsHigh.data.isHigh) {
+                  await ApiServices.updateScores(checkScoreId.data.scoreId, {
                     score: this.finalScore
                   });
-                  console.log(checkScoreId.data.scoreId);
-                  if (checkScoreIsHigh.data.isHigh){
-                    await ApiServices.updateScores(checkScoreId.data.scoreId, {
-                      score: this.finalScore
-                    });
-                  }
                 }
               }
+            }
           },
-          async getScores() {
-            if (JSON.parse(sessionStorage.getItem('userLogged')).userId){
+          async getScores () {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId) {
               let response = await ApiServices.getScore({
                 subject: 'Geography',
                 subjectLevel: this.selectedLevel
               });
-              this.geoScores= response.data.scores;
+              this.geoScores = response.data.scores;
             }
           },
-          createScoresTable() {
-            const table = document.createElement('table')
-            table.className = "userTable";
+          scoresTable(){
+            const table = document.getElementById('userTable')
             let i,j;
-            const arrItems = this.geoScores.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+            const arrItems = this.geoScores.sort((a, b) => parseInt(b.score) - parseInt(a.score));
             const col = []
             for (i = 0; i < arrItems.length; i++) {
               for (const key in arrItems[i]) {
@@ -185,11 +221,7 @@
               }
               tabCell.innerHTML =i + 1;
             }
-            const divContainer = document.getElementById('showScoresGeo')
-            divContainer.innerHTML = "";
-            divContainer.appendChild(table);
           },
-
         },
         async mounted () {
           let response = await ApiServices.getGeoQuizLevel();
@@ -228,6 +260,9 @@
         width: 200px;
         height: 200px;
     }
+    .btn-icon{
+        margin: auto;
+    }
     img{
         max-width: 100%;
         max-height: 100%;
@@ -235,43 +270,86 @@
     }
     h1{
         background: rgba(0, 0, 0, 0.9);
-        font-family: "Nirmala UI Semilight", monospace;
-        font-size: x-large;
+        font-family: "Yu Gothic", monospace;
+        font-size: 18px;
         color: wheat;
         border-bottom: 1px solid black;
         margin:auto;
     }
 
-    .q-answer {
+    .q-answer, .q-score, .q-rate {
         text-align: center;
-        margin-left: auto;
-        margin-right: auto;
+        margin: auto;
     }
-
-    .q-btn {
+    .q-btn-black, .q-btn-blue, .q-btn-red, .btn-rate,  .q-btn{
         width: 100%;
         margin-right: 5px;
         margin-top: 5px;
-        background-color: #333333;
-        font-family: "Times New Roman", monospace;
-        font-size: 20px;
-        color: wheat;
-        height: 30px;
-        border: 1px solid rgb(7, 172, 172);
+        margin-bottom: 10px;
+        font-family: Calibri, monospace;
+        font-size: large;
+        color: #c4c2c2;
+        height: 40px;
+        border: none;
         border-radius: 4px;
+        text-align: center;
+    }
+    .q-btn-black{
+        background-color: rgba(84, 112, 33, 0.62);
+    }
+    .q-btn-blue{
+        background-color: rgba(65, 105, 225, 0.99);
+    }
+    .q-btn-red{
+        background-color: rgba(205, 92, 92, 0.98);
+    }
+    .btn-rate{
+        background-color: rgba(0, 128, 0, 0.98);
+    }
+    .btn-rate:hover{
+        background-color: green;
+        border: 1px solid wheat;
+        color: wheat;
+    }
+    .q-btn-black:hover{
+        background-color: #547021;
+        border: 1px solid wheat;
+        color: wheat;
+    }
+    .q-btn-blue:hover{
+        background-color: royalblue;
+        border: 1px solid wheat;
+        color: wheat;
+    }
+    .q-btn-red:hover{
+        background-color: indianred;
+        border: 1px solid wheat;
+        color: wheat;
+    }
+    .q-btn {
+    background-color: darkslategrey;
+        border: 2px solid black;
     }
     .q-btn:hover {
-        background-color: #e9e608;
+        background-color: darkgoldenrod;
+        border: 2px solid wheat;
         color: black;
         cursor: pointer;
     }
     .about{
-        background: rgba(0, 0, 0, .7);
         display: table-cell;
         text-align: center;
-        width: 100%;
+        vertical-align: top;
+        background: rgba(0, 0, 0, 0.7);
     }
-    h2, h3{
+    h2{
+        font-family: "Yu Gothic", monospace;
+        font-size: 17px;
+        color: wheat;
+        margin: auto;
+        border-radius: 4px;
+    }
+    h3{
         font-family: "Nirmala UI Semilight", monospace;
         font-size: large;
         color: wheat;
@@ -282,24 +360,40 @@
         height: 35%;
         display: block;
     }
+    select, textarea {
+        padding: 10px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        border: 1px solid rgb(7, 172, 172);
+        border-radius: 4px;
+        box-sizing: border-box;
+        resize: vertical;
+        background: rgba(5, 5, 5, 0.5);
+        color: wheat;
+        font-family: Calibri, monospace;
+        width: 100%;
+        height: 40px;
+        cursor: pointer;
+    }
+    textarea{
+        height: 100px;
+    }
+
     /* Mobile */
     @media screen and (max-width: 400px) {
     }
     /* Tablet */
     @media screen and (min-width: 768px) and (max-width: 1024px) {
+
     }
     /* Desktop */
     @media screen and (min-width: 1025px) {
-        .about{
-            display: table-cell;
-            text-align: center;
-            vertical-align: top;
-            background: rgba(0, 0, 0, 0.7);
-        }
-        .q-btn {
+        .q-btn-black, .q-btn-blue, .q-btn-red,.q-btn{
             margin-top: 20px;
-            width: 32%;
-            height: 50px;
+            width: 150px;
+        }
+        .btn-rate{
+            width:  150px;
         }
         h1{
             padding: 13px;
@@ -314,6 +408,10 @@
         .q-result{
             margin: auto;
             width: 60%;
+        }
+
+        select, textarea {
+            width: 100%;
         }
     }
 

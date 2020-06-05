@@ -755,15 +755,26 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             subject TEXT,
             subjectLevel INTEGER,
             score INTEGER,
-            userFullName TEXT,
             userId INTEGER
             )`, (err) => {
       if (err) {
         // Table already created
       } else {
-        const insert = 'INSERT INTO scores (subject, subjectLevel, score, userFullName,  userId) VALUES (?,?,?,?,?)';
+        const insert = 'INSERT INTO scores (subject, subjectLevel, score,  userId) VALUES (?,?,?,?)';
       }
-    })
+    });
+    db.run(`CREATE TABLE rates (
+            rateId INTEGER PRIMARY KEY,
+            starNumber INTEGER,
+            text TEXT,
+            userId INTEGER
+            )`, (err) => {
+      if (err) {
+        // Table already created
+      } else {
+        const insert = 'INSERT INTO scores (starNumber, text, userId) VALUES (?,?,?)';
+      }
+    });
   }
 })
 

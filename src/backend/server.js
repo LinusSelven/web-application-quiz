@@ -854,6 +854,7 @@ app.post('/api/logout', (req, res) => {
     }
 
 })
+
 /* Scores Handling */
 app.get('/api/scores', (request, response, next) => {
     const sql = 'select * from scores';
@@ -943,7 +944,7 @@ app.post('/api/scores/level/', (request, response, next) => {
         subject: request.body.subject,
         subjectLevel: request.body.subjectLevel
     }
-    const sql = 'select score, userFullName AS NAME  from scores where subject = ? AND subjectLevel = ?'
+    const sql = 'select scores.score, users.fullName AS NAME  from scores INNER JOIN users ON scores.userId = users.userId where subject = ? AND subjectLevel = ?'
     const params = [userData.subject, userData.subjectLevel]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -961,7 +962,7 @@ app.post('/api/allScores/', (request, response, next) => {
         subject: request.body.subject,
         subjectLevel: request.body.subjectLevel
     }
-    const sql = 'select subject AS QUIZ, subjectLevel AS "QUIZ LEVEL", score, userFullName AS "STUDENT NAME"  from scores where subject = ? AND subjectLevel = ?'
+    const sql = 'select scores.subject AS QUIZ, scores.subjectLevel AS "QUIZ LEVEL", scores.score, users.fullName AS "STUDENT NAME"  FROM scores INNER JOIN users ON scores.userId = users.userId where subject = ? AND subjectLevel = ?'
     const params = [userData.subject, userData.subjectLevel]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -996,11 +997,10 @@ app.post('/api/scores/', (req, res, next) => {
         subject: req.body.subject,
         subjectLevel: req.body.subjectLevel,
         score: req.body.score,
-        userFullName: req.body.userFullName,
         userId: req.body.userId
     }
-    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userFullName, userId) VALUES (?,?,?,?,?)';
-    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userFullName, userData.userId];
+    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userId) VALUES (?,?,?,?)';
+    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userId];
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })

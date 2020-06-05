@@ -1,7 +1,7 @@
 <template>
     <div class="about">
         <div v-if="!isDone" class="q-question">
-            <h1>Quiz: Matematik   |    Level: {{selectedLevel}}   |    Question: {{questionNumber+1}} / {{matteQuiz.length}}</h1>
+            <h1>QUIZ: MATEMATIK    |    LEVEL: {{selectedLevel}}    |    QUESTION: {{questionNumber+1}} / {{matteQuiz.length}}</h1>
             <div>
                 <h2>{{matteQuiz[questionNumber].quizQuestion}}</h2>
             </div>
@@ -161,7 +161,7 @@
         const table = document.createElement('table')
         table.className = "userTable";
         let i,j;
-        const arrItems = this.matteScores.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+        const arrItems = this.matteScores.sort((a, b) => parseInt(b.score) - parseInt(a.score));
         const col = []
         for (i = 0; i < arrItems.length; i++) {
           for (const key in arrItems[i]) {
@@ -234,8 +234,8 @@
     }
     h1{
         background: rgba(0, 0, 0, 0.9);
-        font-family: "Nirmala UI Semilight", monospace;
-        font-size: x-large;
+        font-family: "Yu Gothic", monospace;
+        font-size: 18px;
         color: wheat;
         border-bottom: 1px solid black;
         margin:auto;

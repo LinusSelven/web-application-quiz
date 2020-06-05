@@ -9,7 +9,6 @@
           <a><router-link to="/"> QUIZ</router-link></a>
           <a><router-link to="/register">REGISTER</router-link></a>
           <a><router-link to="/aboutUs">ABOUT US</router-link></a>
-          <a><router-link to="/rate">RATE US</router-link></a>
           <div class="dropdown">
             <button class="dropbtn">
               MY PAGE
@@ -178,16 +177,15 @@
     color: #02b3b3;
     text-decoration: none;
   }
-  .login a:hover {
+.login a:hover {
     color: #0b5b5b;
-  }
-
-  .item3-body{
+}
+.item3-body{
     border: 3px solid #cccc;
     width: 100%;
     display: table;
     margin: auto;
-  }
+}
 span{
   font-family: Calibri, monospace;
   font-weight: normal;
@@ -247,12 +245,13 @@ a:hover {
   .logo-box{
     float: left;
     overflow: hidden;
+    height: 100%;
   }
   .logo-img{
     padding-left: 3px;
     padding-top: 2px;
-    max-width: 90px;
-    max-height: 90px;
+    max-width: 100px;
+    max-height: 100px;
     display: inline-block;
   }
   .item4-body{
@@ -410,8 +409,8 @@ input[type=email], input[type=password] {
     }
     .logo-img{
       padding-left: 3px;
-      max-width: 110px;
-      max-height: 90px;
+      max-width: 130px;
+      max-height: 130px;
       display: inline-block;
     }
     .dropdown .dropbtn {
@@ -458,18 +457,22 @@ input[type=email], input[type=password] {
     .logo-box{
       float: left;
       overflow: hidden;
-      height: 100%;
-      width: 120px;
+      max-width: 128px;
+      max-height: 100px;
     }
     .logo-img{
       padding: 4px;
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 140px;
+      max-height: 140px;
       display: block;
     }
     .item4-body{
       width: 60%;
-      background-color: #f3f3f3;
+      background-color: #0f122d;
+        color: wheat;
+        font-family: Calibri, monospace;
+        font-weight: bold;
+        font-size: x-small;
     }
     .btn-login, .btn-logout  {
       width: 50px;
