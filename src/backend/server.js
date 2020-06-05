@@ -854,6 +854,7 @@ app.post('/api/logout', (req, res) => {
     }
 
 })
+
 /* Scores Handling */
 app.get('/api/scores', (request, response, next) => {
     const sql = 'select * from scores';
@@ -943,7 +944,7 @@ app.post('/api/scores/level/', (request, response, next) => {
         subject: request.body.subject,
         subjectLevel: request.body.subjectLevel
     }
-    const sql = 'select score, userFullName AS NAME  from scores where subject = ? AND subjectLevel = ?'
+    const sql = 'select scores.score, users.fullName AS NAME  from scores INNER JOIN users ON scores.userId = users.userId where subject = ? AND subjectLevel = ?'
     const params = [userData.subject, userData.subjectLevel]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -961,7 +962,7 @@ app.post('/api/allScores/', (request, response, next) => {
         subject: request.body.subject,
         subjectLevel: request.body.subjectLevel
     }
-    const sql = 'select subject AS QUIZ, subjectLevel AS "QUIZ LEVEL", score, userFullName AS "STUDENT NAME"  from scores where subject = ? AND subjectLevel = ?'
+    const sql = 'select scores.subject AS QUIZ, scores.subjectLevel AS "QUIZ LEVEL", scores.score, users.fullName AS "STUDENT NAME"  FROM scores INNER JOIN users ON scores.userId = users.userId where subject = ? AND subjectLevel = ?'
     const params = [userData.subject, userData.subjectLevel]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -996,11 +997,10 @@ app.post('/api/scores/', (req, res, next) => {
         subject: req.body.subject,
         subjectLevel: req.body.subjectLevel,
         score: req.body.score,
-        userFullName: req.body.userFullName,
         userId: req.body.userId
     }
-    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userFullName, userId) VALUES (?,?,?,?,?)';
-    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userFullName, userData.userId];
+    const sql = 'INSERT INTO scores (subject, subjectLevel, score, userId) VALUES (?,?,?,?)';
+    const params = [userData.subject, userData.subjectLevel, userData.score, userData.userId];
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
@@ -1008,23 +1008,70 @@ app.post('/api/scores/', (req, res, next) => {
         }
         res.json({
             "message": "Added successfully!",
-            "users": userData,
+            "scores": userData,
             "id": this.lastID
         })
     });
 })
 
-app.get('/home', function(request, response) {
-    if (request.session.loggedin) {
-        response.send(`<h3>Welcome back: ` + request.session.username +`</h3><form method="post" action="/logout"><button>Logout</button></form>
-            <p>Your in home Page</p>
-            <p>Your are connected as : `+request.session.role+`</p>`);
-    } else {
-        response.send('<h3>Your are in home page, Please login to view this page!</h3>');
+/* Rate handling*/
+app.post('/api/rates/', (req, res, next) => {
+    const userData = {
+        starNumber: req.body.starNumber,
+        text: req.body.text,
+        subject: req.body.subject,
+        subjectLevel: req.body.subjectLevel,
+        userId: req.body.userId
     }
-    response.end();
+    const sql = 'INSERT INTO rates (starNumber, text, subject, subjectLevel, userId) VALUES (?,?,?,?,?)';
+    const params = [userData.starNumber, userData.text, userData.subject, userData.subjectLevel, userData.userId];
+    db.run(sql, params, function (err, result) {
+        if (err) {
+            res.status(400).json({ "error": err.message })
+            return;
+        }
+        res.json({
+            "message": "Added successfully!",
+            "rates": userData,
+            "id": this.lastID
+        })
+    });
+})
+app.post('/api/scores/level/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel
+    }
+    const sql = 'select rates.text, rates.starNumber AS RATE, rates.subject AS QUIZ, rates.subjectLevel AS "LEVEL", users.fullName AS "STUDENT NAME"  FROM rates INNER JOIN users ON rates.userId = users.userId where subject = ? AND subjectLevel = ?'
+    const params = [userData.subject, userData.subjectLevel]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
 });
-
+app.post('/api/rates/user/', (request, response, next) => {
+    const userData = {
+        userId: request.body.userId,
+    }
+    const sql = 'select starNumber AS Rate, text, subject AS QUIZ, subjectLevel AS "LEVEL"  from rates where userId = ?'
+    const params = [userData.userId]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
+});
 // Root path
 app.get("/", (req, res, next) => {
     res.json({"message":"Ok"})

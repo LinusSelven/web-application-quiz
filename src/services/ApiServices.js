@@ -116,4 +116,9 @@ export default{
   deleteSveQuiz(param){
     return Api().delete('svenskaQuiz/'+param)
   },
+
+  //ADD AND GET RATES
+  addRates(credentials){
+    return Api().post('rates/', credentials)
+  }
 }
