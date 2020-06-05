@@ -767,12 +767,14 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             rateId INTEGER PRIMARY KEY,
             starNumber INTEGER,
             text TEXT,
+            subject TEXT,
+            subjectLevel INTEGER,
             userId INTEGER
             )`, (err) => {
       if (err) {
         // Table already created
       } else {
-        const insert = 'INSERT INTO scores (starNumber, text, userId) VALUES (?,?,?)';
+        const insert = 'INSERT INTO scores (starNumber, text, subject, subjectLevel, userId) VALUES (?,?,?,?,?)';
       }
     });
   }

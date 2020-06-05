@@ -1008,23 +1008,70 @@ app.post('/api/scores/', (req, res, next) => {
         }
         res.json({
             "message": "Added successfully!",
-            "users": userData,
+            "scores": userData,
             "id": this.lastID
         })
     });
 })
 
-app.get('/home', function(request, response) {
-    if (request.session.loggedin) {
-        response.send(`<h3>Welcome back: ` + request.session.username +`</h3><form method="post" action="/logout"><button>Logout</button></form>
-            <p>Your in home Page</p>
-            <p>Your are connected as : `+request.session.role+`</p>`);
-    } else {
-        response.send('<h3>Your are in home page, Please login to view this page!</h3>');
+/* Rate handling*/
+app.post('/api/rates/', (req, res, next) => {
+    const userData = {
+        starNumber: req.body.starNumber,
+        text: req.body.text,
+        subject: req.body.subject,
+        subjectLevel: req.body.subjectLevel,
+        userId: req.body.userId
     }
-    response.end();
+    const sql = 'INSERT INTO rates (starNumber, text, subject, subjectLevel, userId) VALUES (?,?,?,?,?)';
+    const params = [userData.starNumber, userData.text, userData.subject, userData.subjectLevel, userData.userId];
+    db.run(sql, params, function (err, result) {
+        if (err) {
+            res.status(400).json({ "error": err.message })
+            return;
+        }
+        res.json({
+            "message": "Added successfully!",
+            "rates": userData,
+            "id": this.lastID
+        })
+    });
+})
+app.post('/api/scores/level/', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel
+    }
+    const sql = 'select rates.text, rates.starNumber AS RATE, rates.subject AS QUIZ, rates.subjectLevel AS "LEVEL", users.fullName AS "STUDENT NAME"  FROM rates INNER JOIN users ON rates.userId = users.userId where subject = ? AND subjectLevel = ?'
+    const params = [userData.subject, userData.subjectLevel]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
 });
-
+app.post('/api/rates/user/', (request, response, next) => {
+    const userData = {
+        userId: request.body.userId,
+    }
+    const sql = 'select starNumber AS Rate, text, subject AS QUIZ, subjectLevel AS "LEVEL"  from rates where userId = ?'
+    const params = [userData.userId]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "scores":rows
+        })
+    });
+});
 // Root path
 app.get("/", (req, res, next) => {
     res.json({"message":"Ok"})
