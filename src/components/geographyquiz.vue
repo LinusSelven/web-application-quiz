@@ -42,6 +42,7 @@
                 <button class="q-btn-red" @click="rateShow=false"><img class="btn-icon" src="../assets/icon/und.png" width="16" height="16" alt="back"></button>
             <br><br>
             <div class="q-result">
+                <p>{{rateMessage}}</p>
                 <form>
                     <select id="stars" name="stars" @change="onChangeRate($event)" v-model="rateValue">
                         <option value="5">5 Stars</option>
@@ -82,6 +83,7 @@
               counter:1,
               rateValue:5,
               textArea:'',
+              rateMessage:'',
               scoreShow:false,
               rateShow:false,
             }
@@ -155,6 +157,20 @@
               .then((data) => {
                 this.geoQuiz = data.geoQuiz;
               });
+          },
+          async addRates() {
+            if (JSON.parse(sessionStorage.getItem('userLogged')).userId) {
+              let response = await ApiServices.checkScoresIfIsExist({
+                starNumber: this.rateValue,
+                text: this.textArea,
+                subject: 'Geography',
+                subjectLevel: this.selectedLevel,
+                userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
+              });
+              this.rateMessage= response.data.message;
+            }else {
+              this.rateMessage='Please login to add feedback!'
+            }
           },
           async addScores () {
             if (JSON.parse(sessionStorage.getItem('userLogged')).userId && this.isDone === true) {
