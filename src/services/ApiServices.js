@@ -120,5 +120,11 @@ export default{
   //ADD AND GET RATES
   addRates(credentials){
     return Api().post('rates/', credentials)
-  }
+  },
+  getRateById(credentials){
+    return Api().post('rates/user/', credentials)
+  },
+  getRateByLevel(credentials){
+    return Api().post('rates/level/', credentials)
+  },
 }

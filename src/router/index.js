@@ -8,6 +8,7 @@ import AllUsers from '../components/AllUsers'
 import AllQuiz from '../components/AllQuiz'
 import myScores from '../components/myScores'
 import AllScores from '../components/AllScores'
+import myRates from '../components/myRates'
 
 
 Vue.use(VueRouter)
@@ -65,9 +66,9 @@ const routes = [
     }  ,
 
     {
-        path: '/rate',
-        name: 'rate',
-        component: () => import(/* webpackChunkName: "about" */ '../components/rate.vue')
+        path: '/myRates',
+        name: 'myRates',
+        component: myRates
     },
 
     {

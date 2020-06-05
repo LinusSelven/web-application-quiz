@@ -1037,12 +1037,12 @@ app.post('/api/rates/', (req, res, next) => {
         })
     });
 })
-app.post('/api/scores/level/', (request, response, next) => {
+app.post('/api/rates/level/', (request, response, next) => {
     const userData = {
         subject: request.body.subject,
         subjectLevel: request.body.subjectLevel
     }
-    const sql = 'select rates.text, rates.starNumber AS RATE, rates.subject AS QUIZ, rates.subjectLevel AS "LEVEL", users.fullName AS "STUDENT NAME"  FROM rates INNER JOIN users ON rates.userId = users.userId where subject = ? AND subjectLevel = ?'
+    const sql = 'select rates.starNumber AS RATING, users.fullName AS "STUDENT NAME", rates.text  FROM rates INNER JOIN users ON rates.userId = users.userId where subject = ? AND subjectLevel = ?'
     const params = [userData.subject, userData.subjectLevel]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -1051,7 +1051,7 @@ app.post('/api/scores/level/', (request, response, next) => {
         }
         response.json({
             "message":"Success",
-            "scores":rows
+            "rates":rows
         })
     });
 });
@@ -1059,7 +1059,7 @@ app.post('/api/rates/user/', (request, response, next) => {
     const userData = {
         userId: request.body.userId,
     }
-    const sql = 'select starNumber AS Rate, text, subject AS QUIZ, subjectLevel AS "LEVEL"  from rates where userId = ?'
+    const sql = 'select rates.starNumber AS RATING, rates.text, rates.subject AS QUIZ, rates.subjectLevel AS "LEVEL"  from rates where userId = ?'
     const params = [userData.userId]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -1068,7 +1068,7 @@ app.post('/api/rates/user/', (request, response, next) => {
         }
         response.json({
             "message":"Success",
-            "scores":rows
+            "rates":rows
         })
     });
 });

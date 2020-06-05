@@ -22,7 +22,7 @@
         <div v-if="isDone && !scoreShow && !rateShow" class="q-result">
             <button class="q-btn-red" @click="redoQuiz">Last Quiz</button>
             <button class="q-btn-black" @click="scoreShow=true" onclick="scoresTable()">Quiz Score</button>
-            <button class="q-btn-black" @click="rateShow=true">Rate Quiz</button>
+            <button class="q-btn-black" @click="rateShow=true" onclick="ratesTable()">Rate Quiz</button>
             <button class="q-btn-blue" @click="nextLevelQuiz">Next Quiz</button>
             <img src="../assets/result1.png" alt="res" class="res">
             <h1 class="finalScore">{{finalScore}} %</h1>
@@ -39,7 +39,7 @@
         </div>
         <div class="q-rate" v-show="isDone && rateShow">
             <h1>RATE : GEOGRAPHY  |  LEVEL : {{selectedLevel}}</h1>
-                <button class="q-btn-red" @click="rateShow=false"><img class="btn-icon" src="../assets/icon/und.png" width="16" height="16" alt="back"></button>
+                <button class="q-btn-red" @click="feedback()"><img class="btn-icon" src="../assets/icon/und.png" width="16" height="16" alt="back"></button>
             <br><br>
             <div class="q-result">
                 <p>{{rateMessage}}</p>
@@ -52,18 +52,17 @@
                         <option value="1">1 Star</option>
                     </select>
                     <textarea placeholder="Your text here ..." v-model="textArea"></textarea>
-                    <button class="btn-rate" type="button">Rate</button>
-                </form>
+                    <button class="btn-rate" type="button" @click="addMyRates()">Rate</button>
+                </form><br>
+                <table class="userTable" id="rateTable" style="background-color: rgba(3, 0, 0, 0.46); border-collapse: separate;"></table>
             </div>
-
         </div>
-
     </div>
 </template>
 
 <script>
     import ApiServices from '../services/ApiServices'
-
+    import $ from 'jquery'
     export default {
         name: "geographyquiz",
         data: function () {
@@ -72,6 +71,7 @@
               quizLevel:[],
               levelsNum:[],
               geoScores:[],
+              geoRates:[],
               questionNumber: 0,
               countOfCorrectAnswers: 0,
               userHasGuessed: false,
@@ -96,6 +96,10 @@
           nextQuestion () {
             this.userHasGuessed = false;
           },
+          feedback(){
+            this.rateShow = this.rateShow = false;
+            this.rateMessage='';
+          },
           userChoseAnswer: function (event) {
             this.userHasGuessed = true;
             if (parseInt(event.target.value) === this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
@@ -105,11 +109,12 @@
             this.countQuestions();
             this.percentageScore();
           },
-
           async countQuestions () {
             this.questionNumber += 1;
             if (this.questionNumber === this.geoQuiz.length) {
               this.isDone = true;
+              await this.getRates();
+              this.ratesTable();
               await this.addScores();
               await this.getScores();
               this.scoresTable();
@@ -158,9 +163,11 @@
                 this.geoQuiz = data.geoQuiz;
               });
           },
-          async addRates() {
-            if (JSON.parse(sessionStorage.getItem('userLogged')).userId) {
-              let response = await ApiServices.checkScoresIfIsExist({
+          async addMyRates() {
+            if (sessionStorage.getItem('userLogged') === null) {
+              this.rateMessage='Please login to add feedback!'
+            }else {
+              let response = await ApiServices.addRates({
                 starNumber: this.rateValue,
                 text: this.textArea,
                 subject: 'Geography',
@@ -168,8 +175,7 @@
                 userId: parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)
               });
               this.rateMessage= response.data.message;
-            }else {
-              this.rateMessage='Please login to add feedback!'
+              await this.getRates();
             }
           },
           async addScores () {
@@ -238,6 +244,58 @@
               tabCell.innerHTML =i + 1;
             }
           },
+          async getRates() {
+              let response = await ApiServices.getRateByLevel({
+                subject: 'Geography',
+                subjectLevel: this.selectedLevel
+              });
+              this.geoRates = response.data.rates;
+            this.ratesTable();
+            this.rateValue = 5;
+            this.textArea = '';
+          },
+          ratesTable(){
+            $("#rateTable tr").remove();
+            const table = document.getElementById('rateTable')
+            let i,j;
+            let oneCell='';
+            const arrItems = this.geoRates.reverse();
+            const col = []
+            let cells = []
+            for (i = 0; i < arrItems.length; i++) {
+              for (const key in arrItems[i]) {
+                if (col.indexOf(key) === -1) {
+                  col.push(key);
+                }
+              }
+            }
+            for (i = 0; i < arrItems.length; i++) {
+              let tr = table.insertRow(-1);
+              const tabCell = tr.insertCell(-1)
+              for (j = 0; j < col.length; j++) {
+                cells.push(arrItems[i][col[j]]);
+              }
+              oneCell = this.convertDataToRate(cells);
+              tabCell.innerHTML=oneCell;
+              cells = [];
+              oneCell='';
+            }
+          },
+          convertDataToRate(arrayRate){
+              let newCell= '';
+              const starOff = '<img src="https://img.icons8.com/windows/32/000000/filled-star.png" alt="off" width="30" height="30"/>'
+              const starOn = '<img src="https://img.icons8.com/color/48/000000/filled-star.png" alt="on" width="30" height="30"/>'
+              let amountOff = '';
+              let amountOn = '';
+              let amount = arrayRate[0];
+
+              for (let i = 0; i < (5 - amount); i++) {amountOff += starOff;}
+              for (let j = 0; j < amount; j++) {amountOn += starOn;}
+              newCell += amountOn + amountOff + '<br>';
+              newCell += '<h5>' +arrayRate[1]+ '</h5>';
+              newCell += '<span>' +arrayRate[2]+ '</span>';
+              return newCell;
+          },
         },
         async mounted () {
           let response = await ApiServices.getGeoQuizLevel();
@@ -256,7 +314,7 @@
             });
         },
       computed:{
-      }
+      },
     }
 </script>
 
@@ -292,7 +350,6 @@
         border-bottom: 1px solid black;
         margin:auto;
     }
-
     .q-answer, .q-score, .q-rate {
         text-align: center;
         margin: auto;
@@ -394,7 +451,6 @@
     textarea{
         height: 100px;
     }
-
     /* Mobile */
     @media screen and (max-width: 400px) {
     }

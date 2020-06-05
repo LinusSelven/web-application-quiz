@@ -18,6 +18,7 @@
               <div class="header"></div>
               <a><router-link to="/MySpace">My Profile</router-link></a>
               <a><router-link to="/myScores">My Scores</router-link></a>
+              <a><router-link to="/myRates">My Rates</router-link></a>
               <a><router-link to="/AllUsers">Manage Users</router-link></a>
               <a><router-link to="/AllQuiz">Manage Quizzes</router-link></a>
               <a><router-link to="/AllScores">All Scores</router-link></a>
@@ -386,6 +387,9 @@ input[type=email], input[type=password] {
 }
 .md-toolbar + .md-toolbar {
   margin-top: 16px;
+}
+h5{
+  margin: 0;
 }
   /* Mobile */
   @media screen and (max-width: 400px) {
