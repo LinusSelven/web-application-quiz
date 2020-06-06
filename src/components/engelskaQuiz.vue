@@ -14,7 +14,7 @@
                 <input class="questionInput" value="" type="text"  placeholder="Write here.. " v-model="answer">
                 <button class="q-btn" @click="userChoseAnswer" :disabled="userHasGuessed">Submit</button>
                 <div  class="correct">
-                    <h3>{{isCorrect}}</h3>
+                    <h2>{{isCorrect}}</h2>
                 </div>
             </div>
         </div>
@@ -115,9 +115,12 @@
         }else{
           this.isCorrect = 'WRONG!';
         }
-        this.nextQuestion();
-        this.countQuestions();
-      },
+
+        setTimeout(() => {
+          this.nextQuestion();
+          this.countQuestions();
+          }, 1500);
+        },
       async countQuestions () {
         this.questionNumber += 1;
         if (this.questionNumber === this.engQuiz.length) {
