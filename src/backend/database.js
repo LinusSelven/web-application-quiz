@@ -378,7 +378,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           '1',
           'lila',
           'purple',
-          'purpel.png'])
+          'purple.png'])
         db.run(insert1, ['What color is it?',
           '1',
           'gul',
