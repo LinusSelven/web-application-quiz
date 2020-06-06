@@ -93,12 +93,12 @@
           onChangeRate (event) {
             this.rateValue = parseInt(event.target.value);
           },
-          nextQuestion () {
-            this.userHasGuessed = false;
-          },
           feedback(){
             this.rateShow = this.rateShow = false;
             this.rateMessage='';
+          },
+          nextQuestion () {
+            this.userHasGuessed = false;
           },
           userChoseAnswer: function (event) {
             this.userHasGuessed = true;
