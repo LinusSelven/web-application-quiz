@@ -1,6 +1,6 @@
 <template>
     <div class="allUsers">
-        <h1>MY USERS</h1>
+        <h1>ALL USERS</h1>
       <div class="showData" id="showData"></div>
     </div>
 </template>

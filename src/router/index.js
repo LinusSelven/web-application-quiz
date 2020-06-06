@@ -9,6 +9,7 @@ import AllQuiz from '../components/AllQuiz'
 import myScores from '../components/myScores'
 import AllScores from '../components/AllScores'
 import myRates from '../components/myRates'
+import AllRates from '../components/AllRates'
 
 
 Vue.use(VueRouter)
@@ -23,6 +24,11 @@ const routes = [
         path: '/aboutUs',
         name: 'About us',
         component: () => import(/* webpackChunkName: "about" */ '../components/About.vue')
+    },
+    {
+        path: '/AllRates',
+        name: 'AllRates',
+        component: AllRates
     },
     {
         path: '/AllUsers',
@@ -43,11 +49,6 @@ const routes = [
         path: '/AllQuiz',
         name: 'AllQuiz',
         component: AllQuiz
-    },
-    {
-        path: '/results',
-        name: 'Results',
-        component: () => import(/* webpackChunkName: "about" */ '../components/Results.vue')
     },
     {
         path: '/register',

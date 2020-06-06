@@ -22,6 +22,7 @@
               <a><router-link to="/AllUsers">Manage Users</router-link></a>
               <a><router-link to="/AllQuiz">Manage Quizzes</router-link></a>
               <a><router-link to="/AllScores">All Scores</router-link></a>
+              <a><router-link to="/AllRates">All Rates</router-link></a>
               <a><router-link to="/CreateNewQuiz">Create Quiz</router-link></a>
             </div>
           </div>

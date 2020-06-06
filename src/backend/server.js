@@ -1055,6 +1055,24 @@ app.post('/api/rates/level/', (request, response, next) => {
         })
     });
 });
+app.post('/api/rates/level/percentage', (request, response, next) => {
+    const userData = {
+        subject: request.body.subject,
+        subjectLevel: request.body.subjectLevel
+    }
+    const sql = 'select starNumber, COUNT(*)  FROM rates where subject = ? AND subjectLevel = ? GROUP BY  starNumber ORDER BY starNumber DESC'
+    const params = [userData.subject, userData.subjectLevel]
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            response.status(400).json({"error":err.message});
+            return;
+        }
+        response.json({
+            "message":"Success",
+            "rates":rows
+        })
+    });
+});
 app.post('/api/rates/user/', (request, response, next) => {
     const userData = {
         userId: request.body.userId,
