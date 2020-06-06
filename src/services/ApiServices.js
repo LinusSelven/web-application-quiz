@@ -127,4 +127,7 @@ export default{
   getRateByLevel(credentials){
     return Api().post('rates/level/', credentials)
   },
+  getQuantityRates(credentials){
+    return Api().post('rates/level/percentage', credentials)
+  },
 }
