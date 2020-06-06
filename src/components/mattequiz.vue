@@ -32,7 +32,7 @@
             <h2>{{nextQuizMessage}}</h2>
         </div>
         <div class="q-score" v-show="isDone && scoreShow">
-            <h1>HIGH SCORES : MATTE  |  LEVEL : {{selectedLevel}}</h1>
+            <h1>HIGH SCORES : MATEMATIK  |  LEVEL : {{selectedLevel}}</h1>
             <button class="q-btn-red" @click="scoreShow=false"><img class="btn-icon" src="../assets/icon/und.png" width="16" height="16" alt="back"></button>
             <br><br>
             <div class="q-result">
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="q-rate" v-show="isDone && rateShow">
-            <h1>RATE : MATTE  |  LEVEL : {{selectedLevel}}</h1>
+            <h1>RATE : MATEMATIK  |  LEVEL : {{selectedLevel}}</h1>
             <button class="q-btn-red" @click="rateShow=false"><img class="btn-icon" src="../assets/icon/und.png" width="16" height="16" alt="back"></button>
             <br><br>
             <div class="q-result">
@@ -55,9 +55,9 @@
                     </select>
                     <textarea placeholder="Your text here ..." v-model="textArea"></textarea>
                     <button class="btn-rate" type="button">Rate</button>
-                </form>
+                </form><br>
+                <table class="userTable" id="rateTable" style="background-color: rgba(3, 0, 0, 0.46); border-collapse: separate;"></table>
             </div>
-
         </div>
     </div>
 </template>

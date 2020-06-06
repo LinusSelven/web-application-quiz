@@ -8,21 +8,14 @@
                 <br>
             </div>
             <div class="q-img">
-
                     <img :src="getImgUrl(engQuiz[questionNumber].quizImg)" v-bind:alt="pic">
-
             </div>
             <div class="q-answer">
-
-         <!--       <p> {{engQuiz[questionNumber].quizAnswer1}}</p>   -->
-                <input class="questionInput" value="" type="text"  placeholder="Write here.. "  id="answer">
-                <button class="q-btn" @click="showCorrectAnswer() ">Check the answer</button>
-                <div  class="correct" v-show="correctAnswer">
-                    <h3> The correct answer is :   {{engQuiz[questionNumber].quizCorrectAnswer}}</h3>
-                    <button class="q-btn" @click="userChoseAnswer() " :disabled="userHasGuessed" value="1">Next</button>
+                <input class="questionInput" value="" type="text"  placeholder="Write here.. " v-model="answer">
+                <button class="q-btn" @click="userChoseAnswer" :disabled="userHasGuessed">Submit</button>
+                <div  class="correct">
+                    <h3>{{isCorrect}}</h3>
                 </div>
-
-
             </div>
         </div>
         <div v-if="isDone && !scoreShow && !rateShow" class="q-result">
@@ -89,7 +82,7 @@
         finalScore:0,
         nextQuizMessage:'',
         numberOfLevel:0,
-        answer:"",
+        answer:'',
         correctAnswer:false,
         counter:1,
         rateValue:5,
@@ -97,6 +90,7 @@
         rateMessage:'',
         scoreShow:false,
         rateShow:false,
+        isCorrect:'',
       }
     },
 
@@ -110,27 +104,24 @@
       },
       nextQuestion() {
         this.userHasGuessed = false;
+        this.answer='';
+        this.isCorrect = '';
       },
       userChoseAnswer: function () {
-        this.correctAnswer=false;
         this.userHasGuessed = true;
-        this.answer = document.getElementById("answer").value;
-        if ((this.answer.toLocaleLowerCase())===(this.engQuiz[this.questionNumber].quizCorrectAnswer)){
+        if (this.answer.toLowerCase() === this.engQuiz[this.questionNumber].quizCorrectAnswer){
           this.countOfCorrectAnswers += 1;
-
+          this.isCorrect = 'CORRECT!';
+        }else{
+          this.isCorrect = 'WRONG!';
         }
-        document.getElementById("answer").value="";
         this.nextQuestion();
         this.countQuestions();
-        this.percentageScore();
       },
-      showCorrectAnswer(){
-        this.correctAnswer=true;
-      },
-
       async countQuestions () {
         this.questionNumber += 1;
         if (this.questionNumber === this.engQuiz.length) {
+          this.percentageScore();
           this.isDone = true;
           await this.getRates();
           this.ratesTable();
@@ -139,9 +130,14 @@
           this.scoresTable();
         }
       },
+      percentageScore(){
+        let amount = this.engQuiz.length;
+        let scorePerQuestion = 100/amount;
+        this.finalScore = Math.round(this.countOfCorrectAnswers * scorePerQuestion);
+      },
       nextLevelQuiz(){
         if(this.finalScore >= 50){
-          if (this.counter<this.quizLevel.length ){
+          if (this.counter < this.quizLevel.length ){
             this.selectedLevel = this.quizLevel[this.counter];
             this.fetchNextQuiz(this.selectedLevel);
             this.userHasGuessed = false;
@@ -164,11 +160,6 @@
         this.questionNumber= 0;
         this.isDone =false;
         this.nextQuizMessage='';
-      },
-      percentageScore(){
-        let amount = this.engQuiz.length;
-        let scorePerQuestion = 100/amount;
-        this.finalScore = Math.round(this.countOfCorrectAnswers * scorePerQuestion);
       },
       getImgUrl: function (pic) {
         return require('../assets/' + pic)
@@ -316,7 +307,7 @@
         return newCell;
       },
     },
-    async mounted () {
+    async mounted() {
       let response = await ApiServices.getEngQuizLevel();
       this.levelsNum = response.data.levels;
       for (let i=0;i<this.levelsNum.length;i++){
@@ -324,12 +315,11 @@
       }
       this.quizLevel.sort((a, b) => parseInt(a) - parseInt(b));
       this.selectedLevel = this.quizLevel[0];
-      fetch('http://127.0.0.1:3000/api/engQuiz/level/' + this.selectedLevel)
+      fetch('http://127.0.0.1:3000/api/engQuiz/level/'+this.selectedLevel)
         .then((response) => {
           return response.json();
         })
         .then((data) => {
-          console.log(data.engQuiz);
           this.engQuiz = data.engQuiz;
         });
     }
