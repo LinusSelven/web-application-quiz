@@ -61,9 +61,10 @@
   }
   .btn{
     position: relative;
-    margin-right: 10px;
+    //margin-right: 10px;
     border: 3px solid rgb(0, 10, 10);
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     width: 99%;
     background-color: #0f122d;
     font-family: Calibri, monospace;

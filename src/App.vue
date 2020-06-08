@@ -9,21 +9,21 @@
           <a><router-link to="/"> QUIZ</router-link></a>
           <a><router-link to="/register">REGISTER</router-link></a>
           <a><router-link to="/aboutUs">ABOUT US</router-link></a>
-          <div class="dropdown">
+          <div class="dropdown" v-if="isLogged">
             <button class="dropbtn">
               MY PAGE
               <img src="./assets/icon/down.png" alt="down">
             </button>
             <div class="dropdown-content">
               <div class="header"></div>
-              <a><router-link to="/MySpace">My Profile</router-link></a>
-              <a><router-link to="/myScores">My Scores</router-link></a>
-              <a><router-link to="/myRates">My Rates</router-link></a>
-              <a><router-link to="/AllUsers">Manage Users</router-link></a>
-              <a><router-link to="/AllQuiz">Manage Quizzes</router-link></a>
-              <a><router-link to="/AllScores">All Scores</router-link></a>
-              <a><router-link to="/AllRates">All Rates</router-link></a>
-              <a><router-link to="/CreateNewQuiz">Create Quiz</router-link></a>
+              <a><router-link to="/MySpace" >My Profile</router-link></a>
+              <a  v-if="user_Role ==='Student'"><router-link to="/myScores">My Scores</router-link></a>
+              <a  v-if="user_Role ==='Student'"><router-link to="/myRates">My Rates</router-link></a>
+              <a v-if="user_Role ==='Admin'"><router-link to="/AllUsers">Manage Users</router-link></a>
+              <a  v-if="user_Role ==='Admin'"><router-link to="/AllQuiz">Manage Quizzes</router-link></a>
+              <a  v-if="user_Role !=='Student'"><router-link to="/AllScores">All Scores</router-link></a>
+              <a  v-if="user_Role !=='Student'"><router-link to="/AllRates">All Rates</router-link></a>
+              <a  v-if="user_Role !=='Student'"><router-link to="/CreateNewQuiz">Create Quiz</router-link></a>
             </div>
           </div>
         </div>
@@ -48,7 +48,6 @@
     </section>
     <section class="item3">
       <div class="item3-body">
-
         <div class="body-routers">
           <router-view />
         </div>
@@ -131,6 +130,8 @@
         if (JSON.parse(sessionStorage.getItem('userLogged')).userId && parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId)>=1){
           this.isLogged = true;
           this.message= JSON.parse(sessionStorage.getItem('userLogged')).message+", "+JSON.parse(sessionStorage.getItem('userLogged')).fullName+"!";
+          this.userID= parseInt(JSON.parse(sessionStorage.getItem('userLogged')).userId);
+          this.user_Role= JSON.parse(sessionStorage.getItem('userLogged')).userRole;
         }
     }
   }
@@ -183,11 +184,12 @@
     color: #0b5b5b;
 }
 .item3-body{
-    border: 3px solid #cccc;
-    width: 100%;
-    display: table;
-    margin: auto;
-  background:  #44475C;
+  border: 3px solid #cccc;
+  width: 100%;
+  display: table;
+  margin: auto;
+  background: url('./assets/qui.jpg') no-repeat;
+  background-size: 100% 100%;
 }
 span{
   font-family: Calibri, monospace;
