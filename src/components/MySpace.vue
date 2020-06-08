@@ -27,13 +27,13 @@
                 <td><span class="confirmationMessage">{{confirmation}}</span></td>
             </tr>
             <tr>
-                <td><label class="labelName">Old PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="oldPass"></td>
+                <td><label class="labelName">Old Password</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="oldPass"></td>
             </tr>
             <tr>
-                <td><label class="labelName">New PassWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="newPass" minlength="6"></td>
+                <td><label class="labelName">New Password</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="newPass" minlength="6"></td>
             </tr>
             <tr>
-                <td><label class="labelName">Confirm new passWord</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="confirmNewPass"></td>
+                <td><label class="labelName">Confirm new password</label>&nbsp;<input class="passInput" type="password" placeholder="*******" v-model="confirmNewPass"></td>
             </tr>
 
             <tr>
