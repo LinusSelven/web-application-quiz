@@ -106,6 +106,7 @@
       },
       nextQuestion() {
         this.userHasGuessed = false;
+          this.isCorrect= '';
       },
       userChoseAnswer: function (event) {
         this.userHasGuessed = true;
