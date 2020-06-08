@@ -280,8 +280,8 @@ app.post("/api/matteQuiz/", (req, res, next) => {
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
-    const sql = 'INSERT INTO matteQuiz (quizQuestion, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?)'
-    const params = [data.quizQuestion, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3, data.quizCorrectAnswer, data.quizImg]
+    const sql = 'INSERT INTO matteQuiz (quizQuestion, quizLevel, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?,?)'
+    const params = [data.quizQuestion, data.quizLevel, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3, data.quizCorrectAnswer, data.quizImg]
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
@@ -423,8 +423,8 @@ app.post("/api/engQuiz/", (req, res, next) => {
         quizCorrectAnswer: req.body.quizCorrectAnswer,
         quizImg: req.body.quizImg
     }
-    const sql = 'INSERT INTO geoQuiz (quizQuestion, quizLevel, quizAnswer1, quizAnswer2, quizAnswer3, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?,?,?)'
-    const params = [data.quizQuestion, data.quizLevel, data.quizAnswer1, data.quizAnswer2, data.quizAnswer3, data.quizCorrectAnswer, data.quizImg]
+    const sql = 'INSERT INTO engQuiz (quizQuestion, quizLevel, quizAnswer1, quizCorrectAnswer, quizImg) VALUES (?,?,?,?,?)'
+    const params = [data.quizQuestion, data.quizLevel, data.quizAnswer1, data.quizCorrectAnswer, data.quizImg]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err.message})

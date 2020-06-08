@@ -477,7 +477,7 @@ h5{
         color: wheat;
         font-family: Calibri, monospace;
         font-weight: bold;
-        font-size: x-small;
+        font-size: small;
     }
     .btn-login, .btn-logout  {
       width: 50px;

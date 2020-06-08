@@ -20,6 +20,9 @@
                 <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{matteQuiz[questionNumber].quizAnswer3}}
                 </button>
             </div>
+            <div  class="correct">
+                <h2>{{isCorrect}}</h2>
+            </div>
         </div>
         <div v-if="isDone && !scoreShow && !rateShow" class="q-result">
             <button class="q-btn-red" @click="redoQuiz">Last Quiz</button>
@@ -89,6 +92,7 @@
         rateMessage:'',
         scoreShow:false,
         rateShow:false,
+        isCorrect:'',
       }
     },
 
@@ -107,15 +111,20 @@
         this.userHasGuessed = true;
         if (parseInt(event.target.value) === this.matteQuiz[this.questionNumber].quizCorrectAnswer) {
           this.countOfCorrectAnswers += 1;
+          this.isCorrect = 'CORRECT!';
+        }else{
+          this.isCorrect = 'WRONG!';
         }
-        this.nextQuestion();
-        this.countQuestions();
-        this.percentageScore();
+        setTimeout(() => {
+          this.nextQuestion();
+          this.countQuestions();
+        }, 1500);
       },
 
       async countQuestions () {
         this.questionNumber += 1;
         if (this.questionNumber === this.matteQuiz.length) {
+          this.percentageScore();
           this.isDone = true;
           await this.getRates();
           this.ratesTable();

@@ -25,7 +25,7 @@
                 <option value="3">answer 3</option>
             </select><br>
             <input type="file" name="upload" accept="image/*" placeholder="Select image">
-            <input type="submit" class="btn-save" value="Save" @submit="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
+            <input type="submit" class="btn-save" value="Save" @click="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
         </div>
 
         <div v-if="value === 'English'" class="addQuiz">
@@ -34,7 +34,7 @@
             <input type="text" name="answer2" placeholder="answer 2*" v-model="quizAnswer1" required/>
             <input type="text" name="answer3" placeholder="The correct answer*" v-model="CorrectAnswer" required/>
             <input type="file" name="upload" accept="image/*" placeholder="Select image"/>
-            <input type="submit" class="btn-save" value="Save" @submit="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
+            <input type="submit" class="btn-save" value="Save" @click="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
         </div>
 
 
@@ -49,7 +49,7 @@
             <input type="number"  name="answer1" placeholder="Correct Position 1*" v-model="quizCorrectPos1" required min="1" max="3">
             <input type="number" name="answer2" placeholder="Correct Position 2*" v-model="quizCorrectPos2" required min="1" max="3">
             <input type="number" name="answer3" placeholder="Correct Position 3*" v-model="quizCorrectPos3" required min="1" max="3">
-            <input type="submit" class="btn-save" value="Save" @submit="postNewQuiz">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
+            <input type="submit" class="btn-save" value="Save" @click="postNewQuiz()">&nbsp;<input class="btn-back" type="submit" value="Back" @click="goBack">
         </div>
 
 
