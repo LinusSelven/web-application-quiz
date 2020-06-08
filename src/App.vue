@@ -187,6 +187,7 @@
     width: 100%;
     display: table;
     margin: auto;
+  background:  #44475C;
 }
 span{
   font-family: Calibri, monospace;

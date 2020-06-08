@@ -17,6 +17,7 @@
                 </button>
                 <button class="q-btn" @click="userChoseAnswer($event)" :disabled="userHasGuessed" value="3">{{geoQuiz[questionNumber].quizAnswer3}}
                 </button>
+                <div><h2>{{isCorrect}}</h2></div>
             </div>
         </div>
         <div v-if="isDone && !scoreShow && !rateShow" class="q-result">
@@ -86,6 +87,7 @@
               rateMessage:'',
               scoreShow:false,
               rateShow:false,
+                isCorrect:'',
             }
         },
 
@@ -99,20 +101,27 @@
           },
           nextQuestion () {
             this.userHasGuessed = false;
-          },
+            this.isCorrect= '';
+            },
           userChoseAnswer: function (event) {
             this.userHasGuessed = true;
             if (parseInt(event.target.value) === this.geoQuiz[this.questionNumber].quizCorrectAnswer) {
               this.countOfCorrectAnswers += 1;
+                this.isCorrect = 'CORRECT!';
+            }else{
+                this.isCorrect = 'WRONG!';
             }
-            this.nextQuestion();
-            this.countQuestions();
-            this.percentageScore();
+              setTimeout(() => {
+                  this.nextQuestion();
+                  this.countQuestions();
+              }, 1500);
+
           },
           async countQuestions () {
             this.questionNumber += 1;
             if (this.questionNumber === this.geoQuiz.length) {
-              this.isDone = true;
+                this.percentageScore();
+                this.isDone = true;
               await this.getRates();
               this.ratesTable();
               await this.addScores();
