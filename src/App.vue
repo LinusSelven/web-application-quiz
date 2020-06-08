@@ -7,7 +7,7 @@
               <img src="./assets/logo.png" alt="Logo" class="logo-img">
             </div>
           <a><router-link to="/"> QUIZ</router-link></a>
-          <a><router-link to="/register">REGISTER</router-link></a>
+          <a v-if="!isLogged"><router-link to="/register">REGISTER</router-link></a>
           <a><router-link to="/aboutUs">ABOUT US</router-link></a>
           <div class="dropdown" v-if="isLogged">
             <button class="dropbtn">
@@ -122,6 +122,7 @@
           this.user_Role= '';
           this.errorMessage ='';
           this.message = response.data.message;
+          await this.$router.push({ path: '/' });
           location.reload();
         },
 
