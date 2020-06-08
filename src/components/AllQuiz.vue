@@ -111,7 +111,7 @@
             var tabCell = tr.insertCell(-1)
             tabCell.innerHTML = arrItems[i][col[j]];
           }
-          tabCell.innerHTML = '<input type="submit" class="update" value="UPDATE"><input type="submit" class="deleteQuestion" value="DELETE">';
+          tabCell.innerHTML = '<input type="submit" class="deleteQuestion" value="DELETE">';
         }
         const divContainer = document.getElementById('showLevel')
         divContainer.innerHTML = "";
